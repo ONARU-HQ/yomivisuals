@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { ArrowLeft, ArrowRight, Check, MapPin, CalendarDays, Clock } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, MapPin } from "lucide-react";
 
 import portrait1 from "@/assets/portrait-1.jpg";
 import wedding1 from "@/assets/wedding-1.jpg";
