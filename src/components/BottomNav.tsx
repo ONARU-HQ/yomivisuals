@@ -1,13 +1,13 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Home, Images, Calendar, FolderLock, User } from "lucide-react";
 
-const items = [
+const items: { to: string; label: string; icon: typeof Home; primary?: boolean }[] = [
   { to: "/", label: "Home", icon: Home },
   { to: "/portfolio", label: "Portfolio", icon: Images },
   { to: "/book", label: "Book", icon: Calendar, primary: true },
   { to: "/gallery", label: "Gallery", icon: FolderLock },
   { to: "/account", label: "Account", icon: User },
-] as const;
+];
 
 export function BottomNav() {
   const pathname = useRouterState({ select: (r) => r.location.pathname });
