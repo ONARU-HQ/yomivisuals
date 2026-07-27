@@ -165,41 +165,9 @@ function Index() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      {/* Floating navigation */}
-      <header
-        className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
-          scrolled ? "glass-nav py-3" : "py-6"
-        }`}
-      >
-        <div className="mx-auto flex max-w-[1400px] items-center justify-between px-6 md:px-10">
-          <a href="#top" className="flex items-center gap-2">
-            <span className="text-display text-lg tracking-tight text-primary md:text-xl">
-              Yomi<span className="text-gold">.</span>Visuals
-            </span>
-          </a>
-          <nav className="hidden items-center gap-10 md:flex">
-            {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className="link-underline text-[13px] font-medium tracking-wide text-primary/85 hover:text-primary"
-              >
-                {link.label}
-              </a>
-            ))}
-          </nav>
-          <a
-            href="#book"
-            className="group inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/10 px-5 py-2.5 text-[12px] font-medium uppercase tracking-[0.18em] text-gold-warm transition-all duration-500 hover:bg-gold hover:text-primary-foreground"
-          >
-            Book Session
-            <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-          </a>
-        </div>
-      </header>
-
       {/* Hero */}
       <section id="top" ref={heroRef} className="relative h-[100svh] w-full overflow-hidden">
+
         <div
           className="absolute inset-0 drift"
           style={{ transform: `translateY(${heroOffset}px) scale(1.08)` }}
