@@ -91,11 +91,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         property: "og:description",
         content:
-          "Timeless, cinematic photography experiences. Weddings, portraits, fashion, brands.",
+          "Yomi Visuals is a Lagos-based luxury photography house creating timeless imagery for weddings, portraits, fashion and brands. We don't sell photos — we preserve memories.",
       },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "Yomi Visuals" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Yomi Visuals — We preserve memories." },
+      { name: "twitter:description", content: "Yomi Visuals is a Lagos-based luxury photography house creating timeless imagery for weddings, portraits, fashion and brands. We don't sell photos — we preserve memories." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/45d5cd25-77ba-43f9-aba6-6dfd7454e440" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/45d5cd25-77ba-43f9-aba6-6dfd7454e440" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
