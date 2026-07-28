@@ -1,13 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
-import { ArrowLeft, ArrowRight, Check, MapPin } from "lucide-react";
-
-import portrait1 from "@/assets/portrait-1.jpg";
-import wedding1 from "@/assets/wedding-1.jpg";
-import fashion1 from "@/assets/fashion-1.jpg";
-import brand1 from "@/assets/brand-1.jpg";
-import family1 from "@/assets/family-1.jpg";
-import maternity1 from "@/assets/maternity-1.jpg";
+import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  ArrowLeft, ArrowRight, Check, MapPin, Upload, Copy, CheckCircle2, Printer, Calendar, Clock,
+} from "lucide-react";
+import { services as SERVICES, formatNaira } from "@/lib/services-data";
+import type { Package, Service } from "@/lib/services-data";
 
 type BookSearch = { exp?: string };
 
@@ -21,410 +18,784 @@ export const Route = createFileRoute("/book")({
       {
         name: "description",
         content:
-          "Reserve a portrait, wedding, fashion or brand experience with Yomi Visuals. A calm, considered booking flow.",
+          "Reserve your Yomi Visuals commission in nine calm steps. Choose a service, pick a package, upload your payment proof — receipt generated instantly.",
       },
       { property: "og:title", content: "Book a Session — Yomi Visuals" },
-      { property: "og:description", content: "Reserve your session in a few gentle steps." },
+      { property: "og:description", content: "Nine calm steps to reserve your commission." },
+      { property: "og:url", content: "https://yomivisuals.lovable.app/book" },
     ],
-    links: [{ rel: "canonical", href: "/book" }],
+    links: [{ rel: "canonical", href: "https://yomivisuals.lovable.app/book" }],
   }),
   component: BookPage,
 });
 
-const experiences = [
-  { id: "portrait", name: "Portrait", from: 450000, image: portrait1 },
-  { id: "wedding", name: "Wedding", from: 2400000, image: wedding1 },
-  { id: "fashion", name: "Fashion", from: 1500000, image: fashion1 },
-  { id: "brand", name: "Brand", from: 1200000, image: brand1 },
-  { id: "family", name: "Family", from: 650000, image: family1 },
-  { id: "maternity", name: "Maternity", from: 520000, image: maternity1 },
-];
+const BANK = {
+  bank: "Moniepoint MFB",
+  account: "6346870672",
+  name: "Yomi Visuals Studio",
+};
 
-const packages = [
-  { id: "essential", name: "Essential", price: 1, desc: "The core session, 40 memories, one location.", features: ["3 hour session", "40 retouched memories", "Private online gallery"] },
-  { id: "signature", name: "Signature", price: 1.6, desc: "Extended time, more locations, print box.", features: ["5 hour session", "80 retouched memories", "Second location", "Print box (10 prints)"] },
-  { id: "atelier", name: "Atelier", price: 2.4, desc: "Full studio treatment for heirloom memory.", features: ["Full day", "150+ retouched memories", "Wardrobe & makeup", "Museum-grade heirloom box"] },
-];
+const STEPS = [
+  "Service",
+  "Package",
+  "Date",
+  "Time",
+  "Location",
+  "Details",
+  "Delivery",
+  "Payment",
+  "Confirm",
+] as const;
 
-const times = ["09:00", "11:00", "13:00", "15:00", "17:00"];
-const steps = ["Experience", "Package", "Date", "Time", "Location", "Story", "Confirm"];
+const DELIVERY_TIERS = [
+  { id: "standard", name: "Standard", detail: "10 business days", fee: 0 },
+  { id: "priority", name: "Priority", detail: "5 business days", fee: 80000 },
+  { id: "rush", name: "Rush", detail: "48 hours", fee: 180000 },
+  { id: "same-day", name: "Same Day", detail: "Delivered day of", fee: 320000 },
+] as const;
 
-function formatNaira(n: number) {
-  return `₦${n.toLocaleString("en-NG")}`;
-}
+type State = {
+  serviceSlug?: string;
+  packageId?: string;
+  date?: string;
+  time?: string;
+  location?: string;
+  address?: string;
+  clientName?: string;
+  clientEmail?: string;
+  clientPhone?: string;
+  requests?: string;
+  delivery?: string;
+  paymentRef?: string;
+  proofName?: string;
+  proofDataUrl?: string;
+  confirmed?: boolean;
+  bookingId?: string;
+};
+
+const LS_KEY = "yv:booking:v1";
 
 function BookPage() {
-  const { exp: initial } = Route.useSearch();
+  const search = Route.useSearch();
   const [step, setStep] = useState(0);
-  const [exp, setExp] = useState<string | null>(initial ?? null);
-  const [pack, setPack] = useState<string | null>(null);
-  const [date, setDate] = useState<string | null>(null);
-  const [time, setTime] = useState<string | null>(null);
-  const [location, setLocation] = useState("");
-  const [story, setStory] = useState("");
-  const [confirmed, setConfirmed] = useState(false);
-
-  const experience = useMemo(() => experiences.find((e) => e.id === exp), [exp]);
-  const packageObj = useMemo(() => packages.find((p) => p.id === pack), [pack]);
-  const totalPrice = experience && packageObj ? Math.round(experience.from * packageObj.price) : 0;
-  const deposit = Math.round(totalPrice * 0.3);
-
-  // Simple calendar (next 21 days)
-  const days = useMemo(() => {
-    const now = new Date();
-    return Array.from({ length: 21 }, (_, i) => {
-      const d = new Date(now);
-      d.setDate(now.getDate() + i + 2);
-      return d;
-    });
-  }, []);
-
-  const canNext =
-    (step === 0 && !!exp) ||
-    (step === 1 && !!pack) ||
-    (step === 2 && !!date) ||
-    (step === 3 && !!time) ||
-    (step === 4 && location.trim().length > 2) ||
-    (step === 5 && story.trim().length > 5) ||
-    step === 6;
-
-  const next = () => {
-    if (step === 6) {
-      setConfirmed(true);
-      return;
+  const [s, setS] = useState<State>(() => {
+    if (typeof window === "undefined") return {};
+    try {
+      const raw = localStorage.getItem(LS_KEY);
+      return raw ? JSON.parse(raw) : {};
+    } catch {
+      return {};
     }
-    if (canNext) setStep((s) => Math.min(s + 1, steps.length - 1));
+  });
+
+  // preselect from ?exp=
+  useEffect(() => {
+    if (search.exp && !s.serviceSlug) {
+      setS((prev) => ({ ...prev, serviceSlug: search.exp }));
+    }
+  }, [search.exp, s.serviceSlug]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(LS_KEY, JSON.stringify(s));
+    } catch {}
+  }, [s]);
+
+  const service: Service | undefined = useMemo(
+    () => SERVICES.find((x) => x.slug === s.serviceSlug),
+    [s.serviceSlug],
+  );
+  const pkg: Package | undefined = useMemo(
+    () => service?.packages.find((p) => p.id === s.packageId),
+    [service, s.packageId],
+  );
+  const deliveryTier = useMemo(
+    () => DELIVERY_TIERS.find((d) => d.id === (s.delivery ?? "standard")),
+    [s.delivery],
+  );
+  const total = (pkg?.price ?? 0) + (deliveryTier?.fee ?? 0);
+  const deposit = Math.round(total * 0.3);
+
+  const canNext = useMemo(() => {
+    switch (step) {
+      case 0: return !!s.serviceSlug;
+      case 1: return !!s.packageId;
+      case 2: return !!s.date;
+      case 3: return !!s.time;
+      case 4: return !!s.location && (s.location !== "on-location" || !!s.address);
+      case 5: return !!s.clientName && !!s.clientEmail && !!s.clientPhone;
+      case 6: return !!s.delivery;
+      case 7: return !!s.paymentRef && !!s.proofDataUrl;
+      default: return true;
+    }
+  }, [step, s]);
+
+  const goNext = () => {
+    if (step < STEPS.length - 1 && canNext) setStep(step + 1);
   };
-  const back = () => setStep((s) => Math.max(s - 1, 0));
+  const goBack = () => {
+    if (step > 0) setStep(step - 1);
+  };
 
-  if (confirmed) {
-    return (
-      <div className="min-h-screen bg-background pt-28 md:pt-36">
-        <div className="mx-auto max-w-2xl px-5 pb-24 text-center md:px-10">
-          <div className="mx-auto grid h-16 w-16 place-items-center rounded-full border border-gold bg-gold/10 text-gold">
-            <Check className="h-6 w-6" strokeWidth={2} />
-          </div>
-          <p className="text-eyebrow mt-8">Reserved</p>
-          <h1 className="mt-4 text-display text-4xl leading-[1.02] text-primary md:text-6xl">
-            Your session is <br />
-            <span className="text-editorial text-gold-warm">held for you.</span>
-          </h1>
-          <p className="mt-6 text-muted-foreground">
-            We'll be in touch within 48 hours to confirm the final details. Follow the journey behind
-            each memory on{" "}
-            <a href="https://instagram.com/yomi.visuals" className="text-gold underline-offset-4 hover:underline">
-              @yomi.visuals
-            </a>
-            .
-          </p>
+  const finalize = () => {
+    const id = `YV-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
+    setS((prev) => ({ ...prev, confirmed: true, bookingId: id }));
+    setStep(STEPS.length - 1);
+  };
 
-          <div
-            className="glass-card mt-10 space-y-3 p-6 text-left"
-            style={{ borderRadius: "16px" }}
-          >
-            <SummaryRow label="Experience" value={experience?.name ?? ""} />
-            <SummaryRow label="Package" value={packageObj?.name ?? ""} />
-            <SummaryRow label="Date" value={date ? new Date(date).toDateString() : ""} />
-            <SummaryRow label="Time" value={time ?? ""} />
-            <SummaryRow label="Location" value={location} />
-            <SummaryRow label="Total" value={formatNaira(totalPrice)} highlight />
-          </div>
-
-          <Link
-            to="/"
-            className="mt-10 inline-flex items-center gap-2 border border-border px-8 py-4 text-[11px] uppercase tracking-[0.22em] text-primary hover:border-gold"
-            style={{ borderRadius: "12px" }}
-          >
-            Return home
-          </Link>
-        </div>
-      </div>
-    );
-  }
+  const reset = () => {
+    localStorage.removeItem(LS_KEY);
+    setS({});
+    setStep(0);
+  };
 
   return (
     <div className="min-h-screen bg-background pt-24 md:pt-32">
-      <div className="mx-auto max-w-2xl px-5 pb-40 md:px-10">
-        {/* Progress */}
-        <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-          <span>
-            Step {step + 1} of {steps.length}
-          </span>
-          <span className="text-gold">{steps[step]}</span>
-        </div>
-        <div className="mt-3 h-[2px] w-full overflow-hidden bg-border">
-          <div
-            className="h-full bg-gold transition-[width] duration-700"
-            style={{ width: `${((step + 1) / steps.length) * 100}%` }}
-          />
+      <section className="mx-auto max-w-[1100px] px-5 md:px-10">
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-eyebrow mb-3">Reserve</p>
+            <h1 className="text-display text-3xl leading-[1.05] text-primary md:text-5xl">
+              {s.confirmed ? "You're booked." : "Book a session."}
+            </h1>
+          </div>
+          {!s.confirmed && (
+            <p className="hidden text-[10px] uppercase tracking-[0.26em] text-muted-foreground md:block">
+              Step {step + 1} / {STEPS.length}
+            </p>
+          )}
         </div>
 
-        <div className="mt-10 fade-up" key={step}>
-          {step === 0 && (
-            <StepShell
-              eyebrow="Choose an experience"
-              title="What memory are we creating?"
+        {!s.confirmed && (
+          <>
+            {/* Progress */}
+            <div className="mt-8 grid grid-cols-9 gap-1">
+              {STEPS.map((label, i) => (
+                <div
+                  key={label}
+                  className={`h-1 rounded-full transition-colors duration-500 ${
+                    i <= step ? "bg-gold" : "bg-border"
+                  }`}
+                  title={label}
+                />
+              ))}
+            </div>
+            <p className="mt-3 text-[10px] uppercase tracking-[0.26em] text-muted-foreground md:hidden">
+              Step {step + 1} / {STEPS.length} · {STEPS[step]}
+            </p>
+          </>
+        )}
+      </section>
+
+      <section className="mx-auto mt-10 max-w-[1100px] px-5 pb-16 md:mt-14 md:px-10 md:pb-24">
+        <div className="grid gap-8 md:grid-cols-12">
+          <div className="md:col-span-8">
+            <div
+              className="border border-border bg-card p-6 md:p-10"
+              style={{ borderRadius: "16px" }}
             >
-              <div className="grid grid-cols-2 gap-3">
-                {experiences.map((e) => (
+              {step === 0 && <StepService state={s} onChange={setS} />}
+              {step === 1 && service && <StepPackage service={service} state={s} onChange={setS} />}
+              {step === 2 && <StepDate state={s} onChange={setS} />}
+              {step === 3 && <StepTime state={s} onChange={setS} />}
+              {step === 4 && <StepLocation state={s} onChange={setS} />}
+              {step === 5 && <StepDetails state={s} onChange={setS} />}
+              {step === 6 && <StepDelivery state={s} onChange={setS} />}
+              {step === 7 && <StepPayment state={s} onChange={setS} total={total} deposit={deposit} />}
+              {step === 8 && s.confirmed && (
+                <StepReceipt state={s} service={service} pkg={pkg} total={total} deposit={deposit} onReset={reset} />
+              )}
+              {step === 8 && !s.confirmed && (
+                <StepReview state={s} service={service} pkg={pkg} total={total} deposit={deposit} onConfirm={finalize} />
+              )}
+            </div>
+
+            {!s.confirmed && (
+              <div className="mt-6 flex items-center justify-between">
+                <button
+                  type="button"
+                  onClick={goBack}
+                  disabled={step === 0}
+                  className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-3 text-[11px] uppercase tracking-[0.22em] text-primary transition disabled:opacity-40 hover:enabled:border-gold hover:enabled:text-gold-warm"
+                >
+                  <ArrowLeft className="h-3.5 w-3.5" /> Back
+                </button>
+                {step < STEPS.length - 1 ? (
                   <button
-                    key={e.id}
                     type="button"
-                    onClick={() => setExp(e.id)}
-                    className={`group relative overflow-hidden text-left transition-all duration-500 ${
-                      exp === e.id ? "ring-2 ring-gold" : "ring-1 ring-border"
-                    }`}
-                    style={{ borderRadius: "14px" }}
+                    onClick={goNext}
+                    disabled={!canNext}
+                    className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-[11px] uppercase tracking-[0.22em] text-primary-foreground transition disabled:opacity-40 hover:enabled:bg-gold-warm"
                   >
-                    <div className="relative aspect-[3/4]">
-                      <img src={e.image} alt={e.name} loading="lazy" className="h-full w-full object-cover" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-background/85 to-transparent" />
-                      <div className="absolute inset-x-0 bottom-0 p-4">
-                        <p className="text-display text-lg text-primary">{e.name}</p>
-                        <p className="text-[10px] uppercase tracking-[0.2em] text-gold-warm">
-                          from {formatNaira(e.from)}
-                        </p>
-                      </div>
-                    </div>
+                    Continue <ArrowRight className="h-3.5 w-3.5" />
                   </button>
-                ))}
-              </div>
-            </StepShell>
-          )}
-
-          {step === 1 && (
-            <StepShell eyebrow="Choose a package" title="How deeply should we go?">
-              <div className="space-y-3">
-                {packages.map((p) => {
-                  const price = experience ? Math.round(experience.from * p.price) : 0;
-                  const selected = pack === p.id;
-                  return (
-                    <button
-                      key={p.id}
-                      type="button"
-                      onClick={() => setPack(p.id)}
-                      className={`w-full text-left transition-all duration-500 ${
-                        selected ? "border-gold bg-gold/5" : "border-border bg-card"
-                      } border p-5`}
-                      style={{ borderRadius: "14px" }}
-                    >
-                      <div className="flex items-start justify-between gap-4">
-                        <div>
-                          <p className="text-[10px] uppercase tracking-[0.22em] text-gold">{p.name}</p>
-                          <h3 className="mt-1 text-display text-xl text-primary">{formatNaira(price)}</h3>
-                          <p className="mt-2 text-sm text-muted-foreground">{p.desc}</p>
-                        </div>
-                        <div
-                          className={`grid h-6 w-6 shrink-0 place-items-center rounded-full border transition-colors ${
-                            selected ? "border-gold bg-gold text-primary-foreground" : "border-border"
-                          }`}
-                        >
-                          {selected && <Check className="h-3.5 w-3.5" strokeWidth={3} />}
-                        </div>
-                      </div>
-                      <ul className="mt-4 grid grid-cols-1 gap-1.5 text-xs text-muted-foreground">
-                        {p.features.map((f) => (
-                          <li key={f} className="flex items-center gap-2">
-                            <span className="h-1 w-1 rounded-full bg-gold" /> {f}
-                          </li>
-                        ))}
-                      </ul>
-                    </button>
-                  );
-                })}
-              </div>
-            </StepShell>
-          )}
-
-          {step === 2 && (
-            <StepShell eyebrow="Choose a date" title="When shall we meet?">
-              <div className="grid grid-cols-4 gap-2 sm:grid-cols-5">
-                {days.map((d) => {
-                  const key = d.toISOString();
-                  const selected = date === key;
-                  return (
-                    <button
-                      key={key}
-                      type="button"
-                      onClick={() => setDate(key)}
-                      className={`flex flex-col items-center rounded-xl border py-3 transition-all ${
-                        selected ? "border-gold bg-gold/10 text-primary" : "border-border text-muted-foreground hover:text-primary"
-                      }`}
-                    >
-                      <span className="text-[9px] uppercase tracking-[0.2em]">
-                        {d.toLocaleDateString("en-US", { weekday: "short" })}
-                      </span>
-                      <span className="mt-1 text-lg text-display">
-                        {d.getDate()}
-                      </span>
-                      <span className="text-[9px] uppercase tracking-[0.18em]">
-                        {d.toLocaleDateString("en-US", { month: "short" })}
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-            </StepShell>
-          )}
-
-          {step === 3 && (
-            <StepShell eyebrow="Choose a time" title="What hour suits you?">
-              <div className="grid grid-cols-3 gap-3">
-                {times.map((t) => (
+                ) : (
                   <button
-                    key={t}
                     type="button"
-                    onClick={() => setTime(t)}
-                    className={`rounded-xl border py-4 text-center transition-all ${
-                      time === t
-                        ? "border-gold bg-gold/10 text-primary"
-                        : "border-border text-muted-foreground hover:text-primary"
-                    }`}
+                    onClick={finalize}
+                    disabled={!s.paymentRef || !s.proofDataUrl}
+                    className="inline-flex items-center gap-2 rounded-full bg-gold px-7 py-3 text-[11px] uppercase tracking-[0.22em] text-primary-foreground transition disabled:opacity-40 hover:enabled:bg-gold-warm"
                   >
-                    <span className="text-display text-lg">{t}</span>
+                    Confirm booking <Check className="h-3.5 w-3.5" />
                   </button>
-                ))}
+                )}
               </div>
-            </StepShell>
-          )}
+            )}
+          </div>
 
-          {step === 4 && (
-            <StepShell eyebrow="Location" title="Where should we meet?">
-              <div className="relative">
-                <MapPin className="pointer-events-none absolute left-4 top-4 h-4 w-4 text-gold" />
-                <input
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
-                  placeholder="Studio, Ikoyi · or a specific address"
-                  className="w-full border border-border bg-card py-4 pl-11 pr-5 text-sm text-primary placeholder:text-muted-foreground/60 focus:border-gold focus:outline-none"
-                  style={{ borderRadius: "14px" }}
-                />
-              </div>
-              <p className="mt-4 text-xs text-muted-foreground">
-                Not sure yet? Write "studio" and we'll suggest a space that fits the memory.
-              </p>
-            </StepShell>
-          )}
-
-          {step === 5 && (
-            <StepShell eyebrow="Your story" title="Tell us about the memory.">
-              <textarea
-                value={story}
-                onChange={(e) => setStory(e.target.value)}
-                rows={6}
-                placeholder="Who is this for? What should we capture? What matters most about this moment?"
-                className="w-full border border-border bg-card p-5 text-sm text-primary placeholder:text-muted-foreground/60 focus:border-gold focus:outline-none"
-                style={{ borderRadius: "14px" }}
-              />
-            </StepShell>
-          )}
-
-          {step === 6 && (
-            <StepShell eyebrow="Confirm" title="A final look, then we hold your date.">
-              <div
-                className="glass-card space-y-3 p-6"
-                style={{ borderRadius: "16px" }}
-              >
-                <SummaryRow label="Experience" value={experience?.name ?? ""} />
-                <SummaryRow label="Package" value={packageObj?.name ?? ""} />
-                <SummaryRow
-                  label="When"
-                  value={`${date ? new Date(date).toDateString() : ""} · ${time ?? ""}`}
-                />
-                <SummaryRow label="Location" value={location} />
-                <div className="mt-4 border-t border-border pt-4">
-                  <div className="flex items-center justify-between text-sm text-muted-foreground">
-                    <span>Session total</span>
-                    <span className="text-primary">{formatNaira(totalPrice)}</span>
-                  </div>
-                  <div className="mt-2 flex items-center justify-between">
-                    <span className="text-[11px] uppercase tracking-[0.22em] text-gold">
-                      Deposit (30%)
-                    </span>
-                    <span className="text-display text-2xl text-primary">
-                      {formatNaira(deposit)}
-                    </span>
-                  </div>
-                  <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
-                    Deposit is due to reserve your date. The balance is invoiced the day before your session.
-                    Payment step is prepared for the next release.
-                  </p>
+          {/* Summary rail */}
+          <aside className="md:col-span-4">
+            <div
+              className="sticky top-28 border border-border bg-surface p-6 md:p-7"
+              style={{ borderRadius: "16px" }}
+            >
+              <p className="text-eyebrow mb-4">Summary</p>
+              <SummaryRow label="Service" value={service?.name ?? "—"} />
+              <SummaryRow label="Package" value={pkg?.name ?? "—"} />
+              <SummaryRow label="Date" value={s.date ?? "—"} />
+              <SummaryRow label="Time" value={s.time ?? "—"} />
+              <SummaryRow label="Delivery" value={deliveryTier?.name ?? "—"} />
+              <div className="mt-5 border-t border-border pt-5">
+                <SummaryRow label="Package" value={pkg ? formatNaira(pkg.price) : "—"} />
+                {deliveryTier && deliveryTier.fee > 0 && (
+                  <SummaryRow label="Delivery" value={formatNaira(deliveryTier.fee)} />
+                )}
+                <div className="mt-3 flex items-baseline justify-between">
+                  <p className="text-[10px] uppercase tracking-[0.26em] text-gold">Total</p>
+                  <p className="text-display text-2xl text-primary">{total ? formatNaira(total) : "—"}</p>
+                </div>
+                <div className="mt-2 flex items-baseline justify-between">
+                  <p className="text-[10px] uppercase tracking-[0.26em] text-muted-foreground">Deposit (30%)</p>
+                  <p className="text-sm text-primary">{deposit ? formatNaira(deposit) : "—"}</p>
                 </div>
               </div>
-            </StepShell>
-          )}
+              <p className="mt-6 text-[10px] leading-relaxed text-muted-foreground">
+                30% deposit reserves your date. Balance due the day before your session.
+              </p>
+            </div>
+          </aside>
         </div>
+      </section>
+    </div>
+  );
+}
+
+function SummaryRow({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex items-baseline justify-between py-2">
+      <p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">{label}</p>
+      <p className="text-right text-sm text-primary">{value}</p>
+    </div>
+  );
+}
+
+// ===================== STEPS =====================
+
+function StepService({ state, onChange }: { state: State; onChange: (u: State) => void }) {
+  return (
+    <div>
+      <h2 className="text-display text-2xl text-primary md:text-3xl">Choose your service.</h2>
+      <p className="mt-2 text-sm text-muted-foreground">Every discipline is bookable end-to-end.</p>
+      <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
+        {SERVICES.map((svc) => {
+          const active = state.serviceSlug === svc.slug;
+          const from = Math.min(...svc.packages.map((p) => p.price));
+          return (
+            <button
+              key={svc.slug}
+              type="button"
+              onClick={() => onChange({ ...state, serviceSlug: svc.slug, packageId: undefined })}
+              className={`group text-left overflow-hidden border transition-all duration-500 ${
+                active ? "border-gold" : "border-border hover:border-gold/50"
+              }`}
+              style={{ borderRadius: "12px" }}
+            >
+              <div className="relative aspect-[16/10] overflow-hidden">
+                <img src={svc.cover} alt={svc.name} loading="lazy" className="h-full w-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/85 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-4">
+                  <div>
+                    <p className="text-[9px] uppercase tracking-[0.22em] text-gold-warm">from {formatNaira(from)}</p>
+                    <p className="text-display text-lg text-primary">{svc.name}</p>
+                  </div>
+                  {active && <Check className="h-5 w-5 text-gold" />}
+                </div>
+              </div>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function StepPackage({ service, state, onChange }: { service: Service; state: State; onChange: (u: State) => void }) {
+  return (
+    <div>
+      <h2 className="text-display text-2xl text-primary md:text-3xl">Choose your package.</h2>
+      <p className="mt-2 text-sm text-muted-foreground">{service.name} · {service.packages.length} options.</p>
+      <div className="mt-8 space-y-3">
+        {service.packages.map((p) => {
+          const active = state.packageId === p.id;
+          return (
+            <button
+              key={p.id}
+              type="button"
+              onClick={() => onChange({ ...state, packageId: p.id })}
+              className={`w-full text-left border p-5 transition ${
+                active ? "border-gold bg-gold/5" : "border-border hover:border-gold/50"
+              }`}
+              style={{ borderRadius: "12px" }}
+            >
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="text-[10px] uppercase tracking-[0.22em] text-gold">{p.name}</p>
+                  <p className="mt-1 text-display text-2xl text-primary md:text-3xl">{formatNaira(p.price)}</p>
+                  <p className="mt-1 text-xs uppercase tracking-[0.2em] text-muted-foreground">{p.duration}</p>
+                  <ul className="mt-4 grid gap-1.5 text-sm text-muted-foreground sm:grid-cols-2">
+                    {p.includes.map((inc) => (
+                      <li key={inc} className="flex items-start gap-2">
+                        <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-gold" />
+                        <span>{inc}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                {active && <div className="grid h-8 w-8 place-items-center rounded-full bg-gold text-primary-foreground"><Check className="h-4 w-4" /></div>}
+              </div>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function StepDate({ state, onChange }: { state: State; onChange: (u: State) => void }) {
+  const today = new Date();
+  const minDate = new Date(today.getTime() + 7 * 24 * 3600 * 1000).toISOString().slice(0, 10);
+  return (
+    <div>
+      <h2 className="text-display text-2xl text-primary md:text-3xl">Pick your date.</h2>
+      <p className="mt-2 text-sm text-muted-foreground">Reserve at least 7 days ahead.</p>
+      <div className="mt-8 max-w-sm">
+        <label className="flex items-center gap-3 rounded-xl border border-border bg-background px-4 py-3">
+          <Calendar className="h-4 w-4 text-gold" />
+          <input
+            type="date"
+            min={minDate}
+            value={state.date ?? ""}
+            onChange={(e) => onChange({ ...state, date: e.target.value })}
+            className="w-full bg-transparent text-primary outline-none"
+          />
+        </label>
+      </div>
+    </div>
+  );
+}
+
+function StepTime({ state, onChange }: { state: State; onChange: (u: State) => void }) {
+  const slots = ["09:00", "10:30", "12:00", "14:00", "15:30", "17:00", "18:30"];
+  return (
+    <div>
+      <h2 className="text-display text-2xl text-primary md:text-3xl">Choose a time.</h2>
+      <p className="mt-2 text-sm text-muted-foreground">Studio time is by appointment only.</p>
+      <div className="mt-8 grid grid-cols-3 gap-3 sm:grid-cols-4">
+        {slots.map((t) => {
+          const active = state.time === t;
+          return (
+            <button
+              key={t}
+              type="button"
+              onClick={() => onChange({ ...state, time: t })}
+              className={`flex items-center justify-center gap-2 rounded-xl border py-3 text-sm transition ${
+                active ? "border-gold bg-gold/10 text-gold-warm" : "border-border text-primary hover:border-gold/50"
+              }`}
+            >
+              <Clock className="h-3.5 w-3.5" />
+              {t}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function StepLocation({ state, onChange }: { state: State; onChange: (u: State) => void }) {
+  const options = [
+    { id: "studio", name: "Studio", detail: "Yomi Visuals · Lekki, Lagos" },
+    { id: "on-location", name: "On location", detail: "Anywhere in Lagos or beyond" },
+    { id: "outside-lagos", name: "Outside Lagos", detail: "Travel quoted separately" },
+  ];
+  return (
+    <div>
+      <h2 className="text-display text-2xl text-primary md:text-3xl">Where?</h2>
+      <p className="mt-2 text-sm text-muted-foreground">Choose a setting for the session.</p>
+      <div className="mt-8 space-y-3">
+        {options.map((o) => {
+          const active = state.location === o.id;
+          return (
+            <button
+              key={o.id}
+              type="button"
+              onClick={() => onChange({ ...state, location: o.id })}
+              className={`flex w-full items-start gap-4 rounded-xl border p-4 text-left transition ${
+                active ? "border-gold bg-gold/5" : "border-border hover:border-gold/50"
+              }`}
+            >
+              <MapPin className="mt-1 h-5 w-5 text-gold" />
+              <div>
+                <p className="text-display text-lg text-primary">{o.name}</p>
+                <p className="text-sm text-muted-foreground">{o.detail}</p>
+              </div>
+            </button>
+          );
+        })}
+        {(state.location === "on-location" || state.location === "outside-lagos") && (
+          <input
+            type="text"
+            placeholder="Address or city"
+            value={state.address ?? ""}
+            onChange={(e) => onChange({ ...state, address: e.target.value })}
+            className="w-full rounded-xl border border-border bg-background px-4 py-3 text-primary outline-none focus:border-gold"
+          />
+        )}
+      </div>
+    </div>
+  );
+}
+
+function StepDetails({ state, onChange }: { state: State; onChange: (u: State) => void }) {
+  return (
+    <div>
+      <h2 className="text-display text-2xl text-primary md:text-3xl">Your details.</h2>
+      <p className="mt-2 text-sm text-muted-foreground">So we can reach you and prepare your session.</p>
+      <div className="mt-8 grid gap-4 sm:grid-cols-2">
+        <Field label="Full name" value={state.clientName} onChange={(v) => onChange({ ...state, clientName: v })} />
+        <Field label="Email" type="email" value={state.clientEmail} onChange={(v) => onChange({ ...state, clientEmail: v })} />
+        <Field label="Phone" type="tel" value={state.clientPhone} onChange={(v) => onChange({ ...state, clientPhone: v })} />
+      </div>
+      <div className="mt-4">
+        <label className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">Special requests</label>
+        <textarea
+          rows={4}
+          value={state.requests ?? ""}
+          onChange={(e) => onChange({ ...state, requests: e.target.value })}
+          placeholder="Mood, references, wardrobe notes, accessibility needs…"
+          className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-primary outline-none focus:border-gold"
+        />
+      </div>
+    </div>
+  );
+}
+
+function Field({
+  label, value, onChange, type = "text",
+}: { label: string; value?: string; onChange: (v: string) => void; type?: string }) {
+  return (
+    <label className="block">
+      <span className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">{label}</span>
+      <input
+        type={type}
+        value={value ?? ""}
+        onChange={(e) => onChange(e.target.value)}
+        className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-primary outline-none focus:border-gold"
+      />
+    </label>
+  );
+}
+
+function StepDelivery({ state, onChange }: { state: State; onChange: (u: State) => void }) {
+  return (
+    <div>
+      <h2 className="text-display text-2xl text-primary md:text-3xl">Delivery speed.</h2>
+      <p className="mt-2 text-sm text-muted-foreground">How soon do you need your memories?</p>
+      <div className="mt-8 space-y-3">
+        {DELIVERY_TIERS.map((t) => {
+          const active = (state.delivery ?? "standard") === t.id;
+          return (
+            <button
+              key={t.id}
+              type="button"
+              onClick={() => onChange({ ...state, delivery: t.id })}
+              className={`flex w-full items-center justify-between rounded-xl border p-4 text-left transition ${
+                active ? "border-gold bg-gold/5" : "border-border hover:border-gold/50"
+              }`}
+            >
+              <div>
+                <p className="text-display text-lg text-primary">{t.name}</p>
+                <p className="text-sm text-muted-foreground">{t.detail}</p>
+              </div>
+              <p className="text-[11px] uppercase tracking-[0.22em] text-gold">
+                {t.fee === 0 ? "Included" : `+ ${formatNaira(t.fee)}`}
+              </p>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function StepPayment({
+  state, onChange, total, deposit,
+}: { state: State; onChange: (u: State) => void; total: number; deposit: number }) {
+  const [copied, setCopied] = useState<string | null>(null);
+  const fileRef = useRef<HTMLInputElement | null>(null);
+
+  const copy = async (v: string, k: string) => {
+    try {
+      await navigator.clipboard.writeText(v);
+      setCopied(k);
+      setTimeout(() => setCopied(null), 1500);
+    } catch {}
+  };
+
+  const onFile = (f: File) => {
+    if (f.size > 5 * 1024 * 1024) {
+      alert("Please upload an image under 5 MB.");
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      onChange({ ...state, proofName: f.name, proofDataUrl: String(reader.result) });
+    };
+    reader.readAsDataURL(f);
+  };
+
+  return (
+    <div>
+      <h2 className="text-display text-2xl text-primary md:text-3xl">Bank transfer.</h2>
+      <p className="mt-2 text-sm text-muted-foreground">
+        Transfer the deposit of <span className="text-primary">{formatNaira(deposit)}</span> to reserve your date.
+        Balance of {formatNaira(total - deposit)} due before session day.
+      </p>
+
+      <div className="mt-6 rounded-2xl border border-gold/40 bg-gold/5 p-5 md:p-6">
+        <p className="text-[10px] uppercase tracking-[0.26em] text-gold">Bank details</p>
+        {[
+          { k: "bank", label: "Bank", value: BANK.bank },
+          { k: "account", label: "Account", value: BANK.account },
+          { k: "name", label: "Name", value: BANK.name },
+          { k: "amount", label: "Amount", value: formatNaira(deposit) },
+        ].map((row) => (
+          <div key={row.k} className="mt-4 flex items-center justify-between border-t border-gold/20 pt-4 first:mt-3 first:border-none first:pt-0">
+            <div>
+              <p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">{row.label}</p>
+              <p className="mt-1 text-display text-lg text-primary md:text-xl">{row.value}</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => copy(row.value, row.k)}
+              className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5 text-[10px] uppercase tracking-[0.2em] text-primary hover:border-gold hover:text-gold-warm"
+            >
+              {copied === row.k ? <><Check className="h-3 w-3" /> Copied</> : <><Copy className="h-3 w-3" /> Copy</>}
+            </button>
+          </div>
+        ))}
       </div>
 
-      {/* Sticky footer nav */}
-      <div
-        className="fixed inset-x-0 bottom-16 z-30 border-t border-border md:bottom-0"
-        style={{
-          background: "rgba(5,5,5,0.9)",
-          backdropFilter: "saturate(180%) blur(20px)",
-        }}
-      >
-        <div className="mx-auto flex max-w-2xl items-center justify-between gap-3 px-5 py-4 md:px-10">
-          <button
-            type="button"
-            onClick={back}
-            disabled={step === 0}
-            className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.22em] text-muted-foreground disabled:opacity-30"
+      <div className="mt-6 grid gap-4">
+        <Field
+          label="Transaction reference"
+          value={state.paymentRef}
+          onChange={(v) => onChange({ ...state, paymentRef: v })}
+        />
+
+        <div>
+          <span className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">Upload payment proof</span>
+          <label
+            htmlFor="proof"
+            className="mt-2 flex cursor-pointer items-center justify-between gap-4 rounded-xl border border-dashed border-border px-4 py-4 hover:border-gold"
           >
-            <ArrowLeft className="h-3.5 w-3.5" />
-            Back
-          </button>
-          <button
-            type="button"
-            onClick={next}
-            disabled={!canNext}
-            className="inline-flex items-center gap-2 bg-gold px-6 py-3.5 text-[11px] uppercase tracking-[0.22em] text-primary-foreground transition-all duration-500 hover:bg-gold-warm disabled:cursor-not-allowed disabled:opacity-40"
-            style={{ borderRadius: "12px" }}
-          >
-            {step === 6 ? "Reserve session" : "Continue"}
-            <ArrowRight className="h-3.5 w-3.5" />
-          </button>
+            <div className="flex items-center gap-3">
+              <div className="grid h-9 w-9 place-items-center rounded-full bg-gold/10 text-gold">
+                <Upload className="h-4 w-4" />
+              </div>
+              <div>
+                <p className="text-sm text-primary">
+                  {state.proofName ?? "Screenshot or receipt (PNG / JPG, up to 5 MB)"}
+                </p>
+                <p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+                  {state.proofDataUrl ? "Uploaded ✓" : "Tap to select"}
+                </p>
+              </div>
+            </div>
+          </label>
+          <input
+            id="proof"
+            ref={fileRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={(e) => {
+              const f = e.target.files?.[0];
+              if (f) onFile(f);
+            }}
+          />
+          {state.proofDataUrl && (
+            <div className="mt-3 overflow-hidden rounded-xl border border-border">
+              <img src={state.proofDataUrl} alt="Payment proof" className="max-h-56 w-full object-cover" />
+            </div>
+          )}
         </div>
       </div>
     </div>
   );
 }
 
-function StepShell({
-  eyebrow,
-  title,
-  children,
+function StepReview({
+  state, service, pkg, total, deposit, onConfirm,
 }: {
-  eyebrow: string;
-  title: string;
-  children: React.ReactNode;
+  state: State; service?: Service; pkg?: Package; total: number; deposit: number; onConfirm: () => void;
 }) {
   return (
     <div>
-      <p className="text-eyebrow mb-4">{eyebrow}</p>
-      <h1 className="text-display text-3xl leading-[1.05] text-primary md:text-5xl">{title}</h1>
-      <div className="mt-8">{children}</div>
+      <h2 className="text-display text-2xl text-primary md:text-3xl">One last look.</h2>
+      <p className="mt-2 text-sm text-muted-foreground">Review your booking, then confirm.</p>
+
+      <dl className="mt-8 grid gap-3 sm:grid-cols-2">
+        <Info k="Service" v={service?.name} />
+        <Info k="Package" v={pkg?.name} />
+        <Info k="Date" v={state.date} />
+        <Info k="Time" v={state.time} />
+        <Info k="Location" v={state.location} />
+        <Info k="Delivery" v={state.delivery} />
+        <Info k="Name" v={state.clientName} />
+        <Info k="Email" v={state.clientEmail} />
+        <Info k="Phone" v={state.clientPhone} />
+        <Info k="Address" v={state.address} />
+        <Info k="Reference" v={state.paymentRef} />
+        <Info k="Proof" v={state.proofName ? "Uploaded ✓" : "—"} />
+      </dl>
+
+      <div className="mt-6 rounded-xl border border-border bg-background p-5">
+        <p className="text-[10px] uppercase tracking-[0.22em] text-gold">Payment</p>
+        <div className="mt-2 flex items-baseline justify-between">
+          <p className="text-sm text-muted-foreground">Total</p>
+          <p className="text-display text-xl text-primary">{formatNaira(total)}</p>
+        </div>
+        <div className="mt-1 flex items-baseline justify-between">
+          <p className="text-sm text-muted-foreground">Deposit paid (30%)</p>
+          <p className="text-sm text-primary">{formatNaira(deposit)}</p>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        onClick={onConfirm}
+        className="mt-8 hidden w-full items-center justify-center gap-2 rounded-xl bg-gold py-4 text-[11px] uppercase tracking-[0.22em] text-primary-foreground hover:bg-gold-warm"
+      >
+        Confirm booking <Check className="h-4 w-4" />
+      </button>
     </div>
   );
 }
 
-function SummaryRow({
-  label,
-  value,
-  highlight,
+function Info({ k, v }: { k: string; v?: string }) {
+  return (
+    <div className="rounded-xl border border-border p-3">
+      <p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">{k}</p>
+      <p className="mt-1 text-sm text-primary">{v || "—"}</p>
+    </div>
+  );
+}
+
+function StepReceipt({
+  state, service, pkg, total, deposit, onReset,
 }: {
-  label: string;
-  value: string;
-  highlight?: boolean;
+  state: State; service?: Service; pkg?: Package; total: number; deposit: number; onReset: () => void;
 }) {
   return (
-    <div className="flex items-start justify-between gap-4">
-      <span className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-        {label}
-      </span>
-      <span className={`text-right text-sm ${highlight ? "text-gold-warm text-lg" : "text-primary"}`}>
-        {value || "—"}
-      </span>
+    <div className="text-center">
+      <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-gold/15 text-gold">
+        <CheckCircle2 className="h-7 w-7" />
+      </div>
+      <h2 className="mt-6 text-display text-3xl text-primary md:text-4xl">You're booked.</h2>
+      <p className="mt-3 text-sm text-muted-foreground">
+        A confirmation has been sent to <span className="text-primary">{state.clientEmail}</span>.
+        Our team will reach out within 24 hours.
+      </p>
+
+      <div className="mt-10 rounded-2xl border border-gold/40 bg-gold/5 p-6 text-left md:p-8">
+        <div className="flex items-start justify-between gap-4 border-b border-gold/20 pb-4">
+          <div>
+            <p className="text-eyebrow">Receipt</p>
+            <p className="mt-2 text-display text-xl text-primary md:text-2xl">Yomi Visuals</p>
+            <p className="text-xs text-muted-foreground">Lagos, Nigeria · yomi.visuals</p>
+          </div>
+          <div className="text-right">
+            <p className="text-[10px] uppercase tracking-[0.22em] text-gold">Booking</p>
+            <p className="mt-1 text-display text-lg text-primary">{state.bookingId}</p>
+            <p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+              {new Date().toLocaleDateString()}
+            </p>
+          </div>
+        </div>
+
+        <dl className="mt-4 grid gap-2 sm:grid-cols-2">
+          <ReceiptRow k="Client" v={state.clientName} />
+          <ReceiptRow k="Email" v={state.clientEmail} />
+          <ReceiptRow k="Phone" v={state.clientPhone} />
+          <ReceiptRow k="Service" v={service?.name} />
+          <ReceiptRow k="Package" v={pkg?.name} />
+          <ReceiptRow k="Date" v={state.date} />
+          <ReceiptRow k="Time" v={state.time} />
+          <ReceiptRow k="Location" v={state.location} />
+        </dl>
+
+        <div className="mt-5 border-t border-gold/20 pt-4">
+          <div className="flex items-baseline justify-between">
+            <p className="text-sm text-muted-foreground">Total</p>
+            <p className="text-display text-2xl text-primary">{formatNaira(total)}</p>
+          </div>
+          <div className="mt-2 flex items-baseline justify-between">
+            <p className="text-sm text-muted-foreground">Deposit paid (30%)</p>
+            <p className="text-sm text-primary">{formatNaira(deposit)}</p>
+          </div>
+          <div className="mt-2 flex items-baseline justify-between">
+            <p className="text-sm text-muted-foreground">Balance due</p>
+            <p className="text-sm text-primary">{formatNaira(total - deposit)}</p>
+          </div>
+          <div className="mt-2 flex items-baseline justify-between">
+            <p className="text-sm text-muted-foreground">Reference</p>
+            <p className="text-sm text-primary">{state.paymentRef}</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+        <button
+          type="button"
+          onClick={() => window.print()}
+          className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-3 text-[11px] uppercase tracking-[0.22em] text-primary hover:border-gold hover:text-gold-warm"
+        >
+          <Printer className="h-3.5 w-3.5" /> Print receipt
+        </button>
+        <Link
+          to="/account"
+          className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-3 text-[11px] uppercase tracking-[0.22em] text-primary-foreground hover:bg-gold-warm"
+        >
+          Go to my account
+        </Link>
+        <button
+          type="button"
+          onClick={onReset}
+          className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground hover:text-primary"
+        >
+          Book another
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function ReceiptRow({ k, v }: { k: string; v?: string }) {
+  return (
+    <div className="border-t border-gold/10 py-2 first:border-none">
+      <p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">{k}</p>
+      <p className="text-sm text-primary">{v || "—"}</p>
     </div>
   );
 }
