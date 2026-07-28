@@ -246,12 +246,12 @@ function Home() {
       </section>
 
       {/* CLIENTS */}
-      <section className="border-y border-border bg-surface py-14 md:py-20 overflow-hidden">
+      <section className="border-y border-border bg-surface py-14 md:py-20">
         <div className="mx-auto max-w-[1500px] px-5 md:px-10">
           <p className="text-eyebrow mb-8 text-center">Trusted by</p>
-          <div className="marquee flex w-max gap-14 whitespace-nowrap md:gap-20">
-            {[...clientLogos, ...clientLogos].map((n, i) => (
-              <span key={i} className="text-display text-xl text-muted-foreground/60 md:text-3xl">
+          <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4 md:gap-x-16">
+            {clientLogos.map((n) => (
+              <span key={n} className="text-display text-xl text-muted-foreground/60 md:text-3xl">
                 {n}
               </span>
             ))}
