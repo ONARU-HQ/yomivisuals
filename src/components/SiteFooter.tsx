@@ -33,8 +33,8 @@ export function SiteFooter() {
             <FooterCol
               title="Explore"
               links={[
-                { label: "Portfolio", to: "/portfolio" },
-                { label: "Experiences", to: "/experiences" },
+                { label: "Work", to: "/portfolio" },
+                { label: "Services", to: "/services" },
                 { label: "Gallery", to: "/gallery" },
               ]}
             />

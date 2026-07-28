@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 
 const links = [
-  { to: "/portfolio", label: "Portfolio" },
-  { to: "/experiences", label: "Experiences" },
+  { to: "/portfolio", label: "Work" },
+  { to: "/services", label: "Services" },
   { to: "/gallery", label: "Gallery" },
   { to: "/about", label: "About" },
   { to: "/contact", label: "Contact" },

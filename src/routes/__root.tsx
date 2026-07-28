@@ -13,6 +13,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { TopNav } from "@/components/TopNav";
 import { BottomNav } from "@/components/BottomNav";
+import { StickyBookCTA } from "@/components/StickyBookCTA";
 
 function NotFoundComponent() {
   return (
@@ -141,6 +142,7 @@ function RootComponent() {
       <main className="pb-24 md:pb-0">
         <Outlet />
       </main>
+      <StickyBookCTA />
       <BottomNav />
     </QueryClientProvider>
   );
