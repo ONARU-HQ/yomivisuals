@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ServicesRouteImport } from './routes/services'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
 import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as ExperiencesRouteImport } from './routes/experiences'
@@ -17,7 +18,14 @@ import { Route as BookRouteImport } from './routes/book'
 import { Route as AccountRouteImport } from './routes/account'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ServicesServiceRouteImport } from './routes/services.$service'
+import { Route as PortfolioCategoryRouteImport } from './routes/portfolio.$category'
 
+const ServicesRoute = ServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PortfolioRoute = PortfolioRouteImport.update({
   id: '/portfolio',
   path: '/portfolio',
@@ -58,6 +66,16 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ServicesServiceRoute = ServicesServiceRouteImport.update({
+  id: '/$service',
+  path: '/$service',
+  getParentRoute: () => ServicesRoute,
+} as any)
+const PortfolioCategoryRoute = PortfolioCategoryRouteImport.update({
+  id: '/$category',
+  path: '/$category',
+  getParentRoute: () => PortfolioRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -67,7 +85,10 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/experiences': typeof ExperiencesRoute
   '/gallery': typeof GalleryRoute
-  '/portfolio': typeof PortfolioRoute
+  '/portfolio': typeof PortfolioRouteWithChildren
+  '/services': typeof ServicesRouteWithChildren
+  '/portfolio/$category': typeof PortfolioCategoryRoute
+  '/services/$service': typeof ServicesServiceRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -77,7 +98,10 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/experiences': typeof ExperiencesRoute
   '/gallery': typeof GalleryRoute
-  '/portfolio': typeof PortfolioRoute
+  '/portfolio': typeof PortfolioRouteWithChildren
+  '/services': typeof ServicesRouteWithChildren
+  '/portfolio/$category': typeof PortfolioCategoryRoute
+  '/services/$service': typeof ServicesServiceRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -88,7 +112,10 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/experiences': typeof ExperiencesRoute
   '/gallery': typeof GalleryRoute
-  '/portfolio': typeof PortfolioRoute
+  '/portfolio': typeof PortfolioRouteWithChildren
+  '/services': typeof ServicesRouteWithChildren
+  '/portfolio/$category': typeof PortfolioCategoryRoute
+  '/services/$service': typeof ServicesServiceRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -101,6 +128,9 @@ export interface FileRouteTypes {
     | '/experiences'
     | '/gallery'
     | '/portfolio'
+    | '/services'
+    | '/portfolio/$category'
+    | '/services/$service'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -111,6 +141,9 @@ export interface FileRouteTypes {
     | '/experiences'
     | '/gallery'
     | '/portfolio'
+    | '/services'
+    | '/portfolio/$category'
+    | '/services/$service'
   id:
     | '__root__'
     | '/'
@@ -121,6 +154,9 @@ export interface FileRouteTypes {
     | '/experiences'
     | '/gallery'
     | '/portfolio'
+    | '/services'
+    | '/portfolio/$category'
+    | '/services/$service'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -131,11 +167,19 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   ExperiencesRoute: typeof ExperiencesRoute
   GalleryRoute: typeof GalleryRoute
-  PortfolioRoute: typeof PortfolioRoute
+  PortfolioRoute: typeof PortfolioRouteWithChildren
+  ServicesRoute: typeof ServicesRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/services': {
+      id: '/services'
+      path: '/services'
+      fullPath: '/services'
+      preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/portfolio': {
       id: '/portfolio'
       path: '/portfolio'
@@ -192,8 +236,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/services/$service': {
+      id: '/services/$service'
+      path: '/$service'
+      fullPath: '/services/$service'
+      preLoaderRoute: typeof ServicesServiceRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/portfolio/$category': {
+      id: '/portfolio/$category'
+      path: '/$category'
+      fullPath: '/portfolio/$category'
+      preLoaderRoute: typeof PortfolioCategoryRouteImport
+      parentRoute: typeof PortfolioRoute
+    }
   }
 }
+
+interface PortfolioRouteChildren {
+  PortfolioCategoryRoute: typeof PortfolioCategoryRoute
+}
+
+const PortfolioRouteChildren: PortfolioRouteChildren = {
+  PortfolioCategoryRoute: PortfolioCategoryRoute,
+}
+
+const PortfolioRouteWithChildren = PortfolioRoute._addFileChildren(
+  PortfolioRouteChildren,
+)
+
+interface ServicesRouteChildren {
+  ServicesServiceRoute: typeof ServicesServiceRoute
+}
+
+const ServicesRouteChildren: ServicesRouteChildren = {
+  ServicesServiceRoute: ServicesServiceRoute,
+}
+
+const ServicesRouteWithChildren = ServicesRoute._addFileChildren(
+  ServicesRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -203,7 +285,8 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   ExperiencesRoute: ExperiencesRoute,
   GalleryRoute: GalleryRoute,
-  PortfolioRoute: PortfolioRoute,
+  PortfolioRoute: PortfolioRouteWithChildren,
+  ServicesRoute: ServicesRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

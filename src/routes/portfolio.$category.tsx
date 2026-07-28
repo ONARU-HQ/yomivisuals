@@ -5,8 +5,10 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { Lightbox } from "@/components/Lightbox";
 import { getCategory, categories } from "@/lib/portfolio-data";
 
+import type { Category } from "@/lib/portfolio-data";
+
 export const Route = createFileRoute("/portfolio/$category")({
-  loader: ({ params }) => {
+  loader: ({ params }): Category => {
     const cat = getCategory(params.category);
     if (!cat) throw notFound();
     return cat;
