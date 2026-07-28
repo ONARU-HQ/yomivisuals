@@ -40,7 +40,7 @@ const RATIO_CLASS: Record<string, string> = {
 };
 
 function CategoryPage() {
-  const cat = Route.useLoaderData();
+  const cat = Route.useLoaderData() as Category;
   const [lightbox, setLightbox] = useState<number | null>(null);
 
   const otherCats = categories.filter((c) => c.slug !== cat.slug).slice(0, 4);
