@@ -2,6 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowUpRight, ArrowLeft, Check } from "lucide-react";
 import { SiteFooter } from "@/components/SiteFooter";
 import { getService, services, formatNaira } from "@/lib/services-data";
+import type { Service } from "@/lib/services-data";
 
 export const Route = createFileRoute("/services/$service")({
   loader: ({ params }) => {
@@ -44,7 +45,7 @@ export const Route = createFileRoute("/services/$service")({
 });
 
 function ServicePage() {
-  const s = Route.useLoaderData();
+  const s = Route.useLoaderData() as Service;
   const others = services.filter((x) => x.slug !== s.slug).slice(0, 3);
 
   return (
