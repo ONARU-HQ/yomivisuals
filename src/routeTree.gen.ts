@@ -10,35 +10,14 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ServicesRouteImport } from './routes/services'
-import { Route as PortfolioRouteImport } from './routes/portfolio'
-import { Route as GalleryRouteImport } from './routes/gallery'
-import { Route as ExperiencesRouteImport } from './routes/experiences'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as BookRouteImport } from './routes/book'
-import { Route as AccountRouteImport } from './routes/account'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ServicesServiceRouteImport } from './routes/services.$service'
-import { Route as PortfolioCategoryRouteImport } from './routes/portfolio.$category'
 
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PortfolioRoute = PortfolioRouteImport.update({
-  id: '/portfolio',
-  path: '/portfolio',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const GalleryRoute = GalleryRouteImport.update({
-  id: '/gallery',
-  path: '/gallery',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ExperiencesRoute = ExperiencesRouteImport.update({
-  id: '/experiences',
-  path: '/experiences',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -51,11 +30,6 @@ const BookRoute = BookRouteImport.update({
   path: '/book',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AccountRoute = AccountRouteImport.update({
-  id: '/account',
-  path: '/account',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -66,109 +40,43 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ServicesServiceRoute = ServicesServiceRouteImport.update({
-  id: '/$service',
-  path: '/$service',
-  getParentRoute: () => ServicesRoute,
-} as any)
-const PortfolioCategoryRoute = PortfolioCategoryRouteImport.update({
-  id: '/$category',
-  path: '/$category',
-  getParentRoute: () => PortfolioRoute,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/account': typeof AccountRoute
   '/book': typeof BookRoute
   '/contact': typeof ContactRoute
-  '/experiences': typeof ExperiencesRoute
-  '/gallery': typeof GalleryRoute
-  '/portfolio': typeof PortfolioRouteWithChildren
-  '/services': typeof ServicesRouteWithChildren
-  '/portfolio/$category': typeof PortfolioCategoryRoute
-  '/services/$service': typeof ServicesServiceRoute
+  '/services': typeof ServicesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/account': typeof AccountRoute
   '/book': typeof BookRoute
   '/contact': typeof ContactRoute
-  '/experiences': typeof ExperiencesRoute
-  '/gallery': typeof GalleryRoute
-  '/portfolio': typeof PortfolioRouteWithChildren
-  '/services': typeof ServicesRouteWithChildren
-  '/portfolio/$category': typeof PortfolioCategoryRoute
-  '/services/$service': typeof ServicesServiceRoute
+  '/services': typeof ServicesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/account': typeof AccountRoute
   '/book': typeof BookRoute
   '/contact': typeof ContactRoute
-  '/experiences': typeof ExperiencesRoute
-  '/gallery': typeof GalleryRoute
-  '/portfolio': typeof PortfolioRouteWithChildren
-  '/services': typeof ServicesRouteWithChildren
-  '/portfolio/$category': typeof PortfolioCategoryRoute
-  '/services/$service': typeof ServicesServiceRoute
+  '/services': typeof ServicesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/about'
-    | '/account'
-    | '/book'
-    | '/contact'
-    | '/experiences'
-    | '/gallery'
-    | '/portfolio'
-    | '/services'
-    | '/portfolio/$category'
-    | '/services/$service'
+  fullPaths: '/' | '/about' | '/book' | '/contact' | '/services'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/about'
-    | '/account'
-    | '/book'
-    | '/contact'
-    | '/experiences'
-    | '/gallery'
-    | '/portfolio'
-    | '/services'
-    | '/portfolio/$category'
-    | '/services/$service'
-  id:
-    | '__root__'
-    | '/'
-    | '/about'
-    | '/account'
-    | '/book'
-    | '/contact'
-    | '/experiences'
-    | '/gallery'
-    | '/portfolio'
-    | '/services'
-    | '/portfolio/$category'
-    | '/services/$service'
+  to: '/' | '/about' | '/book' | '/contact' | '/services'
+  id: '__root__' | '/' | '/about' | '/book' | '/contact' | '/services'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  AccountRoute: typeof AccountRoute
   BookRoute: typeof BookRoute
   ContactRoute: typeof ContactRoute
-  ExperiencesRoute: typeof ExperiencesRoute
-  GalleryRoute: typeof GalleryRoute
-  PortfolioRoute: typeof PortfolioRouteWithChildren
-  ServicesRoute: typeof ServicesRouteWithChildren
+  ServicesRoute: typeof ServicesRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -178,27 +86,6 @@ declare module '@tanstack/react-router' {
       path: '/services'
       fullPath: '/services'
       preLoaderRoute: typeof ServicesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/portfolio': {
-      id: '/portfolio'
-      path: '/portfolio'
-      fullPath: '/portfolio'
-      preLoaderRoute: typeof PortfolioRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/gallery': {
-      id: '/gallery'
-      path: '/gallery'
-      fullPath: '/gallery'
-      preLoaderRoute: typeof GalleryRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/experiences': {
-      id: '/experiences'
-      path: '/experiences'
-      fullPath: '/experiences'
-      preLoaderRoute: typeof ExperiencesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -215,13 +102,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BookRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/account': {
-      id: '/account'
-      path: '/account'
-      fullPath: '/account'
-      preLoaderRoute: typeof AccountRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -236,57 +116,15 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/services/$service': {
-      id: '/services/$service'
-      path: '/$service'
-      fullPath: '/services/$service'
-      preLoaderRoute: typeof ServicesServiceRouteImport
-      parentRoute: typeof ServicesRoute
-    }
-    '/portfolio/$category': {
-      id: '/portfolio/$category'
-      path: '/$category'
-      fullPath: '/portfolio/$category'
-      preLoaderRoute: typeof PortfolioCategoryRouteImport
-      parentRoute: typeof PortfolioRoute
-    }
   }
 }
-
-interface PortfolioRouteChildren {
-  PortfolioCategoryRoute: typeof PortfolioCategoryRoute
-}
-
-const PortfolioRouteChildren: PortfolioRouteChildren = {
-  PortfolioCategoryRoute: PortfolioCategoryRoute,
-}
-
-const PortfolioRouteWithChildren = PortfolioRoute._addFileChildren(
-  PortfolioRouteChildren,
-)
-
-interface ServicesRouteChildren {
-  ServicesServiceRoute: typeof ServicesServiceRoute
-}
-
-const ServicesRouteChildren: ServicesRouteChildren = {
-  ServicesServiceRoute: ServicesServiceRoute,
-}
-
-const ServicesRouteWithChildren = ServicesRoute._addFileChildren(
-  ServicesRouteChildren,
-)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  AccountRoute: AccountRoute,
   BookRoute: BookRoute,
   ContactRoute: ContactRoute,
-  ExperiencesRoute: ExperiencesRoute,
-  GalleryRoute: GalleryRoute,
-  PortfolioRoute: PortfolioRouteWithChildren,
-  ServicesRoute: ServicesRouteWithChildren,
+  ServicesRoute: ServicesRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
