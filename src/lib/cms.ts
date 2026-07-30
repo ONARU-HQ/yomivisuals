@@ -47,7 +47,7 @@ export function coverFor(row: { slug?: string | null; cover_image?: string | nul
 export type Json = Record<string, unknown>;
 
 async function rows<T>(table: string, build: (q: any) => any): Promise<T[]> {
-  const { data, error } = await build(supabase.from(table).select("*"));
+  const { data, error } = await build((supabase as any).from(table).select("*"));
   if (error) throw new Error(error.message);
   return (data ?? []) as T[];
 }
