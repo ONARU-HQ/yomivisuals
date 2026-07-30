@@ -3,10 +3,11 @@ import { useEffect, useState } from "react";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 
 const links = [
-  { to: "/portfolio", label: "Work" },
+  { to: "/projects", label: "Work" },
   { to: "/services", label: "Services" },
-  { to: "/gallery", label: "Gallery" },
+  { to: "/studio", label: "Studio" },
   { to: "/about", label: "About" },
+  { to: "/articles", label: "Articles" },
   { to: "/contact", label: "Contact" },
 ] as const;
 
@@ -16,7 +17,7 @@ export function TopNav() {
   const pathname = useRouterState({ select: (r) => r.location.pathname });
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => setScrolled(window.scrollY > 12);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -24,46 +25,53 @@ export function TopNav() {
 
   useEffect(() => setOpen(false), [pathname]);
 
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
+  if (pathname.startsWith("/admin")) return null;
+
   return (
     <>
       <header
-        className={`fixed inset-x-0 top-0 z-40 transition-all duration-500 ${
-          scrolled || open ? "glass-nav py-3" : "py-4 md:py-6"
+        className={`fixed inset-x-0 top-0 z-50 transition-all duration-400 ${
+          scrolled || open ? "border-b border-border bg-background py-3.5" : "py-5 md:py-7"
         }`}
       >
-        <div className="mx-auto flex max-w-[1400px] items-center justify-between px-5 md:px-10">
-          <Link to="/" className="flex items-center">
-            <span className="text-display text-base tracking-tight text-primary md:text-lg">
-              Yomi<span className="text-gold">.</span>Visuals
-            </span>
+        <div className="mx-auto flex w-full max-w-[1320px] items-center justify-between px-5 md:px-10">
+          <Link to="/" className="text-[15px] font-semibold tracking-[-0.04em] text-foreground md:text-base">
+            Yomi Visuals
           </Link>
 
-          <nav className="hidden items-center gap-9 md:flex">
+          <nav className="hidden items-center gap-8 md:flex">
             {links.map((l) => (
               <Link
                 key={l.to}
                 to={l.to}
-                className="link-underline text-[12px] font-medium tracking-wide text-primary/80 hover:text-primary"
-                activeProps={{ className: "text-primary" }}
+                className="link-underline text-[13px] text-subtle transition-colors hover:text-foreground"
+                activeProps={{ className: "text-foreground" }}
               >
                 {l.label}
               </Link>
             ))}
           </nav>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             <Link
               to="/book"
-              className="group hidden items-center gap-2 rounded-full border border-gold/40 bg-gold/10 px-4 py-2 text-[11px] font-medium uppercase tracking-[0.18em] text-gold-warm transition-all duration-500 hover:bg-gold hover:text-primary-foreground md:inline-flex"
+              className="hidden items-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-[12.5px] font-medium text-primary-foreground transition-opacity hover:opacity-90 md:inline-flex"
             >
-              Book Now
-              <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+              Book Consultation
+              <ArrowUpRight className="h-3.5 w-3.5" />
             </Link>
             <button
               type="button"
-              aria-label="Menu"
+              aria-label={open ? "Close menu" : "Open menu"}
               onClick={() => setOpen((o) => !o)}
-              className="grid h-9 w-9 place-items-center rounded-full border border-border text-primary md:hidden"
+              className="grid h-10 w-10 place-items-center rounded-full border border-border text-foreground md:hidden"
             >
               {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
             </button>
@@ -71,39 +79,31 @@ export function TopNav() {
         </div>
       </header>
 
-      {/* Mobile sheet */}
       <div
-        className={`fixed inset-0 z-30 md:hidden ${open ? "pointer-events-auto" : "pointer-events-none"}`}
+        className={`fixed inset-0 z-40 bg-background transition-opacity duration-300 md:hidden ${
+          open ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
+        }`}
         aria-hidden={!open}
       >
-        <div
-          onClick={() => setOpen(false)}
-          className={`absolute inset-0 bg-background/70 backdrop-blur-md transition-opacity duration-500 ${open ? "opacity-100" : "opacity-0"}`}
-        />
-        <div
-          className={`absolute inset-x-0 top-0 border-b border-border bg-surface pt-20 pb-8 transition-transform duration-500 ${open ? "translate-y-0" : "-translate-y-full"}`}
-        >
-          <nav className="mx-auto flex max-w-md flex-col gap-1 px-6">
-            {links.map((l) => (
-              <Link
-                key={l.to}
-                to={l.to}
-                className="flex items-center justify-between border-b border-border/60 py-4 text-primary"
-              >
-                <span className="text-display text-2xl">{l.label}</span>
-                <ArrowUpRight className="h-4 w-4 text-muted-foreground" />
-              </Link>
-            ))}
+        <nav className="flex h-full flex-col px-5 pt-24 pb-10">
+          {links.map((l) => (
             <Link
-              to="/book"
-              className="mt-6 inline-flex items-center justify-center gap-2 bg-gold px-6 py-4 text-[12px] font-medium uppercase tracking-[0.22em] text-primary-foreground"
-              style={{ borderRadius: "12px" }}
+              key={l.to}
+              to={l.to}
+              className="flex items-center justify-between border-b border-border py-5 text-foreground"
             >
-              Book Your Experience
-              <ArrowUpRight className="h-4 w-4" />
+              <span className="text-display text-[28px]">{l.label}</span>
+              <ArrowUpRight className="h-4 w-4 text-muted-foreground" />
             </Link>
-          </nav>
-        </div>
+          ))}
+          <Link
+            to="/book"
+            className="mt-auto inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-4 text-[14px] font-medium text-primary-foreground"
+          >
+            Book Consultation
+            <ArrowUpRight className="h-4 w-4" />
+          </Link>
+        </nav>
       </div>
     </>
   );

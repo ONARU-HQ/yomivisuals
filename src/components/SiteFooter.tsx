@@ -1,90 +1,141 @@
-import { Link } from "@tanstack/react-router";
-import { Instagram } from "lucide-react";
+import { Link, useRouterState } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
+import { ArrowUpRight } from "lucide-react";
+import { useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { settingsQuery } from "@/lib/cms";
+import { Container, inputClass } from "@/components/site/ui";
+
+const columns = [
+  {
+    title: "Studio",
+    links: [
+      { to: "/projects", label: "Work" },
+      { to: "/services", label: "Services" },
+      { to: "/studio", label: "Studio & Rental" },
+      { to: "/about", label: "About" },
+    ],
+  },
+  {
+    title: "Company",
+    links: [
+      { to: "/articles", label: "Articles" },
+      { to: "/careers", label: "Careers" },
+      { to: "/testimonials", label: "Testimonials" },
+      { to: "/faqs", label: "FAQs" },
+    ],
+  },
+  {
+    title: "Connect",
+    links: [
+      { to: "/contact", label: "Contact" },
+      { to: "/book", label: "Book Consultation" },
+      { to: "/privacy", label: "Privacy Policy" },
+      { to: "/terms", label: "Terms" },
+    ],
+  },
+] as const;
 
 export function SiteFooter() {
-  return (
-    <footer className="border-t border-border bg-surface pb-24 md:pb-0">
-      <div className="mx-auto max-w-[1400px] px-6 py-16 md:px-10 md:py-24">
-        <div className="grid gap-12 md:grid-cols-12">
-          <div className="md:col-span-6">
-            <p className="text-display text-4xl leading-[0.95] text-primary md:text-6xl">
-              Yomi<span className="text-gold">.</span>Visuals
-            </p>
-            <p className="text-editorial mt-5 text-lg text-primary/80 md:text-2xl">
-              Preserving your memories with timeless photography.
-            </p>
-            <div className="mt-8 flex items-center gap-4">
-              <a
-                href="https://instagram.com/yomi.visuals"
-                className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-[11px] uppercase tracking-[0.22em] text-muted-foreground transition-colors hover:border-gold hover:text-primary"
-              >
-                <Instagram className="h-3.5 w-3.5" />
-                @yomi.visuals
-              </a>
-              <a
-                href="https://tiktok.com/@yomi.visuals"
-                className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-[11px] uppercase tracking-[0.22em] text-muted-foreground transition-colors hover:border-gold hover:text-primary"
-              >
-                TikTok
-              </a>
-            </div>
-          </div>
-          <div className="grid grid-cols-2 gap-8 md:col-span-6 md:grid-cols-3">
-            <FooterCol
-              title="Explore"
-              links={[
-                { label: "Work", to: "/portfolio" },
-                { label: "Services", to: "/services" },
-                { label: "Gallery", to: "/gallery" },
-              ]}
-            />
-            <FooterCol
-              title="Studio"
-              links={[
-                { label: "About", to: "/about" },
-                { label: "Contact", to: "/contact" },
-                { label: "Book", to: "/book" },
-              ]}
-            />
-            <FooterCol
-              title="Account"
-              links={[
-                { label: "Sign in", to: "/gallery" },
-                { label: "My Bookings", to: "/account" },
-                { label: "Downloads", to: "/account" },
-              ]}
-            />
-          </div>
-        </div>
+  const pathname = useRouterState({ select: (r) => r.location.pathname });
+  const { data: settings } = useQuery(settingsQuery);
+  const [email, setEmail] = useState("");
+  const [state, setState] = useState<"idle" | "loading" | "done">("idle");
 
-        <div className="mt-14 flex flex-wrap items-center justify-between gap-4 border-t border-border pt-6 text-[10px] uppercase tracking-[0.24em] text-muted-foreground">
-          <p>© {new Date().getFullYear()} Yomi Visuals — Lagos, Nigeria</p>
-          <p>Available worldwide · By appointment</p>
-        </div>
-      </div>
-    </footer>
-  );
-}
+  if (pathname.startsWith("/admin")) return null;
 
-function FooterCol({
-  title,
-  links,
-}: {
-  title: string;
-  links: { label: string; to: string }[];
-}) {
+  const company = settings?.company ?? {};
+  const social = settings?.social ?? {};
+
+  async function subscribe(e: React.FormEvent) {
+    e.preventDefault();
+    if (!email.includes("@")) return;
+    setState("loading");
+    await supabase.from("subscribers").insert({ email: email.trim().toLowerCase() });
+    setState("done");
+    setEmail("");
+  }
+
   return (
-    <div>
-      <p className="text-[10px] uppercase tracking-[0.26em] text-gold">{title}</p>
-      <ul className="mt-5 space-y-3 text-sm text-muted-foreground">
-        {links.map((l) => (
-          <li key={l.label}>
-            <Link to={l.to} className="link-underline hover:text-primary">
-              {l.label}
+    <footer className="border-t border-border bg-surface">
+      <Container className="py-16 md:py-24">
+        <div className="grid gap-14 md:grid-cols-12">
+          <div className="md:col-span-5">
+            <p className="text-display text-[clamp(1.8rem,4vw,2.6rem)] leading-[1.02]">
+              Let's build something
+              <br />
+              incredible.
+            </p>
+            <Link
+              to="/book"
+              className="mt-7 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3.5 text-[13px] font-medium text-primary-foreground transition-opacity hover:opacity-90"
+            >
+              Book Consultation
+              <ArrowUpRight className="h-4 w-4" />
             </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
+
+            <form onSubmit={subscribe} className="mt-10 max-w-sm">
+              <label className="text-eyebrow">Newsletter</label>
+              <div className="mt-3 flex gap-2">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="you@company.com"
+                  className={inputClass}
+                  aria-label="Email address"
+                />
+                <button
+                  type="submit"
+                  disabled={state === "loading"}
+                  className="shrink-0 rounded-[10px] border border-border-strong px-4 text-[13px] font-medium transition-colors hover:bg-elevated"
+                >
+                  {state === "done" ? "Joined" : "Join"}
+                </button>
+              </div>
+              {state === "done" ? (
+                <p className="mt-2 text-[12px] text-muted-foreground">You're on the list.</p>
+              ) : null}
+            </form>
+          </div>
+
+          <div className="grid gap-10 md:col-span-7 md:grid-cols-3">
+            {columns.map((col) => (
+              <div key={col.title}>
+                <p className="text-eyebrow">{col.title}</p>
+                <ul className="mt-5 space-y-3">
+                  {col.links.map((l) => (
+                    <li key={l.to}>
+                      <Link to={l.to} className="text-[13.5px] text-subtle transition-colors hover:text-foreground">
+                        {l.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-16 flex flex-col gap-5 border-t border-border pt-8 md:flex-row md:items-center md:justify-between">
+          <p className="text-[12px] text-muted-foreground">
+            © {new Date().getFullYear()} {company.name ?? "Yomi Visuals"}. {company.address ?? "Lagos, Nigeria"}.
+          </p>
+          <div className="flex flex-wrap gap-5 text-[12px] text-muted-foreground">
+            {Object.entries(social).map(([key, url]) => (
+              <a
+                key={key}
+                href={String(url)}
+                target="_blank"
+                rel="noreferrer"
+                className="capitalize transition-colors hover:text-foreground"
+              >
+                {key}
+              </a>
+            ))}
+          </div>
+        </div>
+      </Container>
+    </footer>
   );
 }

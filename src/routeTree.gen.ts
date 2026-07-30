@@ -9,36 +9,46 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as ServicesRouteImport } from './routes/services'
-import { Route as PortfolioRouteImport } from './routes/portfolio'
-import { Route as GalleryRouteImport } from './routes/gallery'
-import { Route as ExperiencesRouteImport } from './routes/experiences'
+import { Route as TestimonialsRouteImport } from './routes/testimonials'
+import { Route as TermsRouteImport } from './routes/terms'
+import { Route as StudioRouteImport } from './routes/studio'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as FaqsRouteImport } from './routes/faqs'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as CareersRouteImport } from './routes/careers'
 import { Route as BookRouteImport } from './routes/book'
-import { Route as AccountRouteImport } from './routes/account'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ServicesServiceRouteImport } from './routes/services.$service'
-import { Route as PortfolioCategoryRouteImport } from './routes/portfolio.$category'
+import { Route as ServicesIndexRouteImport } from './routes/services.index'
+import { Route as ProjectsIndexRouteImport } from './routes/projects.index'
+import { Route as ArticlesIndexRouteImport } from './routes/articles.index'
+import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
+import { Route as ProjectsSlugRouteImport } from './routes/projects.$slug'
+import { Route as ArticlesSlugRouteImport } from './routes/articles.$slug'
 
-const ServicesRoute = ServicesRouteImport.update({
-  id: '/services',
-  path: '/services',
+const TestimonialsRoute = TestimonialsRouteImport.update({
+  id: '/testimonials',
+  path: '/testimonials',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PortfolioRoute = PortfolioRouteImport.update({
-  id: '/portfolio',
-  path: '/portfolio',
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
-const GalleryRoute = GalleryRouteImport.update({
-  id: '/gallery',
-  path: '/gallery',
+const StudioRoute = StudioRouteImport.update({
+  id: '/studio',
+  path: '/studio',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ExperiencesRoute = ExperiencesRouteImport.update({
-  id: '/experiences',
-  path: '/experiences',
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FaqsRoute = FaqsRouteImport.update({
+  id: '/faqs',
+  path: '/faqs',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -46,14 +56,14 @@ const ContactRoute = ContactRouteImport.update({
   path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CareersRoute = CareersRouteImport.update({
+  id: '/careers',
+  path: '/careers',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BookRoute = BookRouteImport.update({
   id: '/book',
   path: '/book',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AccountRoute = AccountRouteImport.update({
-  id: '/account',
-  path: '/account',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -66,139 +76,203 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ServicesServiceRoute = ServicesServiceRouteImport.update({
-  id: '/$service',
-  path: '/$service',
-  getParentRoute: () => ServicesRoute,
+const ServicesIndexRoute = ServicesIndexRouteImport.update({
+  id: '/services/',
+  path: '/services/',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const PortfolioCategoryRoute = PortfolioCategoryRouteImport.update({
-  id: '/$category',
-  path: '/$category',
-  getParentRoute: () => PortfolioRoute,
+const ProjectsIndexRoute = ProjectsIndexRouteImport.update({
+  id: '/projects/',
+  path: '/projects/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArticlesIndexRoute = ArticlesIndexRouteImport.update({
+  id: '/articles/',
+  path: '/articles/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesSlugRoute = ServicesSlugRouteImport.update({
+  id: '/services/$slug',
+  path: '/services/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectsSlugRoute = ProjectsSlugRouteImport.update({
+  id: '/projects/$slug',
+  path: '/projects/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArticlesSlugRoute = ArticlesSlugRouteImport.update({
+  id: '/articles/$slug',
+  path: '/articles/$slug',
+  getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/account': typeof AccountRoute
   '/book': typeof BookRoute
+  '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
-  '/experiences': typeof ExperiencesRoute
-  '/gallery': typeof GalleryRoute
-  '/portfolio': typeof PortfolioRouteWithChildren
-  '/services': typeof ServicesRouteWithChildren
-  '/portfolio/$category': typeof PortfolioCategoryRoute
-  '/services/$service': typeof ServicesServiceRoute
+  '/faqs': typeof FaqsRoute
+  '/privacy': typeof PrivacyRoute
+  '/studio': typeof StudioRoute
+  '/terms': typeof TermsRoute
+  '/testimonials': typeof TestimonialsRoute
+  '/articles/$slug': typeof ArticlesSlugRoute
+  '/projects/$slug': typeof ProjectsSlugRoute
+  '/services/$slug': typeof ServicesSlugRoute
+  '/articles/': typeof ArticlesIndexRoute
+  '/projects/': typeof ProjectsIndexRoute
+  '/services/': typeof ServicesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/account': typeof AccountRoute
   '/book': typeof BookRoute
+  '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
-  '/experiences': typeof ExperiencesRoute
-  '/gallery': typeof GalleryRoute
-  '/portfolio': typeof PortfolioRouteWithChildren
-  '/services': typeof ServicesRouteWithChildren
-  '/portfolio/$category': typeof PortfolioCategoryRoute
-  '/services/$service': typeof ServicesServiceRoute
+  '/faqs': typeof FaqsRoute
+  '/privacy': typeof PrivacyRoute
+  '/studio': typeof StudioRoute
+  '/terms': typeof TermsRoute
+  '/testimonials': typeof TestimonialsRoute
+  '/articles/$slug': typeof ArticlesSlugRoute
+  '/projects/$slug': typeof ProjectsSlugRoute
+  '/services/$slug': typeof ServicesSlugRoute
+  '/articles': typeof ArticlesIndexRoute
+  '/projects': typeof ProjectsIndexRoute
+  '/services': typeof ServicesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/account': typeof AccountRoute
   '/book': typeof BookRoute
+  '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
-  '/experiences': typeof ExperiencesRoute
-  '/gallery': typeof GalleryRoute
-  '/portfolio': typeof PortfolioRouteWithChildren
-  '/services': typeof ServicesRouteWithChildren
-  '/portfolio/$category': typeof PortfolioCategoryRoute
-  '/services/$service': typeof ServicesServiceRoute
+  '/faqs': typeof FaqsRoute
+  '/privacy': typeof PrivacyRoute
+  '/studio': typeof StudioRoute
+  '/terms': typeof TermsRoute
+  '/testimonials': typeof TestimonialsRoute
+  '/articles/$slug': typeof ArticlesSlugRoute
+  '/projects/$slug': typeof ProjectsSlugRoute
+  '/services/$slug': typeof ServicesSlugRoute
+  '/articles/': typeof ArticlesIndexRoute
+  '/projects/': typeof ProjectsIndexRoute
+  '/services/': typeof ServicesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/about'
-    | '/account'
     | '/book'
+    | '/careers'
     | '/contact'
-    | '/experiences'
-    | '/gallery'
-    | '/portfolio'
-    | '/services'
-    | '/portfolio/$category'
-    | '/services/$service'
+    | '/faqs'
+    | '/privacy'
+    | '/studio'
+    | '/terms'
+    | '/testimonials'
+    | '/articles/$slug'
+    | '/projects/$slug'
+    | '/services/$slug'
+    | '/articles/'
+    | '/projects/'
+    | '/services/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
-    | '/account'
     | '/book'
+    | '/careers'
     | '/contact'
-    | '/experiences'
-    | '/gallery'
-    | '/portfolio'
+    | '/faqs'
+    | '/privacy'
+    | '/studio'
+    | '/terms'
+    | '/testimonials'
+    | '/articles/$slug'
+    | '/projects/$slug'
+    | '/services/$slug'
+    | '/articles'
+    | '/projects'
     | '/services'
-    | '/portfolio/$category'
-    | '/services/$service'
   id:
     | '__root__'
     | '/'
     | '/about'
-    | '/account'
     | '/book'
+    | '/careers'
     | '/contact'
-    | '/experiences'
-    | '/gallery'
-    | '/portfolio'
-    | '/services'
-    | '/portfolio/$category'
-    | '/services/$service'
+    | '/faqs'
+    | '/privacy'
+    | '/studio'
+    | '/terms'
+    | '/testimonials'
+    | '/articles/$slug'
+    | '/projects/$slug'
+    | '/services/$slug'
+    | '/articles/'
+    | '/projects/'
+    | '/services/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  AccountRoute: typeof AccountRoute
   BookRoute: typeof BookRoute
+  CareersRoute: typeof CareersRoute
   ContactRoute: typeof ContactRoute
-  ExperiencesRoute: typeof ExperiencesRoute
-  GalleryRoute: typeof GalleryRoute
-  PortfolioRoute: typeof PortfolioRouteWithChildren
-  ServicesRoute: typeof ServicesRouteWithChildren
+  FaqsRoute: typeof FaqsRoute
+  PrivacyRoute: typeof PrivacyRoute
+  StudioRoute: typeof StudioRoute
+  TermsRoute: typeof TermsRoute
+  TestimonialsRoute: typeof TestimonialsRoute
+  ArticlesSlugRoute: typeof ArticlesSlugRoute
+  ProjectsSlugRoute: typeof ProjectsSlugRoute
+  ServicesSlugRoute: typeof ServicesSlugRoute
+  ArticlesIndexRoute: typeof ArticlesIndexRoute
+  ProjectsIndexRoute: typeof ProjectsIndexRoute
+  ServicesIndexRoute: typeof ServicesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/services': {
-      id: '/services'
-      path: '/services'
-      fullPath: '/services'
-      preLoaderRoute: typeof ServicesRouteImport
+    '/testimonials': {
+      id: '/testimonials'
+      path: '/testimonials'
+      fullPath: '/testimonials'
+      preLoaderRoute: typeof TestimonialsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/portfolio': {
-      id: '/portfolio'
-      path: '/portfolio'
-      fullPath: '/portfolio'
-      preLoaderRoute: typeof PortfolioRouteImport
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/gallery': {
-      id: '/gallery'
-      path: '/gallery'
-      fullPath: '/gallery'
-      preLoaderRoute: typeof GalleryRouteImport
+    '/studio': {
+      id: '/studio'
+      path: '/studio'
+      fullPath: '/studio'
+      preLoaderRoute: typeof StudioRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/experiences': {
-      id: '/experiences'
-      path: '/experiences'
-      fullPath: '/experiences'
-      preLoaderRoute: typeof ExperiencesRouteImport
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/faqs': {
+      id: '/faqs'
+      path: '/faqs'
+      fullPath: '/faqs'
+      preLoaderRoute: typeof FaqsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -208,18 +282,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/careers': {
+      id: '/careers'
+      path: '/careers'
+      fullPath: '/careers'
+      preLoaderRoute: typeof CareersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/book': {
       id: '/book'
       path: '/book'
       fullPath: '/book'
       preLoaderRoute: typeof BookRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/account': {
-      id: '/account'
-      path: '/account'
-      fullPath: '/account'
-      preLoaderRoute: typeof AccountRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -236,57 +310,68 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/services/$service': {
-      id: '/services/$service'
-      path: '/$service'
-      fullPath: '/services/$service'
-      preLoaderRoute: typeof ServicesServiceRouteImport
-      parentRoute: typeof ServicesRoute
+    '/services/': {
+      id: '/services/'
+      path: '/services'
+      fullPath: '/services/'
+      preLoaderRoute: typeof ServicesIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/portfolio/$category': {
-      id: '/portfolio/$category'
-      path: '/$category'
-      fullPath: '/portfolio/$category'
-      preLoaderRoute: typeof PortfolioCategoryRouteImport
-      parentRoute: typeof PortfolioRoute
+    '/projects/': {
+      id: '/projects/'
+      path: '/projects'
+      fullPath: '/projects/'
+      preLoaderRoute: typeof ProjectsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/articles/': {
+      id: '/articles/'
+      path: '/articles'
+      fullPath: '/articles/'
+      preLoaderRoute: typeof ArticlesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/$slug': {
+      id: '/services/$slug'
+      path: '/services/$slug'
+      fullPath: '/services/$slug'
+      preLoaderRoute: typeof ServicesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/projects/$slug': {
+      id: '/projects/$slug'
+      path: '/projects/$slug'
+      fullPath: '/projects/$slug'
+      preLoaderRoute: typeof ProjectsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/articles/$slug': {
+      id: '/articles/$slug'
+      path: '/articles/$slug'
+      fullPath: '/articles/$slug'
+      preLoaderRoute: typeof ArticlesSlugRouteImport
+      parentRoute: typeof rootRouteImport
     }
   }
 }
 
-interface PortfolioRouteChildren {
-  PortfolioCategoryRoute: typeof PortfolioCategoryRoute
-}
-
-const PortfolioRouteChildren: PortfolioRouteChildren = {
-  PortfolioCategoryRoute: PortfolioCategoryRoute,
-}
-
-const PortfolioRouteWithChildren = PortfolioRoute._addFileChildren(
-  PortfolioRouteChildren,
-)
-
-interface ServicesRouteChildren {
-  ServicesServiceRoute: typeof ServicesServiceRoute
-}
-
-const ServicesRouteChildren: ServicesRouteChildren = {
-  ServicesServiceRoute: ServicesServiceRoute,
-}
-
-const ServicesRouteWithChildren = ServicesRoute._addFileChildren(
-  ServicesRouteChildren,
-)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  AccountRoute: AccountRoute,
   BookRoute: BookRoute,
+  CareersRoute: CareersRoute,
   ContactRoute: ContactRoute,
-  ExperiencesRoute: ExperiencesRoute,
-  GalleryRoute: GalleryRoute,
-  PortfolioRoute: PortfolioRouteWithChildren,
-  ServicesRoute: ServicesRouteWithChildren,
+  FaqsRoute: FaqsRoute,
+  PrivacyRoute: PrivacyRoute,
+  StudioRoute: StudioRoute,
+  TermsRoute: TermsRoute,
+  TestimonialsRoute: TestimonialsRoute,
+  ArticlesSlugRoute: ArticlesSlugRoute,
+  ProjectsSlugRoute: ProjectsSlugRoute,
+  ServicesSlugRoute: ServicesSlugRoute,
+  ArticlesIndexRoute: ArticlesIndexRoute,
+  ProjectsIndexRoute: ProjectsIndexRoute,
+  ServicesIndexRoute: ServicesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
