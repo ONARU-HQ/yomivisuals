@@ -4,7 +4,7 @@ import { ArrowUpRight } from "lucide-react";
 import { servicesQuery } from "@/lib/cms";
 import { Container, PageHero, ButtonLink } from "@/components/site/ui";
 
-export const Route = createFileRoute("/services")({
+export const Route = createFileRoute("/services/")({
   loader: ({ context }) => context.queryClient.ensureQueryData(servicesQuery),
   head: () => ({
     meta: [

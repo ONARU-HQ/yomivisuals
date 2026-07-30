@@ -5,7 +5,7 @@ import { ArrowUpRight } from "lucide-react";
 import { projectsQuery, coverFor } from "@/lib/cms";
 import { Container, PageHero, Reveal } from "@/components/site/ui";
 
-export const Route = createFileRoute("/projects")({
+export const Route = createFileRoute("/projects/")({
   loader: ({ context }) => context.queryClient.ensureQueryData(projectsQuery),
   head: () => ({
     meta: [
