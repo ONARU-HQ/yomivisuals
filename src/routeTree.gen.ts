@@ -31,6 +31,7 @@ import { Route as AuthenticatedPortalRouteImport } from './routes/_authenticated
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedPortalIndexRouteImport } from './routes/_authenticated/portal.index'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
+import { Route as AuthenticatedPortalProfileRouteImport } from './routes/_authenticated/portal.profile'
 import { Route as AuthenticatedPortalInvoicesRouteImport } from './routes/_authenticated/portal.invoices'
 import { Route as AuthenticatedPortalDeliverablesRouteImport } from './routes/_authenticated/portal.deliverables'
 import { Route as AuthenticatedAdminInvoicesRouteImport } from './routes/_authenticated/admin.invoices'
@@ -147,6 +148,12 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedPortalProfileRoute =
+  AuthenticatedPortalProfileRouteImport.update({
+    id: '/profile',
+    path: '/profile',
+    getParentRoute: () => AuthenticatedPortalRoute,
+  } as any)
 const AuthenticatedPortalInvoicesRoute =
   AuthenticatedPortalInvoicesRouteImport.update({
     id: '/invoices',
@@ -201,6 +208,7 @@ export interface FileRoutesByFullPath {
   '/admin/invoices': typeof AuthenticatedAdminInvoicesRoute
   '/portal/deliverables': typeof AuthenticatedPortalDeliverablesRoute
   '/portal/invoices': typeof AuthenticatedPortalInvoicesRoute
+  '/portal/profile': typeof AuthenticatedPortalProfileRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/portal/': typeof AuthenticatedPortalIndexRoute
   '/admin/collections/$collection': typeof AuthenticatedAdminCollectionsCollectionRoute
@@ -227,6 +235,7 @@ export interface FileRoutesByTo {
   '/admin/invoices': typeof AuthenticatedAdminInvoicesRoute
   '/portal/deliverables': typeof AuthenticatedPortalDeliverablesRoute
   '/portal/invoices': typeof AuthenticatedPortalInvoicesRoute
+  '/portal/profile': typeof AuthenticatedPortalProfileRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/portal': typeof AuthenticatedPortalIndexRoute
   '/admin/collections/$collection': typeof AuthenticatedAdminCollectionsCollectionRoute
@@ -257,6 +266,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/invoices': typeof AuthenticatedAdminInvoicesRoute
   '/_authenticated/portal/deliverables': typeof AuthenticatedPortalDeliverablesRoute
   '/_authenticated/portal/invoices': typeof AuthenticatedPortalInvoicesRoute
+  '/_authenticated/portal/profile': typeof AuthenticatedPortalProfileRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/portal/': typeof AuthenticatedPortalIndexRoute
   '/_authenticated/admin/collections/$collection': typeof AuthenticatedAdminCollectionsCollectionRoute
@@ -287,6 +297,7 @@ export interface FileRouteTypes {
     | '/admin/invoices'
     | '/portal/deliverables'
     | '/portal/invoices'
+    | '/portal/profile'
     | '/admin/'
     | '/portal/'
     | '/admin/collections/$collection'
@@ -313,6 +324,7 @@ export interface FileRouteTypes {
     | '/admin/invoices'
     | '/portal/deliverables'
     | '/portal/invoices'
+    | '/portal/profile'
     | '/admin'
     | '/portal'
     | '/admin/collections/$collection'
@@ -342,6 +354,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/invoices'
     | '/_authenticated/portal/deliverables'
     | '/_authenticated/portal/invoices'
+    | '/_authenticated/portal/profile'
     | '/_authenticated/admin/'
     | '/_authenticated/portal/'
     | '/_authenticated/admin/collections/$collection'
@@ -524,6 +537,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/portal/profile': {
+      id: '/_authenticated/portal/profile'
+      path: '/profile'
+      fullPath: '/portal/profile'
+      preLoaderRoute: typeof AuthenticatedPortalProfileRouteImport
+      parentRoute: typeof AuthenticatedPortalRoute
+    }
     '/_authenticated/portal/invoices': {
       id: '/_authenticated/portal/invoices'
       path: '/invoices'
@@ -583,12 +603,14 @@ const AuthenticatedAdminRouteWithChildren =
 interface AuthenticatedPortalRouteChildren {
   AuthenticatedPortalDeliverablesRoute: typeof AuthenticatedPortalDeliverablesRoute
   AuthenticatedPortalInvoicesRoute: typeof AuthenticatedPortalInvoicesRoute
+  AuthenticatedPortalProfileRoute: typeof AuthenticatedPortalProfileRoute
   AuthenticatedPortalIndexRoute: typeof AuthenticatedPortalIndexRoute
 }
 
 const AuthenticatedPortalRouteChildren: AuthenticatedPortalRouteChildren = {
   AuthenticatedPortalDeliverablesRoute: AuthenticatedPortalDeliverablesRoute,
   AuthenticatedPortalInvoicesRoute: AuthenticatedPortalInvoicesRoute,
+  AuthenticatedPortalProfileRoute: AuthenticatedPortalProfileRoute,
   AuthenticatedPortalIndexRoute: AuthenticatedPortalIndexRoute,
 }
 
