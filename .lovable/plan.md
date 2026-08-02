@@ -1,48 +1,58 @@
-This is a large scope. I'll ship it in phases so you get value fast and we don't blow up the budget in one turn. This plan is Phase 1 — the entire public-facing agency experience, mobile-first, with the booking wizard wired end-to-end using mock data. Phases 2 & 3 (backend, payments, dashboards, PDFs, emails) I've outlined at the bottom for approval after Phase 1 lands.
+# Yomi Visuals — Admin CMS, Client Portal, Receipts & Search
 
----
+Four connected systems on top of the existing V2 site. Built in the order below so each one has what it needs.
 
-## Phase 1 — Agency site + booking flow (this turn)
+## 1. Accounts and access
 
-### New homepage — "Enter Yomi Visuals' world"
-- Cinematic **image collage hero** (asymmetric grid of 6–8 images, subtle drift/parallax) with wordmark, rotating service words (Photography · Film · Content · Campaigns), and CTAs: **Book a Session** / **Explore Portfolio**.
-- Sections: Featured Work → Featured Clients (logo strip) → Agency Services (6 tiles) → Why Yomi Visuals (3 pillars) → Testimonials → Recent Projects → Book Now band → Footer.
-- All black, large imagery, minimal text, Aesop/Apple pacing.
+One login screen at `/auth` serving both staff and clients. Role decides where you land after sign-in: staff go to `/admin`, everyone else goes to `/portal`.
 
-### Portfolio — categorized, never one endless gallery
-- `/portfolio` index: 10 category cards (Portraits, Weddings, Fashion, Commercial, Corporate, Events, Products, Architecture, Lifestyle, Editorial).
-- `/portfolio/$category`: hero image, short intro, **masonry grid**, **fullscreen lightbox** (keyboard + swipe), sticky "Book this Service" CTA.
-- Images: I'll try to fetch from the Pixieset URL you gave; if scraping is blocked (Pixieset usually blocks hotlinking), I'll generate a coherent set of premium editorial images per category and note it so you can swap real files in later.
+- Email + password, plus Google sign-in.
+- Staff roles already exist (super_admin, admin, editor, marketing, writer, developer). Clients are simply signed-in users with no staff role.
+- Bookings placed while signed in get attached to that account; bookings placed by guests can be claimed later by matching email.
 
-### Services — premium service pages
-- `/services` index + one page per service: **Portrait Experience, Weddings, Commercial, Events, Fashion**.
-- Each page: gallery · description · pricing tiers · timeline · add-ons/extras · FAQs · Book Now. Portrait page uses your exact ₦150,000 pricing + inclusions + extras list.
+## 2. Admin CMS at `/admin`
 
-### Booking wizard (9 steps, mock data)
-Service → Package → Date → Time → Location → Additional Requests → Delivery Speed (Standard / 48h / Same-day) → Payment instructions (Moniepoint 6346870672 / Yomi Visuals Studio) with **payment-proof upload UI** → Confirmation screen with generated Booking ID.
-- Persist wizard state in `sessionStorage` so refresh doesn't lose progress.
-- Confirmation screen shows a **printable receipt view** (client-side, brand-styled) — real PDF generation comes in Phase 2.
+Staff-only. A single consistent editor shell rather than twelve bespoke screens.
 
-### Global
-- Sticky **Book Now** button on mobile, refined bottom nav, elegant page transitions, image lazy-loading, per-route SEO metadata + JSON-LD (LocalBusiness + Service schema), Lagos local-SEO tags.
-- About + Contact refreshed to agency tone.
+- **Dashboard** — new leads, pending bookings, unpaid invoices, recent activity.
+- **Inbox** — leads and bookings in one triage list: status, assignee, internal notes, quick status changes.
+- **Collections** — table + side-panel editor for projects, services, articles, testimonials, FAQs, careers, studio spaces, industries, navigation links, and site settings. Each collection is declared in one config file (fields, types, list columns), so the editor UI is shared.
+- **Media** — upload to storage, browse, copy URL, pick images directly from any editor field.
+- **Publishing** — draft/published toggle, live preview link, edit history via audit log.
 
-### Files
-- New: `src/routes/portfolio.$category.tsx`, `src/routes/services.tsx`, `src/routes/services.$service.tsx`, `src/components/Hero Collage.tsx`, `src/components/Lightbox.tsx`, `src/components/Masonry.tsx`, `src/components/StickyBookCTA.tsx`, `src/lib/portfolio-data.ts`, `src/lib/services-data.ts`.
-- Rewritten: `src/routes/index.tsx`, `src/routes/portfolio.tsx` (→ category index), `src/routes/book.tsx` (→ 9-step wizard), `src/routes/about.tsx`, `src/routes/contact.tsx`, `src/routes/__root.tsx` (JSON-LD).
-- Generated: 20–30 new category images if Pixieset scraping fails.
+## 3. Client portal at `/portal`
 
----
+What a client sees after signing in.
 
-## Phase 2 (next turn, after approval) — Backend + real bookings
-Enable Lovable Cloud. Auth (email + Google). Tables: `services`, `packages`, `bookings`, `payments`, `clients`, `profiles`, `user_roles`. Payment-proof upload to Storage. Admin verification queue. Server-generated **branded PDF receipt + invoice**. Email to client + admin. WhatsApp confirmation template (via wa.me deep-link initially). Booking status pipeline (Pending Payment → Delivered).
+- **Bookings** — status timeline (requested, confirmed, in production, delivered), date/time, service, and studio notes.
+- **Invoices** — amount, due date, paid/unpaid, downloadable PDF receipt.
+- **Deliverables** — files or links released per booking, with download.
+- Profile and password management.
 
-## Phase 3 — Dashboards
-Client portal (upcoming shoot, invoices, receipts, contracts, moodboards, gallery, downloads, messages, rebook). Admin dashboard (today's/upcoming shoots, revenue, payment queue, calendar, clients, projects, gallery delivery).
+## 4. Receipts and emails
 
----
+- Branded PDF receipt generated on the server for every paid invoice — matte black header, wordmark, line items, totals in NGN, receipt number.
+- Emails sent automatically: booking received, booking confirmed, payment received (PDF receipt attached as a download link), deliverables ready.
+- Requires a sender domain to be connected first. Until then, templates are built and previewable, and sending activates once the domain verifies.
 
-**Two things I need from you before I start Phase 1:**
+## 5. Global search
 
-1. **Pixieset images** — I'll attempt to import them, but Pixieset typically blocks direct scraping. If it fails, do you want me to (a) generate premium placeholder images per category now and let you swap real files later, or (b) wait for you to upload a ZIP of your real images?
-2. **Confirm Phase 1 scope is right** — everything above, no backend yet. Say "go" and I'll build it.
+- Command palette (Cmd/Ctrl-K) and a `/search` results page.
+- Searches projects, services, articles, and static pages in one query, with type filters and keyboard navigation.
+- Server-side full-text search so it stays fast as content grows.
+
+## Technical notes
+
+- New tables: `invoices` (booking, number, amount, currency, status, due date, paid date), `deliverables` (booking, label, url, type, released flag), plus `user_id` on `bookings` and a `contact_email` claim path. All with row-level security so a client only ever reads their own rows and staff read everything.
+- A Postgres full-text search function across the four content tables, exposed through a single server function.
+- Admin writes go through the existing staff policies; nothing bypasses row-level security except PDF generation.
+- PDFs generated in a server route so the receipt is identical whether downloaded from the portal or attached to an email.
+- SEO: `/admin` and `/portal` are `noindex`; `/search` is `noindex` but crawlable content pages stay untouched.
+
+## Order of work
+
+1. Auth + roles + route gates
+2. Admin CMS (dashboard, inbox, collections, media)
+3. Client portal (bookings, invoices, deliverables)
+4. Receipts + emails
+5. Global search
