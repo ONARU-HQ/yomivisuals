@@ -100,9 +100,11 @@ export type Database = {
       }
       bookings: {
         Row: {
+          amount: number | null
           budget: string | null
           company: string | null
           created_at: string
+          currency: string
           email: string
           id: string
           message: string | null
@@ -111,14 +113,19 @@ export type Database = {
           phone: string | null
           preferred_date: string | null
           preferred_time: string | null
+          reference: string | null
           service: string | null
+          stage: string
           status: string
           updated_at: string
+          user_id: string | null
         }
         Insert: {
+          amount?: number | null
           budget?: string | null
           company?: string | null
           created_at?: string
+          currency?: string
           email: string
           id?: string
           message?: string | null
@@ -127,14 +134,19 @@ export type Database = {
           phone?: string | null
           preferred_date?: string | null
           preferred_time?: string | null
+          reference?: string | null
           service?: string | null
+          stage?: string
           status?: string
           updated_at?: string
+          user_id?: string | null
         }
         Update: {
+          amount?: number | null
           budget?: string | null
           company?: string | null
           created_at?: string
+          currency?: string
           email?: string
           id?: string
           message?: string | null
@@ -143,9 +155,12 @@ export type Database = {
           phone?: string | null
           preferred_date?: string | null
           preferred_time?: string | null
+          reference?: string | null
           service?: string | null
+          stage?: string
           status?: string
           updated_at?: string
+          user_id?: string | null
         }
         Relationships: []
       }
@@ -193,6 +208,56 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      deliverables: {
+        Row: {
+          booking_id: string
+          created_at: string
+          description: string | null
+          id: string
+          kind: string
+          label: string
+          released: boolean
+          size_bytes: number | null
+          sort_order: number
+          updated_at: string
+          url: string
+        }
+        Insert: {
+          booking_id: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          kind?: string
+          label: string
+          released?: boolean
+          size_bytes?: number | null
+          sort_order?: number
+          updated_at?: string
+          url: string
+        }
+        Update: {
+          booking_id?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          kind?: string
+          label?: string
+          released?: boolean
+          size_bytes?: number | null
+          sort_order?: number
+          updated_at?: string
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "deliverables_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       faqs: {
         Row: {
@@ -253,6 +318,74 @@ export type Database = {
           sort_order?: number
         }
         Relationships: []
+      }
+      invoices: {
+        Row: {
+          amount: number
+          booking_id: string | null
+          client_email: string
+          client_name: string
+          created_at: string
+          currency: string
+          description: string | null
+          due_at: string | null
+          id: string
+          issued_at: string
+          line_items: Json
+          notes: string | null
+          number: string
+          paid_at: string | null
+          status: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          amount?: number
+          booking_id?: string | null
+          client_email: string
+          client_name: string
+          created_at?: string
+          currency?: string
+          description?: string | null
+          due_at?: string | null
+          id?: string
+          issued_at?: string
+          line_items?: Json
+          notes?: string | null
+          number: string
+          paid_at?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          amount?: number
+          booking_id?: string | null
+          client_email?: string
+          client_name?: string
+          created_at?: string
+          currency?: string
+          description?: string | null
+          due_at?: string | null
+          id?: string
+          issued_at?: string
+          line_items?: Json
+          notes?: string | null
+          number?: string
+          paid_at?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoices_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       leads: {
         Row: {
@@ -693,6 +826,17 @@ export type Database = {
         Returns: boolean
       }
       is_staff: { Args: { _user_id: string }; Returns: boolean }
+      search_site: {
+        Args: { q: string }
+        Returns: {
+          excerpt: string
+          image: string
+          kind: string
+          rank: number
+          slug: string
+          title: string
+        }[]
+      }
     }
     Enums: {
       app_role:
