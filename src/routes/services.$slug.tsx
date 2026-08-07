@@ -2,7 +2,9 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Check } from "lucide-react";
 import { serviceQuery, servicesQuery, coverFor, imageFor } from "@/lib/cms";
+import { portfolioQuery, imagesForSubject, focalStyle } from "@/lib/portfolio";
 import { Container, Section, Eyebrow, ButtonLink, PageHero } from "@/components/site/ui";
+
 
 export const Route = createFileRoute("/services/$slug")({
   loader: async ({ context, params }) => {
