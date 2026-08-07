@@ -50,7 +50,9 @@ function AdminLayout() {
     { to: "/admin", label: "Overview", icon: LayoutDashboard, exact: true },
     { to: "/admin/inbox", label: "Inbox", icon: Inbox },
     { to: "/admin/invoices", label: "Invoices", icon: Receipt },
+    { to: "/admin/portfolio", label: "Portfolio", icon: Images },
   ];
+
 
   return (
     <div className="min-h-screen bg-background">
