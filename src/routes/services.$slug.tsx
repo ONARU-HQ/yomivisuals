@@ -50,12 +50,13 @@ function ServicePage() {
   const { slug } = Route.useParams();
   const { data: service } = useSuspenseQuery(serviceQuery(slug));
   const { data: all } = useSuspenseQuery(servicesQuery);
+  const { data: photos } = useSuspenseQuery(portfolioQuery);
   if (!service) return null;
 
   const process = Array.isArray(service.process) ? service.process : [];
   const pricing = Array.isArray(service.pricing) ? service.pricing : [];
   const faqs = Array.isArray(service.faqs) ? service.faqs : [];
-  const gallery = service.gallery?.length ? service.gallery : [0, 1, 2].map((i) => imageFor(service.slug, i));
+  const matched = imagesForSubject(photos, `${service.title} ${service.excerpt ?? ""}`, 3);
   const others = all.filter((s) => s.slug !== slug).slice(0, 4);
 
   return (
@@ -66,13 +67,34 @@ function ServicePage() {
 
       <Container className="py-12">
         <div className="grid gap-4 sm:grid-cols-3">
-          {gallery.map((src, i) => (
-            <div key={i} className="image-reveal overflow-hidden rounded-[14px] border border-border">
-              <img src={src} alt={`${service.title} work ${i + 1}`} loading="lazy" className="aspect-[4/5] w-full object-cover" />
-            </div>
-          ))}
+          {matched.length
+            ? matched.map((img) => (
+                <div key={img.id} className="image-reveal overflow-hidden rounded-[14px] border border-border">
+                  <img
+                    src={img.thumb_url ?? img.url}
+                    alt={`${service.title} — ${img.title} by Yomi Visuals`}
+                    loading="lazy"
+                    decoding="async"
+                    style={focalStyle(img)}
+                    className="aspect-[4/5] w-full object-cover"
+                  />
+                </div>
+              ))
+            : (service.gallery?.length ? service.gallery : [0, 1, 2].map((i) => imageFor(service.slug, i))).map(
+                (src: string, i: number) => (
+                  <div key={i} className="image-reveal overflow-hidden rounded-[14px] border border-border">
+                    <img
+                      src={src}
+                      alt={`${service.title} work ${i + 1}`}
+                      loading="lazy"
+                      className="aspect-[4/5] w-full object-cover"
+                    />
+                  </div>
+                ),
+              )}
         </div>
       </Container>
+
 
       {process.length ? (
         <Section className="border-t border-border">
