@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 import {
   projectsQuery,
@@ -9,6 +10,9 @@ import {
   industriesQuery,
   coverFor,
 } from "@/lib/cms";
+import { portfolioQuery, heroSlides, rotatedFeatured, focalStyle } from "@/lib/portfolio";
+import { HeroRotator } from "@/components/HeroRotator";
+import { PhotoLightbox } from "@/components/PhotoLightbox";
 import { Container, Section, SectionHeading, Reveal, TextLink, Eyebrow } from "@/components/site/ui";
 
 export const Route = createFileRoute("/")({
@@ -19,8 +23,10 @@ export const Route = createFileRoute("/")({
       context.queryClient.ensureQueryData(testimonialsQuery),
       context.queryClient.ensureQueryData(settingsQuery),
       context.queryClient.ensureQueryData(industriesQuery),
+      context.queryClient.ensureQueryData(portfolioQuery),
     ]);
   },
+
   head: () => ({
     meta: [
       { title: "Yomi Visuals — Creative Agency in Lagos" },
