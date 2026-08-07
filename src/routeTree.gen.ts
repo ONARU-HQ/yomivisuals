@@ -13,6 +13,7 @@ import { Route as TestimonialsRouteImport } from './routes/testimonials'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as StudioRouteImport } from './routes/studio'
 import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as PortfolioRouteImport } from './routes/portfolio'
 import { Route as FaqsRouteImport } from './routes/faqs'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CareersRouteImport } from './routes/careers'
@@ -34,6 +35,7 @@ import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authentic
 import { Route as AuthenticatedPortalProfileRouteImport } from './routes/_authenticated/portal.profile'
 import { Route as AuthenticatedPortalInvoicesRouteImport } from './routes/_authenticated/portal.invoices'
 import { Route as AuthenticatedPortalDeliverablesRouteImport } from './routes/_authenticated/portal.deliverables'
+import { Route as AuthenticatedAdminPortfolioRouteImport } from './routes/_authenticated/admin.portfolio'
 import { Route as AuthenticatedAdminInvoicesRouteImport } from './routes/_authenticated/admin.invoices'
 import { Route as AuthenticatedAdminInboxRouteImport } from './routes/_authenticated/admin.inbox'
 import { Route as AuthenticatedAdminCollectionsCollectionRouteImport } from './routes/_authenticated/admin.collections.$collection'
@@ -56,6 +58,11 @@ const StudioRoute = StudioRouteImport.update({
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortfolioRoute = PortfolioRouteImport.update({
+  id: '/portfolio',
+  path: '/portfolio',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FaqsRoute = FaqsRouteImport.update({
@@ -166,6 +173,12 @@ const AuthenticatedPortalDeliverablesRoute =
     path: '/deliverables',
     getParentRoute: () => AuthenticatedPortalRoute,
   } as any)
+const AuthenticatedAdminPortfolioRoute =
+  AuthenticatedAdminPortfolioRouteImport.update({
+    id: '/portfolio',
+    path: '/portfolio',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminInvoicesRoute =
   AuthenticatedAdminInvoicesRouteImport.update({
     id: '/invoices',
@@ -192,6 +205,7 @@ export interface FileRoutesByFullPath {
   '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
   '/faqs': typeof FaqsRoute
+  '/portfolio': typeof PortfolioRoute
   '/privacy': typeof PrivacyRoute
   '/studio': typeof StudioRoute
   '/terms': typeof TermsRoute
@@ -206,6 +220,7 @@ export interface FileRoutesByFullPath {
   '/services/': typeof ServicesIndexRoute
   '/admin/inbox': typeof AuthenticatedAdminInboxRoute
   '/admin/invoices': typeof AuthenticatedAdminInvoicesRoute
+  '/admin/portfolio': typeof AuthenticatedAdminPortfolioRoute
   '/portal/deliverables': typeof AuthenticatedPortalDeliverablesRoute
   '/portal/invoices': typeof AuthenticatedPortalInvoicesRoute
   '/portal/profile': typeof AuthenticatedPortalProfileRoute
@@ -221,6 +236,7 @@ export interface FileRoutesByTo {
   '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
   '/faqs': typeof FaqsRoute
+  '/portfolio': typeof PortfolioRoute
   '/privacy': typeof PrivacyRoute
   '/studio': typeof StudioRoute
   '/terms': typeof TermsRoute
@@ -233,6 +249,7 @@ export interface FileRoutesByTo {
   '/services': typeof ServicesIndexRoute
   '/admin/inbox': typeof AuthenticatedAdminInboxRoute
   '/admin/invoices': typeof AuthenticatedAdminInvoicesRoute
+  '/admin/portfolio': typeof AuthenticatedAdminPortfolioRoute
   '/portal/deliverables': typeof AuthenticatedPortalDeliverablesRoute
   '/portal/invoices': typeof AuthenticatedPortalInvoicesRoute
   '/portal/profile': typeof AuthenticatedPortalProfileRoute
@@ -250,6 +267,7 @@ export interface FileRoutesById {
   '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
   '/faqs': typeof FaqsRoute
+  '/portfolio': typeof PortfolioRoute
   '/privacy': typeof PrivacyRoute
   '/studio': typeof StudioRoute
   '/terms': typeof TermsRoute
@@ -264,6 +282,7 @@ export interface FileRoutesById {
   '/services/': typeof ServicesIndexRoute
   '/_authenticated/admin/inbox': typeof AuthenticatedAdminInboxRoute
   '/_authenticated/admin/invoices': typeof AuthenticatedAdminInvoicesRoute
+  '/_authenticated/admin/portfolio': typeof AuthenticatedAdminPortfolioRoute
   '/_authenticated/portal/deliverables': typeof AuthenticatedPortalDeliverablesRoute
   '/_authenticated/portal/invoices': typeof AuthenticatedPortalInvoicesRoute
   '/_authenticated/portal/profile': typeof AuthenticatedPortalProfileRoute
@@ -281,6 +300,7 @@ export interface FileRouteTypes {
     | '/careers'
     | '/contact'
     | '/faqs'
+    | '/portfolio'
     | '/privacy'
     | '/studio'
     | '/terms'
@@ -295,6 +315,7 @@ export interface FileRouteTypes {
     | '/services/'
     | '/admin/inbox'
     | '/admin/invoices'
+    | '/admin/portfolio'
     | '/portal/deliverables'
     | '/portal/invoices'
     | '/portal/profile'
@@ -310,6 +331,7 @@ export interface FileRouteTypes {
     | '/careers'
     | '/contact'
     | '/faqs'
+    | '/portfolio'
     | '/privacy'
     | '/studio'
     | '/terms'
@@ -322,6 +344,7 @@ export interface FileRouteTypes {
     | '/services'
     | '/admin/inbox'
     | '/admin/invoices'
+    | '/admin/portfolio'
     | '/portal/deliverables'
     | '/portal/invoices'
     | '/portal/profile'
@@ -338,6 +361,7 @@ export interface FileRouteTypes {
     | '/careers'
     | '/contact'
     | '/faqs'
+    | '/portfolio'
     | '/privacy'
     | '/studio'
     | '/terms'
@@ -352,6 +376,7 @@ export interface FileRouteTypes {
     | '/services/'
     | '/_authenticated/admin/inbox'
     | '/_authenticated/admin/invoices'
+    | '/_authenticated/admin/portfolio'
     | '/_authenticated/portal/deliverables'
     | '/_authenticated/portal/invoices'
     | '/_authenticated/portal/profile'
@@ -369,6 +394,7 @@ export interface RootRouteChildren {
   CareersRoute: typeof CareersRoute
   ContactRoute: typeof ContactRoute
   FaqsRoute: typeof FaqsRoute
+  PortfolioRoute: typeof PortfolioRoute
   PrivacyRoute: typeof PrivacyRoute
   StudioRoute: typeof StudioRoute
   TermsRoute: typeof TermsRoute
@@ -409,6 +435,13 @@ declare module '@tanstack/react-router' {
       path: '/privacy'
       fullPath: '/privacy'
       preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portfolio': {
+      id: '/portfolio'
+      path: '/portfolio'
+      fullPath: '/portfolio'
+      preLoaderRoute: typeof PortfolioRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/faqs': {
@@ -558,6 +591,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPortalDeliverablesRouteImport
       parentRoute: typeof AuthenticatedPortalRoute
     }
+    '/_authenticated/admin/portfolio': {
+      id: '/_authenticated/admin/portfolio'
+      path: '/portfolio'
+      fullPath: '/admin/portfolio'
+      preLoaderRoute: typeof AuthenticatedAdminPortfolioRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/invoices': {
       id: '/_authenticated/admin/invoices'
       path: '/invoices'
@@ -585,6 +625,7 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminInboxRoute: typeof AuthenticatedAdminInboxRoute
   AuthenticatedAdminInvoicesRoute: typeof AuthenticatedAdminInvoicesRoute
+  AuthenticatedAdminPortfolioRoute: typeof AuthenticatedAdminPortfolioRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
   AuthenticatedAdminCollectionsCollectionRoute: typeof AuthenticatedAdminCollectionsCollectionRoute
 }
@@ -592,6 +633,7 @@ interface AuthenticatedAdminRouteChildren {
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminInboxRoute: AuthenticatedAdminInboxRoute,
   AuthenticatedAdminInvoicesRoute: AuthenticatedAdminInvoicesRoute,
+  AuthenticatedAdminPortfolioRoute: AuthenticatedAdminPortfolioRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
   AuthenticatedAdminCollectionsCollectionRoute:
     AuthenticatedAdminCollectionsCollectionRoute,
@@ -639,6 +681,7 @@ const rootRouteChildren: RootRouteChildren = {
   CareersRoute: CareersRoute,
   ContactRoute: ContactRoute,
   FaqsRoute: FaqsRoute,
+  PortfolioRoute: PortfolioRoute,
   PrivacyRoute: PrivacyRoute,
   StudioRoute: StudioRoute,
   TermsRoute: TermsRoute,

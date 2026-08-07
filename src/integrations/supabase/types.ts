@@ -501,6 +501,87 @@ export type Database = {
         }
         Relationships: []
       }
+      portfolio_images: {
+        Row: {
+          active: boolean
+          blur_data: string | null
+          category: string
+          created_at: string
+          featured: boolean
+          focal_x: number
+          focal_y: number
+          height: number | null
+          hero: boolean
+          hero_order: number
+          homepage: boolean
+          id: string
+          in_portfolio: boolean
+          orientation: string
+          original_filename: string | null
+          priority: string
+          quality_score: number
+          sort_order: number
+          tags: string[]
+          thumb_url: string | null
+          title: string
+          updated_at: string
+          url: string
+          width: number | null
+        }
+        Insert: {
+          active?: boolean
+          blur_data?: string | null
+          category?: string
+          created_at?: string
+          featured?: boolean
+          focal_x?: number
+          focal_y?: number
+          height?: number | null
+          hero?: boolean
+          hero_order?: number
+          homepage?: boolean
+          id?: string
+          in_portfolio?: boolean
+          orientation?: string
+          original_filename?: string | null
+          priority?: string
+          quality_score?: number
+          sort_order?: number
+          tags?: string[]
+          thumb_url?: string | null
+          title?: string
+          updated_at?: string
+          url: string
+          width?: number | null
+        }
+        Update: {
+          active?: boolean
+          blur_data?: string | null
+          category?: string
+          created_at?: string
+          featured?: boolean
+          focal_x?: number
+          focal_y?: number
+          height?: number | null
+          hero?: boolean
+          hero_order?: number
+          homepage?: boolean
+          id?: string
+          in_portfolio?: boolean
+          orientation?: string
+          original_filename?: string | null
+          priority?: string
+          quality_score?: number
+          sort_order?: number
+          tags?: string[]
+          thumb_url?: string | null
+          title?: string
+          updated_at?: string
+          url?: string
+          width?: number | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null

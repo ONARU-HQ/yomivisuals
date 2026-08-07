@@ -1,6 +1,6 @@
 import { createFileRoute, Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
-import { LayoutDashboard, Inbox, FileText, Receipt, LogOut, Layers } from "lucide-react";
+import { LayoutDashboard, Inbox, FileText, Receipt, LogOut, Layers, Images } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { collections } from "@/lib/admin-config";
@@ -50,7 +50,9 @@ function AdminLayout() {
     { to: "/admin", label: "Overview", icon: LayoutDashboard, exact: true },
     { to: "/admin/inbox", label: "Inbox", icon: Inbox },
     { to: "/admin/invoices", label: "Invoices", icon: Receipt },
+    { to: "/admin/portfolio", label: "Portfolio", icon: Images },
   ];
+
 
   return (
     <div className="min-h-screen bg-background">

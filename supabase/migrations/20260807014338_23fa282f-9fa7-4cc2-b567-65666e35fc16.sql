@@ -1,0 +1,1 @@
+DROP TRIGGER IF EXISTS touch_nav_links ON public.nav_links;

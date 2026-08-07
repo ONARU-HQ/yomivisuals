@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 import {
   projectsQuery,
@@ -9,6 +10,9 @@ import {
   industriesQuery,
   coverFor,
 } from "@/lib/cms";
+import { portfolioQuery, heroSlides, rotatedFeatured, focalStyle } from "@/lib/portfolio";
+import { HeroRotator } from "@/components/HeroRotator";
+import { PhotoLightbox } from "@/components/PhotoLightbox";
 import { Container, Section, SectionHeading, Reveal, TextLink, Eyebrow } from "@/components/site/ui";
 
 export const Route = createFileRoute("/")({
@@ -19,8 +23,10 @@ export const Route = createFileRoute("/")({
       context.queryClient.ensureQueryData(testimonialsQuery),
       context.queryClient.ensureQueryData(settingsQuery),
       context.queryClient.ensureQueryData(industriesQuery),
+      context.queryClient.ensureQueryData(portfolioQuery),
     ]);
   },
+
   head: () => ({
     meta: [
       { title: "Yomi Visuals — Creative Agency in Lagos" },
@@ -48,6 +54,8 @@ function HomePage() {
   const { data: testimonials } = useSuspenseQuery(testimonialsQuery);
   const { data: settings } = useSuspenseQuery(settingsQuery);
   const { data: industries } = useSuspenseQuery(industriesQuery);
+  const { data: photos } = useSuspenseQuery(portfolioQuery);
+  const [lightbox, setLightbox] = useState<number | null>(null);
 
   const hero = settings.home_hero ?? {};
   const clients: string[] = settings.clients?.logos ?? [];
@@ -55,18 +63,26 @@ function HomePage() {
   const cta = settings.home_cta ?? {};
   const featured = projects.filter((p) => p.featured).slice(0, 4);
 
+  const slides = heroSlides(photos);
+  const homepagePhotos = photos.filter((p) => p.homepage);
+  const showcase = (homepagePhotos.length >= 6 ? homepagePhotos : rotatedFeatured(photos, 9)).slice(0, 9);
+
   return (
     <>
       {/* Hero */}
       <section className="relative flex min-h-[100svh] flex-col justify-end overflow-hidden pb-16 pt-32 md:pb-24">
-        <div className="absolute inset-0">
-          <img
-            src={coverFor(featured[0] ?? { slug: "hero" })}
-            alt="Yomi Visuals campaign work"
-            className="drift h-full w-full object-cover opacity-45"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/40" />
-        </div>
+        {slides.length ? (
+          <HeroRotator slides={slides} />
+        ) : (
+          <div className="absolute inset-0">
+            <img
+              src={coverFor(featured[0] ?? { slug: "hero" })}
+              alt="Yomi Visuals campaign work"
+              className="drift h-full w-full object-cover opacity-45"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/40" />
+          </div>
+        )}
 
         <Container className="relative">
           <div className="fade-up">
@@ -86,7 +102,7 @@ function HomePage() {
                 <ArrowUpRight className="h-4 w-4" />
               </Link>
               <Link
-                to="/projects"
+                to="/portfolio"
                 className="inline-flex items-center gap-2 rounded-full border border-border-strong px-7 py-4 text-[13.5px] font-medium transition-colors hover:bg-elevated"
               >
                 {hero.secondary_cta ?? "View Our Work"}
@@ -106,6 +122,53 @@ function HomePage() {
           ))}
         </div>
       </div>
+
+      {/* Photography showcase */}
+      {showcase.length ? (
+        <Section>
+          <SectionHeading
+            eyebrow="The Archive"
+            title="Photography that outlives the moment."
+            body="A rotating cut from the studio archive — portraits, fashion, beauty, editorial and celebration work."
+            action={<TextLink to="/portfolio">Full archive</TextLink>}
+          />
+          <div className="columns-2 gap-3 md:columns-3 md:gap-4">
+            {showcase.map((img, i) => (
+              <button
+                key={img.id}
+                onClick={() => setLightbox(i)}
+                aria-label={`Open ${img.title}`}
+                className="image-reveal group mb-3 block w-full overflow-hidden rounded-[10px] border border-border bg-elevated md:mb-4"
+              >
+                <div
+                  className="relative w-full"
+                  style={{
+                    paddingBottom: `${(img.width && img.height ? img.height / img.width : 1.4) * 100}%`,
+                    backgroundImage: img.blur_data ? `url(${img.blur_data})` : undefined,
+                    backgroundSize: "cover",
+                  }}
+                >
+                  <img
+                    src={img.thumb_url ?? img.url}
+                    alt={`${img.title} — ${img.category} photography by Yomi Visuals`}
+                    loading="lazy"
+                    decoding="async"
+                    style={focalStyle(img)}
+                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-[900ms] group-hover:scale-[1.03]"
+                  />
+                </div>
+              </button>
+            ))}
+          </div>
+          <PhotoLightbox
+            images={showcase}
+            index={lightbox}
+            onClose={() => setLightbox(null)}
+            onIndexChange={setLightbox}
+          />
+        </Section>
+      ) : null}
+
 
       {/* Featured work */}
       <Section>
