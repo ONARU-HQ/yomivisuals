@@ -110,7 +110,7 @@ function AdminPortfolio() {
             {stats.total} images · {stats.hero} in hero · {stats.featured} featured · {stats.hidden} hidden
           </p>
         </div>
-        <Button variant="outline" arrow={false} onClick={() => setAdding(true)}>
+        <Button variant="outline" onClick={() => setAdding(true)}>
           <Plus className="h-4 w-4" /> Add image
         </Button>
       </header>
@@ -433,7 +433,6 @@ function EditPanel({
         ))}
       </div>
       <Button
-        arrow={false}
         className="w-full"
         onClick={() =>
           onSave({
@@ -478,7 +477,6 @@ function AddPanel({ onClose, onSave }: { onClose: () => void; onSave: (row: Reco
       </Field>
       {form.url ? <img src={form.url} alt="" className="h-48 w-full rounded-[10px] object-cover" /> : null}
       <Button
-        arrow={false}
         className="w-full"
         disabled={!form.url}
         onClick={() =>
