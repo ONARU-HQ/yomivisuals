@@ -11,8 +11,10 @@ export const Route = createFileRoute("/services/$slug")({
     const service = await context.queryClient.ensureQueryData(serviceQuery(params.slug));
     if (!service) throw notFound();
     await context.queryClient.ensureQueryData(servicesQuery);
+    await context.queryClient.ensureQueryData(portfolioQuery);
     return { service };
   },
+
   head: ({ params, loaderData }) => {
     if (!loaderData) {
       return { meta: [{ title: "Service unavailable — Yomi Visuals" }, { name: "robots", content: "noindex" }] };
