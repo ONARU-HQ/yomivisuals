@@ -1,7 +1,7 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowUpRight } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { settingsQuery } from "@/lib/cms";
 import { Container, inputClass } from "@/components/site/ui";
@@ -10,26 +10,17 @@ const columns = [
   {
     title: "Studio",
     links: [
-      { to: "/projects", label: "Work" },
+      { to: "/portfolio", label: "Work" },
       { to: "/services", label: "Services" },
-      { to: "/studio", label: "Studio & Rental" },
       { to: "/about", label: "About" },
-    ],
-  },
-  {
-    title: "Company",
-    links: [
-      { to: "/articles", label: "Articles" },
-      { to: "/careers", label: "Careers" },
-      { to: "/testimonials", label: "Testimonials" },
-      { to: "/faqs", label: "FAQs" },
-    ],
-  },
-  {
-    title: "Connect",
-    links: [
       { to: "/contact", label: "Contact" },
-      { to: "/book", label: "Book Consultation" },
+    ],
+  },
+  {
+    title: "Enquiries",
+    links: [
+      { to: "/book", label: "Start a Project" },
+      { to: "/faqs", label: "FAQs" },
       { to: "/privacy", label: "Privacy Policy" },
       { to: "/terms", label: "Terms" },
     ],
@@ -39,13 +30,16 @@ const columns = [
 export function SiteFooter() {
   const pathname = useRouterState({ select: (r) => r.location.pathname });
   const { data: settings } = useQuery(settingsQuery);
+  const [mounted, setMounted] = useState(false);
   const [email, setEmail] = useState("");
   const [state, setState] = useState<"idle" | "loading" | "done">("idle");
 
-  if (pathname.startsWith("/admin")) return null;
+  useEffect(() => setMounted(true), []);
+
+  if (pathname.startsWith("/admin") || pathname.startsWith("/portal")) return null;
 
   const company = settings?.company ?? {};
-  const social = settings?.social ?? {};
+  const social: Record<string, string> = mounted ? (settings?.social ?? {}) : {};
 
   async function subscribe(e: React.FormEvent) {
     e.preventDefault();
@@ -58,19 +52,19 @@ export function SiteFooter() {
 
   return (
     <footer className="border-t border-border bg-surface">
-      <Container className="py-16 md:py-24">
-        <div className="grid gap-14 md:grid-cols-12">
-          <div className="md:col-span-5">
-            <p className="text-display text-[clamp(1.8rem,4vw,2.6rem)] leading-[1.02]">
+      <Container className="py-14 md:py-24">
+        <div className="grid gap-12 md:grid-cols-12">
+          <div className="md:col-span-6">
+            <p className="text-display text-[clamp(1.7rem,4vw,2.6rem)] leading-[1.05]">
               Let's build something
               <br />
-              incredible.
+              people remember.
             </p>
             <Link
               to="/book"
               className="mt-7 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3.5 text-[13px] font-medium text-primary-foreground transition-opacity hover:opacity-90"
             >
-              Book Consultation
+              Start a Project
               <ArrowUpRight className="h-4 w-4" />
             </Link>
 
@@ -99,7 +93,7 @@ export function SiteFooter() {
             </form>
           </div>
 
-          <div className="grid gap-10 md:col-span-7 md:grid-cols-3">
+          <div className="grid grid-cols-2 gap-10 md:col-span-6">
             {columns.map((col) => (
               <div key={col.title}>
                 <p className="text-eyebrow">{col.title}</p>
@@ -117,9 +111,9 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="mt-16 flex flex-col gap-5 border-t border-border pt-8 md:flex-row md:items-center md:justify-between">
+        <div className="mt-14 flex flex-col gap-5 border-t border-border pt-8 md:flex-row md:items-center md:justify-between">
           <p className="text-[12px] text-muted-foreground">
-            © {new Date().getFullYear()} {company.name ?? "Yomi Visuals"}. {company.address ?? "Lagos, Nigeria"}.
+            © {new Date().getFullYear()} {company.name ?? "Yomi Visuals"} — {company.address ?? "Lagos, Nigeria"}
           </p>
           <div className="flex flex-wrap gap-5 text-[12px] text-muted-foreground">
             {Object.entries(social).map(([key, url]) => (
