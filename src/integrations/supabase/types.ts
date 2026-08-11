@@ -114,6 +114,7 @@ export type Database = {
           preferred_date: string | null
           preferred_time: string | null
           reference: string | null
+          reference_file: string | null
           service: string | null
           stage: string
           status: string
@@ -135,6 +136,7 @@ export type Database = {
           preferred_date?: string | null
           preferred_time?: string | null
           reference?: string | null
+          reference_file?: string | null
           service?: string | null
           stage?: string
           status?: string
@@ -156,6 +158,7 @@ export type Database = {
           preferred_date?: string | null
           preferred_time?: string | null
           reference?: string | null
+          reference_file?: string | null
           service?: string | null
           stage?: string
           status?: string

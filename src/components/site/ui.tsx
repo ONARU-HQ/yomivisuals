@@ -23,7 +23,7 @@ export function Section({
 }
 
 export function Eyebrow({ children }: { children: ReactNode }) {
-  return <p className="text-eyebrow">{children}</p>;
+  return <p className="text-eyebrow before:mr-2 before:inline-block before:content-['—']">{children}</p>;
 }
 
 export function SectionHeading({

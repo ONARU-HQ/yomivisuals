@@ -3,12 +3,9 @@ import { useEffect, useState } from "react";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 
 const links = [
-  { to: "/projects", label: "Work" },
+  { to: "/portfolio", label: "Work" },
   { to: "/services", label: "Services" },
-  { to: "/studio", label: "Studio" },
   { to: "/about", label: "About" },
-  { to: "/articles", label: "Articles" },
-  { to: "/contact", label: "Contact" },
 ] as const;
 
 export function TopNav() {
@@ -32,17 +29,17 @@ export function TopNav() {
     };
   }, [open]);
 
-  if (pathname.startsWith("/admin")) return null;
+  if (pathname.startsWith("/admin") || pathname.startsWith("/portal")) return null;
 
   return (
     <>
       <header
         className={`fixed inset-x-0 top-0 z-50 transition-all duration-400 ${
-          scrolled || open ? "border-b border-border bg-background py-3.5" : "py-5 md:py-7"
+          scrolled || open ? "border-b border-border bg-background py-3" : "py-4 md:py-6"
         }`}
       >
-        <div className="mx-auto flex w-full max-w-[1320px] items-center justify-between px-5 md:px-10">
-          <Link to="/" className="text-[15px] font-semibold tracking-[-0.04em] text-foreground md:text-base">
+        <div className="mx-auto flex w-full max-w-[1320px] items-center justify-between gap-3 px-5 md:px-10">
+          <Link to="/" className="shrink-0 text-[14px] font-semibold uppercase tracking-[0.08em] text-foreground md:text-[15px]">
             Yomi Visuals
           </Link>
 
@@ -59,12 +56,12 @@ export function TopNav() {
             ))}
           </nav>
 
-          <div className="flex items-center gap-2">
+          <div className="flex shrink-0 items-center gap-2">
             <Link
               to="/book"
-              className="hidden items-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-[12.5px] font-medium text-primary-foreground transition-opacity hover:opacity-90 md:inline-flex"
+              className="inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-2.5 text-[12px] font-medium text-primary-foreground transition-opacity hover:opacity-90 md:px-5 md:text-[12.5px]"
             >
-              Book Consultation
+              Start a Project
               <ArrowUpRight className="h-3.5 w-3.5" />
             </Link>
             <button
@@ -79,28 +76,37 @@ export function TopNav() {
         </div>
       </header>
 
+      {/* Full-screen mobile menu */}
       <div
-        className={`fixed inset-0 z-40 bg-background transition-opacity duration-300 md:hidden ${
+        className={`fixed inset-0 z-40 flex flex-col bg-background transition-all duration-300 md:hidden ${
           open ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
         }`}
         aria-hidden={!open}
       >
-        <nav className="flex h-full flex-col px-5 pt-24 pb-10">
-          {links.map((l) => (
+        <nav className="flex flex-1 flex-col px-6 pt-24 pb-8">
+          {links.map((l, i) => (
             <Link
               key={l.to}
               to={l.to}
-              className="flex items-center justify-between border-b border-border py-5 text-foreground"
+              className="flex items-center justify-between border-b border-border py-6 text-foreground"
+              style={{ transitionDelay: `${i * 40}ms` }}
             >
-              <span className="text-display text-[28px]">{l.label}</span>
-              <ArrowUpRight className="h-4 w-4 text-muted-foreground" />
+              <span className="text-display text-[32px]">{l.label}</span>
+              <ArrowUpRight className="h-5 w-5 text-muted-foreground" />
             </Link>
           ))}
+          <Link
+            to="/contact"
+            className="flex items-center justify-between border-b border-border py-6 text-foreground"
+          >
+            <span className="text-display text-[32px]">Contact</span>
+            <ArrowUpRight className="h-5 w-5 text-muted-foreground" />
+          </Link>
           <Link
             to="/book"
             className="mt-auto inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-4 text-[14px] font-medium text-primary-foreground"
           >
-            Book Consultation
+            Start a Project
             <ArrowUpRight className="h-4 w-4" />
           </Link>
         </nav>

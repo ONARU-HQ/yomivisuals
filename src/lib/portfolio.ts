@@ -28,17 +28,16 @@ export type PortfolioImage = {
 };
 
 export const PORTFOLIO_CATEGORIES = [
-  "Weddings",
-  "Portraits",
-  "Fashion",
-  "Beauty",
-  "Editorial",
-  "Corporate",
-  "Events",
-  "Lifestyle",
+  "Campaigns",
+  "Brand Photography",
   "Commercial",
-  "Product",
-  "Creative",
+  "Fashion",
+  "Products",
+  "Portraits",
+  "Hospitality",
+  "Corporate",
+  "Studio",
+  "Film & Motion",
 ];
 
 export const PRIORITIES = ["pinned", "featured", "standard"] as const;
@@ -116,16 +115,16 @@ export function daySeed() {
 
 /** Smart placement: pick imagery whose category/tags match a page's subject. */
 const SERVICE_CATEGORY_HINTS: { match: RegExp; categories: string[]; tags?: string[] }[] = [
-  { match: /wedding|bridal|matrimon/i, categories: ["Weddings", "Events"], tags: ["bridal", "couple"] },
-  { match: /portrait|headshot|personal/i, categories: ["Portraits", "Beauty"] },
-  { match: /fashion|look ?book|style/i, categories: ["Fashion", "Editorial"] },
-  { match: /beauty|makeup|skin/i, categories: ["Beauty", "Portraits"] },
-  { match: /editorial|magazine|story/i, categories: ["Editorial", "Fashion"] },
-  { match: /corporate|business|brand|company|profile/i, categories: ["Corporate", "Editorial"] },
-  { match: /event|conference|gala|party|birthday/i, categories: ["Events", "Lifestyle"] },
-  { match: /lifestyle|family|content/i, categories: ["Lifestyle", "Portraits"] },
-  { match: /product|commercial|advert|campaign/i, categories: ["Commercial", "Product", "Editorial"] },
-  { match: /creative|concept|art/i, categories: ["Creative", "Editorial"] },
+  { match: /campaign/i, categories: ["Campaigns", "Commercial", "Fashion"], tags: ["campaign"] },
+  { match: /brand photography|brand photo/i, categories: ["Brand Photography", "Corporate", "Products"] },
+  { match: /creative direction|visual brand/i, categories: ["Fashion", "Campaigns", "Portraits"] },
+  { match: /commercial|content|advert/i, categories: ["Commercial", "Products", "Brand Photography"] },
+  { match: /production|film|motion|video/i, categories: ["Film & Motion", "Commercial", "Studio"] },
+  { match: /portrait|headshot|personal/i, categories: ["Portraits", "Studio"] },
+  { match: /fashion|look ?book|style/i, categories: ["Fashion", "Portraits"] },
+  { match: /corporate|business|company|profile/i, categories: ["Corporate", "Brand Photography"] },
+  { match: /event|hospitality|gala|party|birthday/i, categories: ["Hospitality", "Portraits"] },
+  { match: /product/i, categories: ["Products", "Commercial"] },
 ];
 
 export function imagesForSubject(images: PortfolioImage[], subject: string, count = 6) {
