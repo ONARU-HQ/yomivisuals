@@ -141,6 +141,35 @@
   text-wrap: balance;
 }
 
+/* Editorial serif — used for accent words inside large headlines. */
+@utility text-serif {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -0.02em;
+}
+
+/* Uppercase structural headline, mobile-first sizing handled inline. */
+@utility text-headline {
+  font-family: var(--font-display);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: -0.03em;
+  line-height: 0.92;
+}
+
+@utility text-index {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: var(--gold);
+}
+
+@utility rule-top {
+  border-top: 1px solid var(--border);
+}
+
+
 /* ——— Surface utilities ——— */
 
 @utility panel {
