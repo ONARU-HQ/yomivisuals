@@ -42,11 +42,15 @@
   --color-border-strong: var(--border-strong);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
 
   --font-sans: "Inter", "SF Pro Display", "Helvetica Neue", system-ui, sans-serif;
   --font-display: "Inter", "SF Pro Display", "Helvetica Neue", sans-serif;
+  --font-serif: "Instrument Serif", "Times New Roman", Georgia, serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 }
+
 
 :root {
   --radius: 10px;
