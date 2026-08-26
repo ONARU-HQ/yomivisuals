@@ -14,9 +14,11 @@ import { Route as TermsRouteImport } from './routes/terms'
 import { Route as StudioRouteImport } from './routes/studio'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
+import { Route as ForAgenciesRouteImport } from './routes/for-agencies'
 import { Route as FaqsRouteImport } from './routes/faqs'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CareersRouteImport } from './routes/careers'
+import { Route as CapabilitiesRouteImport } from './routes/capabilities'
 import { Route as BookRouteImport } from './routes/book'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AboutRouteImport } from './routes/about'
@@ -65,6 +67,11 @@ const PortfolioRoute = PortfolioRouteImport.update({
   path: '/portfolio',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ForAgenciesRoute = ForAgenciesRouteImport.update({
+  id: '/for-agencies',
+  path: '/for-agencies',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FaqsRoute = FaqsRouteImport.update({
   id: '/faqs',
   path: '/faqs',
@@ -78,6 +85,11 @@ const ContactRoute = ContactRouteImport.update({
 const CareersRoute = CareersRouteImport.update({
   id: '/careers',
   path: '/careers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CapabilitiesRoute = CapabilitiesRouteImport.update({
+  id: '/capabilities',
+  path: '/capabilities',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BookRoute = BookRouteImport.update({
@@ -202,9 +214,11 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/book': typeof BookRoute
+  '/capabilities': typeof CapabilitiesRoute
   '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
   '/faqs': typeof FaqsRoute
+  '/for-agencies': typeof ForAgenciesRoute
   '/portfolio': typeof PortfolioRoute
   '/privacy': typeof PrivacyRoute
   '/studio': typeof StudioRoute
@@ -233,9 +247,11 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/book': typeof BookRoute
+  '/capabilities': typeof CapabilitiesRoute
   '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
   '/faqs': typeof FaqsRoute
+  '/for-agencies': typeof ForAgenciesRoute
   '/portfolio': typeof PortfolioRoute
   '/privacy': typeof PrivacyRoute
   '/studio': typeof StudioRoute
@@ -264,9 +280,11 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/book': typeof BookRoute
+  '/capabilities': typeof CapabilitiesRoute
   '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
   '/faqs': typeof FaqsRoute
+  '/for-agencies': typeof ForAgenciesRoute
   '/portfolio': typeof PortfolioRoute
   '/privacy': typeof PrivacyRoute
   '/studio': typeof StudioRoute
@@ -297,9 +315,11 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/book'
+    | '/capabilities'
     | '/careers'
     | '/contact'
     | '/faqs'
+    | '/for-agencies'
     | '/portfolio'
     | '/privacy'
     | '/studio'
@@ -328,9 +348,11 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/book'
+    | '/capabilities'
     | '/careers'
     | '/contact'
     | '/faqs'
+    | '/for-agencies'
     | '/portfolio'
     | '/privacy'
     | '/studio'
@@ -358,9 +380,11 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/book'
+    | '/capabilities'
     | '/careers'
     | '/contact'
     | '/faqs'
+    | '/for-agencies'
     | '/portfolio'
     | '/privacy'
     | '/studio'
@@ -391,9 +415,11 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AuthRoute: typeof AuthRoute
   BookRoute: typeof BookRoute
+  CapabilitiesRoute: typeof CapabilitiesRoute
   CareersRoute: typeof CareersRoute
   ContactRoute: typeof ContactRoute
   FaqsRoute: typeof FaqsRoute
+  ForAgenciesRoute: typeof ForAgenciesRoute
   PortfolioRoute: typeof PortfolioRoute
   PrivacyRoute: typeof PrivacyRoute
   StudioRoute: typeof StudioRoute
@@ -444,6 +470,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortfolioRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/for-agencies': {
+      id: '/for-agencies'
+      path: '/for-agencies'
+      fullPath: '/for-agencies'
+      preLoaderRoute: typeof ForAgenciesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/faqs': {
       id: '/faqs'
       path: '/faqs'
@@ -463,6 +496,13 @@ declare module '@tanstack/react-router' {
       path: '/careers'
       fullPath: '/careers'
       preLoaderRoute: typeof CareersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/capabilities': {
+      id: '/capabilities'
+      path: '/capabilities'
+      fullPath: '/capabilities'
+      preLoaderRoute: typeof CapabilitiesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/book': {
@@ -678,9 +718,11 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AuthRoute: AuthRoute,
   BookRoute: BookRoute,
+  CapabilitiesRoute: CapabilitiesRoute,
   CareersRoute: CareersRoute,
   ContactRoute: ContactRoute,
   FaqsRoute: FaqsRoute,
+  ForAgenciesRoute: ForAgenciesRoute,
   PortfolioRoute: PortfolioRoute,
   PrivacyRoute: PrivacyRoute,
   StudioRoute: StudioRoute,
