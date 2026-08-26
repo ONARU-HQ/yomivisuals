@@ -14,6 +14,7 @@ import { Route as TermsRouteImport } from './routes/terms'
 import { Route as StudioRouteImport } from './routes/studio'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
+import { Route as ForAgenciesRouteImport } from './routes/for-agencies'
 import { Route as FaqsRouteImport } from './routes/faqs'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CareersRouteImport } from './routes/careers'
@@ -64,6 +65,11 @@ const PrivacyRoute = PrivacyRouteImport.update({
 const PortfolioRoute = PortfolioRouteImport.update({
   id: '/portfolio',
   path: '/portfolio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForAgenciesRoute = ForAgenciesRouteImport.update({
+  id: '/for-agencies',
+  path: '/for-agencies',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FaqsRoute = FaqsRouteImport.update({
@@ -212,6 +218,7 @@ export interface FileRoutesByFullPath {
   '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
   '/faqs': typeof FaqsRoute
+  '/for-agencies': typeof ForAgenciesRoute
   '/portfolio': typeof PortfolioRoute
   '/privacy': typeof PrivacyRoute
   '/studio': typeof StudioRoute
@@ -244,6 +251,7 @@ export interface FileRoutesByTo {
   '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
   '/faqs': typeof FaqsRoute
+  '/for-agencies': typeof ForAgenciesRoute
   '/portfolio': typeof PortfolioRoute
   '/privacy': typeof PrivacyRoute
   '/studio': typeof StudioRoute
@@ -276,6 +284,7 @@ export interface FileRoutesById {
   '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
   '/faqs': typeof FaqsRoute
+  '/for-agencies': typeof ForAgenciesRoute
   '/portfolio': typeof PortfolioRoute
   '/privacy': typeof PrivacyRoute
   '/studio': typeof StudioRoute
@@ -310,6 +319,7 @@ export interface FileRouteTypes {
     | '/careers'
     | '/contact'
     | '/faqs'
+    | '/for-agencies'
     | '/portfolio'
     | '/privacy'
     | '/studio'
@@ -342,6 +352,7 @@ export interface FileRouteTypes {
     | '/careers'
     | '/contact'
     | '/faqs'
+    | '/for-agencies'
     | '/portfolio'
     | '/privacy'
     | '/studio'
@@ -373,6 +384,7 @@ export interface FileRouteTypes {
     | '/careers'
     | '/contact'
     | '/faqs'
+    | '/for-agencies'
     | '/portfolio'
     | '/privacy'
     | '/studio'
@@ -407,6 +419,7 @@ export interface RootRouteChildren {
   CareersRoute: typeof CareersRoute
   ContactRoute: typeof ContactRoute
   FaqsRoute: typeof FaqsRoute
+  ForAgenciesRoute: typeof ForAgenciesRoute
   PortfolioRoute: typeof PortfolioRoute
   PrivacyRoute: typeof PrivacyRoute
   StudioRoute: typeof StudioRoute
@@ -455,6 +468,13 @@ declare module '@tanstack/react-router' {
       path: '/portfolio'
       fullPath: '/portfolio'
       preLoaderRoute: typeof PortfolioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/for-agencies': {
+      id: '/for-agencies'
+      path: '/for-agencies'
+      fullPath: '/for-agencies'
+      preLoaderRoute: typeof ForAgenciesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/faqs': {
@@ -702,6 +722,7 @@ const rootRouteChildren: RootRouteChildren = {
   CareersRoute: CareersRoute,
   ContactRoute: ContactRoute,
   FaqsRoute: FaqsRoute,
+  ForAgenciesRoute: ForAgenciesRoute,
   PortfolioRoute: PortfolioRoute,
   PrivacyRoute: PrivacyRoute,
   StudioRoute: StudioRoute,
