@@ -103,11 +103,11 @@ function AuthPage() {
             <input
               type="password"
               required
-              minLength={8}
+              {...(mode === "signup" ? { minLength: 8 } : {})}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className={inputClass}
-              placeholder="At least 8 characters"
+              placeholder={mode === "signup" ? "At least 8 characters" : "Your password"}
             />
           </Field>
 
