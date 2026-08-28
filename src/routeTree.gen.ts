@@ -42,6 +42,7 @@ import { Route as AuthenticatedPortalRouteImport } from './routes/_authenticated
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedPortalIndexRouteImport } from './routes/_authenticated/portal.index'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
+import { Route as ApiDocumentsKindRouteImport } from './routes/api/documents.$kind'
 import { Route as AuthenticatedPortalProfileRouteImport } from './routes/_authenticated/portal.profile'
 import { Route as AuthenticatedPortalInvoicesRouteImport } from './routes/_authenticated/portal.invoices'
 import { Route as AuthenticatedPortalDeliverablesRouteImport } from './routes/_authenticated/portal.deliverables'
@@ -49,6 +50,7 @@ import { Route as AuthenticatedAdminPortfolioRouteImport } from './routes/_authe
 import { Route as AuthenticatedAdminPipelineRouteImport } from './routes/_authenticated/admin.pipeline'
 import { Route as AuthenticatedAdminInvoicesRouteImport } from './routes/_authenticated/admin.invoices'
 import { Route as AuthenticatedAdminInboxRouteImport } from './routes/_authenticated/admin.inbox'
+import { Route as AuthenticatedAdminCommunicationsRouteImport } from './routes/_authenticated/admin.communications'
 import { Route as AuthenticatedAdminCollectionsCollectionRouteImport } from './routes/_authenticated/admin.collections.$collection'
 
 const TestimonialsRoute = TestimonialsRouteImport.update({
@@ -216,6 +218,11 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const ApiDocumentsKindRoute = ApiDocumentsKindRouteImport.update({
+  id: '/api/documents/$kind',
+  path: '/api/documents/$kind',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedPortalProfileRoute =
   AuthenticatedPortalProfileRouteImport.update({
     id: '/profile',
@@ -257,6 +264,12 @@ const AuthenticatedAdminInboxRoute = AuthenticatedAdminInboxRouteImport.update({
   path: '/inbox',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAdminCommunicationsRoute =
+  AuthenticatedAdminCommunicationsRouteImport.update({
+    id: '/communications',
+    path: '/communications',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminCollectionsCollectionRoute =
   AuthenticatedAdminCollectionsCollectionRouteImport.update({
     id: '/collections/$collection',
@@ -295,6 +308,7 @@ export interface FileRoutesByFullPath {
   '/projects/': typeof ProjectsIndexRoute
   '/services/': typeof ServicesIndexRoute
   '/work/': typeof WorkIndexRoute
+  '/admin/communications': typeof AuthenticatedAdminCommunicationsRoute
   '/admin/inbox': typeof AuthenticatedAdminInboxRoute
   '/admin/invoices': typeof AuthenticatedAdminInvoicesRoute
   '/admin/pipeline': typeof AuthenticatedAdminPipelineRoute
@@ -302,6 +316,7 @@ export interface FileRoutesByFullPath {
   '/portal/deliverables': typeof AuthenticatedPortalDeliverablesRoute
   '/portal/invoices': typeof AuthenticatedPortalInvoicesRoute
   '/portal/profile': typeof AuthenticatedPortalProfileRoute
+  '/api/documents/$kind': typeof ApiDocumentsKindRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/portal/': typeof AuthenticatedPortalIndexRoute
   '/admin/collections/$collection': typeof AuthenticatedAdminCollectionsCollectionRoute
@@ -335,6 +350,7 @@ export interface FileRoutesByTo {
   '/projects': typeof ProjectsIndexRoute
   '/services': typeof ServicesIndexRoute
   '/work': typeof WorkIndexRoute
+  '/admin/communications': typeof AuthenticatedAdminCommunicationsRoute
   '/admin/inbox': typeof AuthenticatedAdminInboxRoute
   '/admin/invoices': typeof AuthenticatedAdminInvoicesRoute
   '/admin/pipeline': typeof AuthenticatedAdminPipelineRoute
@@ -342,6 +358,7 @@ export interface FileRoutesByTo {
   '/portal/deliverables': typeof AuthenticatedPortalDeliverablesRoute
   '/portal/invoices': typeof AuthenticatedPortalInvoicesRoute
   '/portal/profile': typeof AuthenticatedPortalProfileRoute
+  '/api/documents/$kind': typeof ApiDocumentsKindRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/portal': typeof AuthenticatedPortalIndexRoute
   '/admin/collections/$collection': typeof AuthenticatedAdminCollectionsCollectionRoute
@@ -379,6 +396,7 @@ export interface FileRoutesById {
   '/projects/': typeof ProjectsIndexRoute
   '/services/': typeof ServicesIndexRoute
   '/work/': typeof WorkIndexRoute
+  '/_authenticated/admin/communications': typeof AuthenticatedAdminCommunicationsRoute
   '/_authenticated/admin/inbox': typeof AuthenticatedAdminInboxRoute
   '/_authenticated/admin/invoices': typeof AuthenticatedAdminInvoicesRoute
   '/_authenticated/admin/pipeline': typeof AuthenticatedAdminPipelineRoute
@@ -386,6 +404,7 @@ export interface FileRoutesById {
   '/_authenticated/portal/deliverables': typeof AuthenticatedPortalDeliverablesRoute
   '/_authenticated/portal/invoices': typeof AuthenticatedPortalInvoicesRoute
   '/_authenticated/portal/profile': typeof AuthenticatedPortalProfileRoute
+  '/api/documents/$kind': typeof ApiDocumentsKindRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/portal/': typeof AuthenticatedPortalIndexRoute
   '/_authenticated/admin/collections/$collection': typeof AuthenticatedAdminCollectionsCollectionRoute
@@ -423,6 +442,7 @@ export interface FileRouteTypes {
     | '/projects/'
     | '/services/'
     | '/work/'
+    | '/admin/communications'
     | '/admin/inbox'
     | '/admin/invoices'
     | '/admin/pipeline'
@@ -430,6 +450,7 @@ export interface FileRouteTypes {
     | '/portal/deliverables'
     | '/portal/invoices'
     | '/portal/profile'
+    | '/api/documents/$kind'
     | '/admin/'
     | '/portal/'
     | '/admin/collections/$collection'
@@ -463,6 +484,7 @@ export interface FileRouteTypes {
     | '/projects'
     | '/services'
     | '/work'
+    | '/admin/communications'
     | '/admin/inbox'
     | '/admin/invoices'
     | '/admin/pipeline'
@@ -470,6 +492,7 @@ export interface FileRouteTypes {
     | '/portal/deliverables'
     | '/portal/invoices'
     | '/portal/profile'
+    | '/api/documents/$kind'
     | '/admin'
     | '/portal'
     | '/admin/collections/$collection'
@@ -506,6 +529,7 @@ export interface FileRouteTypes {
     | '/projects/'
     | '/services/'
     | '/work/'
+    | '/_authenticated/admin/communications'
     | '/_authenticated/admin/inbox'
     | '/_authenticated/admin/invoices'
     | '/_authenticated/admin/pipeline'
@@ -513,6 +537,7 @@ export interface FileRouteTypes {
     | '/_authenticated/portal/deliverables'
     | '/_authenticated/portal/invoices'
     | '/_authenticated/portal/profile'
+    | '/api/documents/$kind'
     | '/_authenticated/admin/'
     | '/_authenticated/portal/'
     | '/_authenticated/admin/collections/$collection'
@@ -548,6 +573,7 @@ export interface RootRouteChildren {
   ProjectsIndexRoute: typeof ProjectsIndexRoute
   ServicesIndexRoute: typeof ServicesIndexRoute
   WorkIndexRoute: typeof WorkIndexRoute
+  ApiDocumentsKindRoute: typeof ApiDocumentsKindRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -783,6 +809,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/api/documents/$kind': {
+      id: '/api/documents/$kind'
+      path: '/api/documents/$kind'
+      fullPath: '/api/documents/$kind'
+      preLoaderRoute: typeof ApiDocumentsKindRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/portal/profile': {
       id: '/_authenticated/portal/profile'
       path: '/profile'
@@ -832,6 +865,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminInboxRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/communications': {
+      id: '/_authenticated/admin/communications'
+      path: '/communications'
+      fullPath: '/admin/communications'
+      preLoaderRoute: typeof AuthenticatedAdminCommunicationsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/collections/$collection': {
       id: '/_authenticated/admin/collections/$collection'
       path: '/collections/$collection'
@@ -843,6 +883,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminCommunicationsRoute: typeof AuthenticatedAdminCommunicationsRoute
   AuthenticatedAdminInboxRoute: typeof AuthenticatedAdminInboxRoute
   AuthenticatedAdminInvoicesRoute: typeof AuthenticatedAdminInvoicesRoute
   AuthenticatedAdminPipelineRoute: typeof AuthenticatedAdminPipelineRoute
@@ -852,6 +893,7 @@ interface AuthenticatedAdminRouteChildren {
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminCommunicationsRoute: AuthenticatedAdminCommunicationsRoute,
   AuthenticatedAdminInboxRoute: AuthenticatedAdminInboxRoute,
   AuthenticatedAdminInvoicesRoute: AuthenticatedAdminInvoicesRoute,
   AuthenticatedAdminPipelineRoute: AuthenticatedAdminPipelineRoute,
@@ -924,6 +966,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProjectsIndexRoute: ProjectsIndexRoute,
   ServicesIndexRoute: ServicesIndexRoute,
   WorkIndexRoute: WorkIndexRoute,
+  ApiDocumentsKindRoute: ApiDocumentsKindRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
