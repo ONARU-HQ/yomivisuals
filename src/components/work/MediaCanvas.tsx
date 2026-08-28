@@ -21,6 +21,11 @@ export function ProgressiveImage({
   fit?: "cover" | "contain";
 }) {
   const [loaded, setLoaded] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
+  // Images restored from cache can finish before React attaches onLoad.
+  useEffect(() => {
+    if (imgRef.current?.complete) setLoaded(true);
+  }, [src]);
   return (
     <span className="relative block h-full w-full overflow-hidden bg-elevated">
       <span
@@ -30,6 +35,7 @@ export function ProgressiveImage({
         }`}
       />
       <img
+        ref={imgRef}
         src={src}
         alt={alt}
         loading={eager ? "eager" : "lazy"}
