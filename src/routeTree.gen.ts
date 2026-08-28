@@ -46,6 +46,7 @@ import { Route as ApiDocumentsKindRouteImport } from './routes/api/documents.$ki
 import { Route as AuthenticatedPortalProfileRouteImport } from './routes/_authenticated/portal.profile'
 import { Route as AuthenticatedPortalInvoicesRouteImport } from './routes/_authenticated/portal.invoices'
 import { Route as AuthenticatedPortalDeliverablesRouteImport } from './routes/_authenticated/portal.deliverables'
+import { Route as AuthenticatedAdminWorkRouteImport } from './routes/_authenticated/admin.work'
 import { Route as AuthenticatedAdminPortfolioRouteImport } from './routes/_authenticated/admin.portfolio'
 import { Route as AuthenticatedAdminPipelineRouteImport } from './routes/_authenticated/admin.pipeline'
 import { Route as AuthenticatedAdminInvoicesRouteImport } from './routes/_authenticated/admin.invoices'
@@ -242,6 +243,11 @@ const AuthenticatedPortalDeliverablesRoute =
     path: '/deliverables',
     getParentRoute: () => AuthenticatedPortalRoute,
   } as any)
+const AuthenticatedAdminWorkRoute = AuthenticatedAdminWorkRouteImport.update({
+  id: '/work',
+  path: '/work',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
 const AuthenticatedAdminPortfolioRoute =
   AuthenticatedAdminPortfolioRouteImport.update({
     id: '/portfolio',
@@ -320,6 +326,7 @@ export interface FileRoutesByFullPath {
   '/admin/invoices': typeof AuthenticatedAdminInvoicesRoute
   '/admin/pipeline': typeof AuthenticatedAdminPipelineRoute
   '/admin/portfolio': typeof AuthenticatedAdminPortfolioRoute
+  '/admin/work': typeof AuthenticatedAdminWorkRoute
   '/portal/deliverables': typeof AuthenticatedPortalDeliverablesRoute
   '/portal/invoices': typeof AuthenticatedPortalInvoicesRoute
   '/portal/profile': typeof AuthenticatedPortalProfileRoute
@@ -363,6 +370,7 @@ export interface FileRoutesByTo {
   '/admin/invoices': typeof AuthenticatedAdminInvoicesRoute
   '/admin/pipeline': typeof AuthenticatedAdminPipelineRoute
   '/admin/portfolio': typeof AuthenticatedAdminPortfolioRoute
+  '/admin/work': typeof AuthenticatedAdminWorkRoute
   '/portal/deliverables': typeof AuthenticatedPortalDeliverablesRoute
   '/portal/invoices': typeof AuthenticatedPortalInvoicesRoute
   '/portal/profile': typeof AuthenticatedPortalProfileRoute
@@ -410,6 +418,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/invoices': typeof AuthenticatedAdminInvoicesRoute
   '/_authenticated/admin/pipeline': typeof AuthenticatedAdminPipelineRoute
   '/_authenticated/admin/portfolio': typeof AuthenticatedAdminPortfolioRoute
+  '/_authenticated/admin/work': typeof AuthenticatedAdminWorkRoute
   '/_authenticated/portal/deliverables': typeof AuthenticatedPortalDeliverablesRoute
   '/_authenticated/portal/invoices': typeof AuthenticatedPortalInvoicesRoute
   '/_authenticated/portal/profile': typeof AuthenticatedPortalProfileRoute
@@ -457,6 +466,7 @@ export interface FileRouteTypes {
     | '/admin/invoices'
     | '/admin/pipeline'
     | '/admin/portfolio'
+    | '/admin/work'
     | '/portal/deliverables'
     | '/portal/invoices'
     | '/portal/profile'
@@ -500,6 +510,7 @@ export interface FileRouteTypes {
     | '/admin/invoices'
     | '/admin/pipeline'
     | '/admin/portfolio'
+    | '/admin/work'
     | '/portal/deliverables'
     | '/portal/invoices'
     | '/portal/profile'
@@ -546,6 +557,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/invoices'
     | '/_authenticated/admin/pipeline'
     | '/_authenticated/admin/portfolio'
+    | '/_authenticated/admin/work'
     | '/_authenticated/portal/deliverables'
     | '/_authenticated/portal/invoices'
     | '/_authenticated/portal/profile'
@@ -851,6 +863,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPortalDeliverablesRouteImport
       parentRoute: typeof AuthenticatedPortalRoute
     }
+    '/_authenticated/admin/work': {
+      id: '/_authenticated/admin/work'
+      path: '/work'
+      fullPath: '/admin/work'
+      preLoaderRoute: typeof AuthenticatedAdminWorkRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/portfolio': {
       id: '/_authenticated/admin/portfolio'
       path: '/portfolio'
@@ -909,6 +928,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminInvoicesRoute: typeof AuthenticatedAdminInvoicesRoute
   AuthenticatedAdminPipelineRoute: typeof AuthenticatedAdminPipelineRoute
   AuthenticatedAdminPortfolioRoute: typeof AuthenticatedAdminPortfolioRoute
+  AuthenticatedAdminWorkRoute: typeof AuthenticatedAdminWorkRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
   AuthenticatedAdminCollectionsCollectionRoute: typeof AuthenticatedAdminCollectionsCollectionRoute
 }
@@ -919,6 +939,7 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminInvoicesRoute: AuthenticatedAdminInvoicesRoute,
   AuthenticatedAdminPipelineRoute: AuthenticatedAdminPipelineRoute,
   AuthenticatedAdminPortfolioRoute: AuthenticatedAdminPortfolioRoute,
+  AuthenticatedAdminWorkRoute: AuthenticatedAdminWorkRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
   AuthenticatedAdminCollectionsCollectionRoute:
     AuthenticatedAdminCollectionsCollectionRoute,

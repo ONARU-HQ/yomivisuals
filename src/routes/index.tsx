@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { ArrowUpRight } from "lucide-react";
-import { projectsQuery, servicesQuery, testimonialsQuery, coverFor } from "@/lib/cms";
+import { servicesQuery, testimonialsQuery } from "@/lib/cms";
+import { workQuery, curate, workCover, tagsOf } from "@/lib/work";
 import { portfolioQuery, heroSlides, rotatedFeatured, focalStyle, type PortfolioImage } from "@/lib/portfolio";
 import { HeroFilm } from "@/components/HeroFilm";
 import { track } from "@/lib/analytics";
@@ -14,7 +15,7 @@ import { PILLARS, PROCESS_STAGES, DIVISIONS } from "@/lib/ecosystem";
 export const Route = createFileRoute("/")({
   loader: async ({ context }) => {
     const [, , , photos] = await Promise.all([
-      context.queryClient.ensureQueryData(projectsQuery),
+      context.queryClient.ensureQueryData(workQuery),
       context.queryClient.ensureQueryData(servicesQuery),
       context.queryClient.ensureQueryData(testimonialsQuery),
       context.queryClient.ensureQueryData(portfolioQuery),
@@ -58,13 +59,13 @@ export const Route = createFileRoute("/")({
 
 function HomePage() {
   const hero = useHeroScroll();
-  const { data: projects } = useSuspenseQuery(projectsQuery);
+  const { data: projects } = useSuspenseQuery(workQuery);
   const { data: services } = useSuspenseQuery(servicesQuery);
   const { data: testimonials } = useSuspenseQuery(testimonialsQuery);
   const { data: photos } = useSuspenseQuery(portfolioQuery);
 
   const slides = heroSlides(photos);
-  const featuredProjects = projects.filter((p) => p.featured).slice(0, 8);
+  const featuredProjects = curate(projects.filter((p) => p.featured)).slice(0, 8);
   const featuredPhotos = rotatedFeatured(photos, 8);
   const quotes = testimonials.filter((t) => t.featured);
 
@@ -202,7 +203,7 @@ function HomePage() {
                 >
                   <div className="aspect-[4/3] overflow-hidden">
                     <img
-                      src={coverFor(p)}
+                      src={workCover(p)}
                       alt={`${p.title}${p.client ? ` for ${p.client}` : ""} — by Yomi Visuals`}
                       loading={i < 2 ? "eager" : "lazy"}
                       decoding="async"
@@ -212,7 +213,7 @@ function HomePage() {
                   <div className="flex items-start justify-between gap-4 p-5 md:p-6">
                     <div className="min-w-0">
                       <p className="truncate text-[12px] text-muted-foreground">
-                        {[p.client, p.industry].filter(Boolean).join(" · ")}
+                        {[p.client, tagsOf(p)[0]].filter(Boolean).join(" · ")}
                       </p>
                       <h3 className="mt-1.5 truncate text-[16px] font-medium tracking-tight md:text-[17px]">{p.title}</h3>
                     </div>

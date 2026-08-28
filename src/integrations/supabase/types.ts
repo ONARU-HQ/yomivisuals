@@ -573,6 +573,7 @@ export type Database = {
           orientation: string
           original_filename: string | null
           priority: string
+          project_id: string | null
           quality_score: number
           sort_order: number
           tags: string[]
@@ -599,6 +600,7 @@ export type Database = {
           orientation?: string
           original_filename?: string | null
           priority?: string
+          project_id?: string | null
           quality_score?: number
           sort_order?: number
           tags?: string[]
@@ -625,6 +627,7 @@ export type Database = {
           orientation?: string
           original_filename?: string | null
           priority?: string
+          project_id?: string | null
           quality_score?: number
           sort_order?: number
           tags?: string[]
@@ -634,7 +637,15 @@ export type Database = {
           url?: string
           width?: number | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "portfolio_images_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profiles: {
         Row: {
@@ -773,9 +784,62 @@ export type Database = {
           },
         ]
       }
+      project_media: {
+        Row: {
+          alt: string | null
+          caption: string | null
+          created_at: string
+          filename: string | null
+          id: string
+          layout: string
+          project_id: string
+          provider: string | null
+          sort_order: number
+          type: string
+          url: string
+        }
+        Insert: {
+          alt?: string | null
+          caption?: string | null
+          created_at?: string
+          filename?: string | null
+          id?: string
+          layout?: string
+          project_id: string
+          provider?: string | null
+          sort_order?: number
+          type?: string
+          url: string
+        }
+        Update: {
+          alt?: string | null
+          caption?: string | null
+          created_at?: string
+          filename?: string | null
+          id?: string
+          layout?: string
+          project_id?: string
+          provider?: string | null
+          sort_order?: number
+          type?: string
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_media_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       projects: {
         Row: {
+          approach: string | null
           behind_the_scenes: string[]
+          categories: string[]
+          category: string
           challenge: string | null
           client: string | null
           cover_image: string | null
@@ -783,14 +847,21 @@ export type Database = {
           credits: Json
           description: string | null
           featured: boolean
+          featured_order: number
+          hero_video: string | null
           id: string
+          idea: string | null
           images: string[]
           industry: string | null
           location: string | null
           og_image: string | null
+          outcome: string | null
+          production: string | null
           project_date: string | null
+          project_type: string | null
           published: boolean
           results: string | null
+          sections: Json
           seo_description: string | null
           seo_title: string | null
           services: string[]
@@ -800,9 +871,14 @@ export type Database = {
           title: string
           updated_at: string
           videos: string[]
+          visibility: string
+          year: number | null
         }
         Insert: {
+          approach?: string | null
           behind_the_scenes?: string[]
+          categories?: string[]
+          category?: string
           challenge?: string | null
           client?: string | null
           cover_image?: string | null
@@ -810,14 +886,21 @@ export type Database = {
           credits?: Json
           description?: string | null
           featured?: boolean
+          featured_order?: number
+          hero_video?: string | null
           id?: string
+          idea?: string | null
           images?: string[]
           industry?: string | null
           location?: string | null
           og_image?: string | null
+          outcome?: string | null
+          production?: string | null
           project_date?: string | null
+          project_type?: string | null
           published?: boolean
           results?: string | null
+          sections?: Json
           seo_description?: string | null
           seo_title?: string | null
           services?: string[]
@@ -827,9 +910,14 @@ export type Database = {
           title: string
           updated_at?: string
           videos?: string[]
+          visibility?: string
+          year?: number | null
         }
         Update: {
+          approach?: string | null
           behind_the_scenes?: string[]
+          categories?: string[]
+          category?: string
           challenge?: string | null
           client?: string | null
           cover_image?: string | null
@@ -837,14 +925,21 @@ export type Database = {
           credits?: Json
           description?: string | null
           featured?: boolean
+          featured_order?: number
+          hero_video?: string | null
           id?: string
+          idea?: string | null
           images?: string[]
           industry?: string | null
           location?: string | null
           og_image?: string | null
+          outcome?: string | null
+          production?: string | null
           project_date?: string | null
+          project_type?: string | null
           published?: boolean
           results?: string | null
+          sections?: Json
           seo_description?: string | null
           seo_title?: string | null
           services?: string[]
@@ -854,6 +949,8 @@ export type Database = {
           title?: string
           updated_at?: string
           videos?: string[]
+          visibility?: string
+          year?: number | null
         }
         Relationships: []
       }
