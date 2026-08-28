@@ -14,6 +14,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { TopNav } from "@/components/TopNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Toaster } from "@/components/ui/sonner";
+import { PageTransition, RouteProgress, CursorLayer } from "@/components/motion";
 
 function NotFoundComponent() {
   return (
@@ -145,12 +146,16 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <RouteProgress />
       <TopNav />
       <main>
-        <Outlet />
+        <PageTransition>
+          <Outlet />
+        </PageTransition>
       </main>
       <SiteFooter />
       <Toaster />
+      <CursorLayer />
     </QueryClientProvider>
   );
 }
