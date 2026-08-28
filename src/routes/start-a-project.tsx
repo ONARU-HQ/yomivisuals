@@ -22,8 +22,10 @@ import {
 } from "@/lib/project-engine";
 
 export const Route = createFileRoute("/start-a-project")({
-  validateSearch: (search: Record<string, unknown>): { type?: string } =>
-    typeof search.type === "string" ? { type: search.type } : {},
+  validateSearch: (search: Record<string, unknown>): { type?: string; source?: string } => ({
+    ...(typeof search.type === "string" ? { type: search.type } : {}),
+    ...(typeof search.source === "string" ? { source: search.source } : {}),
+  }),
   head: () => ({
     meta: [
       { title: "Start a Project — Yomi Visuals" },

@@ -3,7 +3,8 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { ArrowUpRight } from "lucide-react";
 import { projectsQuery, servicesQuery, testimonialsQuery, coverFor } from "@/lib/cms";
 import { portfolioQuery, heroSlides, rotatedFeatured, focalStyle, type PortfolioImage } from "@/lib/portfolio";
-import { HeroRotator } from "@/components/HeroRotator";
+import { HeroFilm } from "@/components/HeroFilm";
+import { track } from "@/lib/analytics";
 import { Container, Section, SectionHeading, Reveal, TextLink, Eyebrow } from "@/components/site/ui";
 import { ScrollCue, useHeroScroll } from "@/components/motion";
 import { STAGGER } from "@/lib/motion";
@@ -71,7 +72,7 @@ function HomePage() {
     <>
       {/* Hero film — the lights go down, the film starts */}
       <HeroFilm mediaStyle={hero.media}>
-        {({ soundOn, toggleSound }) => (
+        {({ soundOn, toggleSound }: { soundOn: boolean; toggleSound: () => void }) => (
           <Container>
             <div className="fade-up max-w-3xl pb-16 md:pb-10" style={hero.headline}>
               <div style={{ animation: `fade-up var(--motion-dramatic) var(--ease-out-expo) both`, animationDelay: `${STAGGER.label}ms` }}>
