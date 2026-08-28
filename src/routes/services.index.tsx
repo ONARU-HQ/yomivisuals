@@ -3,7 +3,13 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { ArrowUpRight } from "lucide-react";
 import { servicesQuery } from "@/lib/cms";
 import { Container, PageHero, ButtonLink } from "@/components/site/ui";
-import { PILLARS } from "@/lib/ecosystem";
+import { PILLARS, DIVISIONS } from "@/lib/ecosystem";
+import { ServiceAccordion } from "@/components/yv";
+
+const SERVICE_ROWS = [
+  ...PILLARS.map((p, i) => ({ code: `0${i + 1}`, title: p.code, summary: p.title, items: p.items })),
+  { code: "04", title: "Studio", summary: "The production environment.", items: DIVISIONS[3].services },
+];
 
 export const Route = createFileRoute("/services/")({
   loader: ({ context }) => context.queryClient.ensureQueryData(servicesQuery),
