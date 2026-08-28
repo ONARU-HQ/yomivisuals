@@ -1,7 +1,6 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { ArrowUpRight, Menu, X } from "lucide-react";
-import { STAGGER } from "@/lib/motion";
 
 const links = [
   { to: "/work", label: "Work" },
