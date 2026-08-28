@@ -3,10 +3,10 @@
  * Every component is token-driven; no hardcoded colours.
  */
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, ArrowUpRight, Minus, Plus } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Plus } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { Reveal as MotionReveal, type RevealVariant as MotionRevealVariant } from "@/components/motion";
-import { STAGGER } from "@/lib/motion";
+import { STAGGER, useInView } from "@/lib/motion";
 
 /* ───────────────────────── Brand ───────────────────────── */
 
@@ -368,7 +368,7 @@ export function ServiceAccordion({ rows }: { rows: ServiceRowData[] }) {
                 type="button"
                 aria-expanded={isOpen}
                 onClick={() => setOpen(isOpen ? null : row.code)}
-                className="tap flex w-full items-start gap-4 py-6 text-left md:gap-8 md:py-8"
+                className="tap press flex w-full items-start gap-4 py-6 text-left md:gap-8 md:py-8"
               >
                 <span className="text-index mt-2 shrink-0">{row.code}</span>
                 <span className="min-w-0 flex-1">
@@ -376,7 +376,10 @@ export function ServiceAccordion({ rows }: { rows: ServiceRowData[] }) {
                   <span className="type-small mt-2 block text-muted-foreground">{row.summary}</span>
                 </span>
                 <span className="mt-1 shrink-0 text-gold" aria-hidden>
-                  {isOpen ? <Minus className="h-5 w-5" /> : <Plus className="h-5 w-5" />}
+                  <Plus
+                    className="icon-morph h-5 w-5"
+                    style={{ transform: isOpen ? "rotate(135deg)" : "rotate(0deg)" }}
+                  />
                 </span>
               </button>
             </h3>
@@ -406,20 +409,49 @@ export function ServiceAccordion({ rows }: { rows: ServiceRowData[] }) {
 export function ProcessTimeline({ stages }: { stages: { code: string; title: string; body: string }[] }) {
   return (
     <ol className="grid gap-px bg-border md:grid-flow-col md:auto-cols-fr">
-      {stages.map((s) => (
-        <li key={s.code} className="group bg-background p-5 md:p-6">
-          <div className="flex items-center gap-3 md:block">
-            <span className="text-index">{s.code}</span>
-            <span
-              className="hidden h-px w-full bg-border transition-colors duration-[var(--motion-standard)] group-hover:bg-gold md:mt-4 md:block"
-              aria-hidden
-            />
-            <h3 className="type-heading-s uppercase md:mt-4">{s.title}</h3>
-          </div>
-          <p className="type-small mt-3 text-muted-foreground">{s.body}</p>
-        </li>
+      {stages.map((s, i) => (
+        <ProcessStage key={s.code} stage={s} index={i} />
       ))}
     </ol>
+  );
+}
+
+/** Active stage tracks scroll position via IntersectionObserver, not scroll maths. */
+function ProcessStage({
+  stage,
+  index,
+}: {
+  stage: { code: string; title: string; body: string };
+  index: number;
+}) {
+  const { ref, inView } = useInView<HTMLLIElement>({ once: false, margin: "-35% 0px -35% 0px" });
+  return (
+    <li
+      ref={ref}
+      aria-current={inView || undefined}
+      className="group bg-background p-5 transition-colors duration-[var(--motion-standard)] md:p-6"
+      style={{ opacity: inView ? 1 : 0.55, transition: "opacity var(--motion-standard) var(--ease-out-expo)" }}
+    >
+      <div className="flex items-center gap-3 md:block">
+        <span className="text-index">{stage.code}</span>
+        <span
+          aria-hidden
+          className="hidden h-px w-full origin-left bg-border transition-transform duration-[var(--motion-cinematic)] ease-[var(--ease-out-expo)] md:mt-4 md:block"
+          style={{
+            backgroundColor: inView ? "var(--gold)" : undefined,
+            transform: inView ? "scaleX(1)" : "scaleX(0.25)",
+            transitionDelay: `${index * 40}ms`,
+          }}
+        />
+        <h3
+          className="type-heading-s uppercase transition-colors duration-[var(--motion-standard)] md:mt-4"
+          style={{ color: inView ? "var(--foreground)" : "var(--muted-foreground)" }}
+        >
+          {stage.title}
+        </h3>
+      </div>
+      <p className="type-small mt-3 text-muted-foreground">{stage.body}</p>
+    </li>
   );
 }
 
@@ -431,10 +463,15 @@ export function EcosystemMap({
   divisions: { code: string; name: string; tagline: string; body: string }[];
 }) {
   const [active, setActive] = useState(divisions[0]?.code ?? "");
+  const [hovering, setHovering] = useState(false);
   const current = divisions.find((d) => d.code === active) ?? divisions[0];
   return (
     <div className="grid gap-px bg-border lg:grid-cols-[minmax(0,1fr)_1fr]">
-      <ul className="bg-background">
+      <ul
+        className="bg-background"
+        onMouseEnter={() => setHovering(true)}
+        onMouseLeave={() => setHovering(false)}
+      >
         {divisions.map((d) => (
           <li key={d.code}>
             <button
@@ -443,7 +480,8 @@ export function EcosystemMap({
               onFocus={() => setActive(d.code)}
               onClick={() => setActive(d.code)}
               aria-current={active === d.code}
-              className={`tap flex w-full items-baseline gap-4 border-b border-border px-1 py-4 text-left transition-colors duration-[var(--motion-fast)] md:px-3 md:py-5 ${
+              style={{ opacity: hovering && active !== d.code ? 0.45 : 1 }}
+              className={`tap press peer-dim flex w-full items-baseline gap-4 border-b border-border px-1 py-4 text-left transition-colors duration-[var(--motion-fast)] md:px-3 md:py-5 ${
                 active === d.code ? "bg-elevated" : "hover:bg-elevated/60"
               }`}
             >
