@@ -398,6 +398,27 @@ function HomePage() {
         />
       </Section>
 
+
+      {/* FAQ — buyer questions, indexed */}
+      <Section className="border-t border-border">
+        <SectionHeading
+          eyebrow="Questions"
+          title="What brands ask before they start."
+          action={<TextLink to="/faqs">All FAQs</TextLink>}
+        />
+        <div className="divide-y divide-border border-y border-border">
+          {HOME_FAQS.map((f) => (
+            <details key={f.q} className="group py-6">
+              <summary className="flex cursor-pointer list-none items-start justify-between gap-6 text-[15.5px] font-medium tracking-tight md:text-[17px]">
+                <h3 className="font-medium">{f.q}</h3>
+                <span aria-hidden className="mt-1 text-gold transition-transform duration-300 group-open:rotate-45">+</span>
+              </summary>
+              <p className="mt-3 max-w-2xl text-[14px] leading-relaxed text-muted-foreground">{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </Section>
+
       {/* Final CTA */}
       <section className="border-t border-border py-24 md:py-36">
         <Container className="text-center">
@@ -410,6 +431,8 @@ function HomePage() {
           <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link
               to="/start-a-project"
+              search={{ source: "homepage-footer" }}
+              onClick={() => track("START_PROJECT", { source: "footer-cta" })}
               className="inline-flex items-center justify-center gap-2 rounded-sm bg-primary px-8 py-4 text-[12.5px] font-medium uppercase tracking-[0.14em] text-primary-foreground transition-opacity hover:opacity-90"
             >
               Start a Project
@@ -417,6 +440,7 @@ function HomePage() {
             </Link>
             <Link
               to="/work"
+              onClick={() => track("VIEW_WORK", { source: "footer-cta" })}
               className="inline-flex items-center justify-center gap-2 rounded-sm border border-border-strong px-8 py-4 text-[12.5px] font-medium uppercase tracking-[0.14em] transition-colors hover:bg-elevated"
             >
               View Selected Work
@@ -424,6 +448,7 @@ function HomePage() {
           </div>
         </Container>
       </section>
+
     </>
   );
 }
