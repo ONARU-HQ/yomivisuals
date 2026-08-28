@@ -25,16 +25,17 @@ export const Route = createFileRoute("/")({
 
   head: ({ loaderData }) => ({
     meta: [
-      { title: "Yomi Visuals — Creative Production Company, Lagos" },
+      { title: "Yomi Visuals — Creative Production Company in Lagos, Nigeria" },
       {
         name: "description",
         content:
-          "Yomi Visuals is a creative production company in Lagos developing ideas, campaigns and visual experiences for ambitious brands — creative direction, campaign development and full production.",
+          "Yomi Visuals is a creative production company in Lagos, Nigeria producing campaigns, brand films, commercials, photography and visual content for ambitious brands.",
       },
-      { property: "og:title", content: "Yomi Visuals — Creative Production Company" },
+      { property: "og:title", content: "Yomi Visuals — Creative Production Company in Lagos, Nigeria" },
       {
         property: "og:description",
-        content: "We make ideas real. Creative direction, campaign development and production from Lagos, Nigeria.",
+        content:
+          "We make ideas real. Campaigns, brand films, commercials, photography and content production from Lagos, Nigeria.",
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://yomivisuals.lovable.app/" },
@@ -46,15 +47,64 @@ export const Route = createFileRoute("/")({
           ]
         : []),
     ],
-    links: [
-      { rel: "canonical", href: "https://yomivisuals.lovable.app/" },
-      ...(loaderData?.ogImage
-        ? [{ rel: "preload", as: "image", href: loaderData.ogImage, fetchpriority: "high" } as const]
-        : []),
+    links: [{ rel: "canonical", href: "https://yomivisuals.lovable.app/" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "Yomi Visuals",
+          url: "https://yomivisuals.lovable.app/",
+          potentialAction: {
+            "@type": "SearchAction",
+            target: "https://yomivisuals.lovable.app/work?q={search_term_string}",
+            "query-input": "required name=search_term_string",
+          },
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: HOME_FAQS.map((f) => ({
+            "@type": "Question",
+            name: f.q,
+            acceptedAnswer: { "@type": "Answer", text: f.a },
+          })),
+        }),
+      },
     ],
   }),
   component: HomePage,
 });
+
+/** Homepage FAQs — real buyer questions, mirrored into FAQ schema above. */
+const HOME_FAQS = [
+  {
+    q: "What does Yomi Visuals do?",
+    a: "Yomi Visuals is a creative production company based in Lagos, Nigeria. We develop the creative idea, produce the campaign, film or photography, and deliver finished visual content brands can run across every channel.",
+  },
+  {
+    q: "Do you work with brands outside Lagos?",
+    a: "Yes. We are based in Lagos and produce across Nigeria and internationally, building local crews and logistics around each production.",
+  },
+  {
+    q: "How much does a project cost?",
+    a: "Every project is scoped individually. Start a project brief and we return a scoped proposal with a clear budget range before anything is confirmed.",
+  },
+  {
+    q: "How long does a project take?",
+    a: "A single production day can be delivered in one to two weeks. Full campaigns typically run four to eight weeks from brief to final delivery.",
+  },
+  {
+    q: "Can you handle creative direction and production together?",
+    a: "Yes. Most clients use us end to end — idea, creative direction, production and delivery — but we also produce work directed by in-house or agency teams.",
+  },
+] as const;
+
+
 
 
 function HomePage() {
