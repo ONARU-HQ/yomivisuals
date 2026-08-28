@@ -61,7 +61,7 @@ export function CaseStudyCard({
   return (
     <Reveal>
       <Link
-        to="/projects/$slug"
+        to="/work/$slug"
         params={{ slug: project.slug }}
         className={`group block ${variant === "offset" ? "md:mt-24" : ""}`}
       >
@@ -283,7 +283,7 @@ export function AgencyPartnership({ image }: { image?: PortfolioImage }) {
           ))}
         </ul>
         <Link
-          to="/book"
+          to="/start-a-project"
           className="group mt-9 inline-flex items-center gap-3 border border-border-strong px-7 py-4.5 text-[12px] uppercase tracking-[0.18em] text-foreground transition-colors hover:bg-surface"
         >
           Partner with YV

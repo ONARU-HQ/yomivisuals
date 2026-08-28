@@ -23,7 +23,7 @@ function StudioPage() {
   return (
     <>
       <PageHero eyebrow="YV Studios" title="A room built for good light." body="Three configurable spaces in Lagos, available to our clients and to external productions.">
-        <ButtonLink to="/book">Check availability</ButtonLink>
+        <ButtonLink to="/start-a-project">Check availability</ButtonLink>
       </PageHero>
       <Container className="py-14 md:py-20">
         <div className="space-y-6">
@@ -41,7 +41,7 @@ function StudioPage() {
                     <li key={a} className="rounded-sm border border-border px-3 py-1.5 text-[12.5px] text-subtle">{a}</li>
                   ))}
                 </ul>
-                <div className="mt-8"><ButtonLink to="/book" variant="outline">Book this space</ButtonLink></div>
+                <div className="mt-8"><ButtonLink to="/start-a-project" variant="outline">Book this space</ButtonLink></div>
               </div>
             </div>
           ))}

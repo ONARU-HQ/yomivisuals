@@ -3,6 +3,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { settingsQuery, servicesQuery } from "@/lib/cms";
+import { ENQUIRY_TYPES } from "@/lib/ecosystem";
 import { Container, PageHero, Field, inputClass, Button } from "@/components/site/ui";
 
 export const Route = createFileRoute("/contact")({
@@ -41,8 +42,10 @@ function ContactPage() {
       email: String(fd.get("email") ?? "").trim(),
       phone: String(fd.get("phone") ?? "").trim() || null,
       company: String(fd.get("company") ?? "").trim() || null,
-      service: String(fd.get("service") ?? "") || null,
-      message: String(fd.get("message") ?? "").trim() || null,
+      service: String(fd.get("service") ?? "") || String(fd.get("enquiry") ?? "") || null,
+      message: [`Enquiry type: ${String(fd.get("enquiry") ?? "General enquiry")}`, String(fd.get("message") ?? "").trim()]
+        .filter(Boolean)
+        .join("\n\n") || null,
       source: "contact",
     };
     if (!payload.name || !payload.email.includes("@")) {
@@ -53,13 +56,13 @@ function ContactPage() {
     setError(null);
     const { error: dbError } = await supabase.from("leads").insert(payload);
     setSending(false);
-    if (dbError) setError("Something went wrong. Please email us directly.");
+    if (dbError) setError("We couldn\u2019t send your message. Your information is still here \u2014 please try again.");
     else setDone(true);
   }
 
   return (
     <>
-      <PageHero eyebrow="Contact" title="Start a conversation." body="Tell us what you're working on. We answer every serious enquiry within one working day." />
+      <PageHero eyebrow="Contact" title="Start a conversation." body="General, production, studio, creator and partnership enquiries. Ready to brief a project? Start a project instead \u2014 it gets to the right team faster." />
       <Container className="grid gap-12 py-14 md:grid-cols-2 md:py-20">
         <div className="space-y-8">
           {[
@@ -77,7 +80,7 @@ function ContactPage() {
 
         {done ? (
           <div className="panel p-8">
-            <h2 className="text-display text-2xl">Message received.</h2>
+            <h2 className="text-display text-2xl">Message sent.</h2>
             <p className="mt-3 text-[14px] text-muted-foreground">We'll be in touch within one working day.</p>
           </div>
         ) : (
@@ -88,14 +91,23 @@ function ContactPage() {
               <Field label="Phone"><input name="phone" className={inputClass} /></Field>
               <Field label="Company"><input name="company" className={inputClass} /></Field>
             </div>
-            <Field label="Service">
+            <Field label="Enquiry type">
+              <select name="enquiry" className={inputClass} defaultValue={ENQUIRY_TYPES[0]}>
+                {ENQUIRY_TYPES.map((t) => <option key={t} value={t}>{t}</option>)}
+              </select>
+            </Field>
+            <Field label="Service" hint="Optional.">
               <select name="service" className={inputClass} defaultValue="">
                 <option value="">Select a service</option>
                 {services.map((s) => <option key={s.id} value={s.title}>{s.title}</option>)}
               </select>
             </Field>
             <Field label="Message"><textarea name="message" rows={5} className={inputClass} /></Field>
-            {error ? <p className="text-[13px] text-destructive">{error}</p> : null}
+            {error ? (
+              <p role="alert" className="border border-destructive/40 px-4 py-3 text-[13px] text-destructive">
+                {error}
+              </p>
+            ) : null}
             <Button type="submit" disabled={sending} className="w-full">{sending ? "Sending…" : "Send message"}</Button>
           </form>
         )}

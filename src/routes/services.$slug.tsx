@@ -66,7 +66,7 @@ function ServicePage() {
   return (
     <>
       <PageHero eyebrow="Service" title={service.title} body={service.overview || service.excerpt || undefined}>
-        <ButtonLink to="/book">Book Consultation</ButtonLink>
+        <ButtonLink to="/start-a-project">Book Consultation</ButtonLink>
       </PageHero>
 
       <Container className="py-12">
@@ -132,7 +132,7 @@ function ServicePage() {
                   ))}
                 </ul>
                 <div className="mt-8">
-                  <ButtonLink to="/book" variant="outline">
+                  <ButtonLink to="/start-a-project" variant="outline">
                     Enquire
                   </ButtonLink>
                 </div>

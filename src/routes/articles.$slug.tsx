@@ -60,7 +60,7 @@ function ArticlePage() {
               <p key={i} className="text-[16px] leading-[1.75] text-subtle">{block}</p>
             ),
           )}
-          <div className="pt-6"><ButtonLink to="/book">Work with us</ButtonLink></div>
+          <div className="pt-6"><ButtonLink to="/start-a-project">Work with us</ButtonLink></div>
         </div>
       </Container>
     </article>

@@ -104,7 +104,7 @@ export function ProjectForm({ source = "website" }: { source?: string }) {
           YV will review your project and get back to you — usually within one working day.
         </p>
         <Link
-          to="/projects"
+          to="/work"
           className="mt-8 inline-flex items-center gap-2 border border-border-strong px-6 py-4 text-[12px] uppercase tracking-[0.16em]"
         >
           View selected work

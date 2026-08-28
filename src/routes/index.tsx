@@ -83,14 +83,14 @@ function HomePage() {
             </p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Link
-                to="/book"
+                to="/start-a-project"
                 className="inline-flex items-center justify-center gap-2 rounded-sm bg-primary px-7 py-4 text-[12.5px] font-medium uppercase tracking-[0.14em] text-primary-foreground transition-opacity hover:opacity-90"
               >
                 Start a Project
                 <ArrowUpRight className="h-4 w-4" />
               </Link>
               <Link
-                to="/portfolio"
+                to="/work"
                 className="inline-flex items-center justify-center gap-2 rounded-sm border border-border-strong px-7 py-4 text-[12.5px] font-medium uppercase tracking-[0.14em] transition-colors hover:bg-elevated"
               >
                 View Our Work
@@ -100,20 +100,35 @@ function HomePage() {
         </Container>
       </section>
 
+      {/* Brand introduction */}
+      <section className="border-t border-border py-16 md:py-28">
+        <Container>
+          <Eyebrow>Yomi Visuals</Eyebrow>
+          <p className="text-display mt-6 max-w-4xl text-[clamp(1.6rem,5.5vw,3.4rem)] leading-[1.08]">
+            We are a creative production company.
+          </p>
+          <p className="mt-7 max-w-2xl text-[15.5px] leading-relaxed text-subtle md:text-[17px]">
+            We develop ideas, direct creative and build the production required to bring ambitious visions to life —
+            from a single production to a full brand campaign.
+          </p>
+        </Container>
+      </section>
+
       {/* Selected work */}
+
       <Section>
         <SectionHeading
           eyebrow="Selected Work"
           title="Campaigns, productions and visual stories."
           body="A selection of campaigns, commercial productions and visual stories created for brands, people and experiences."
-          action={<TextLink to="/portfolio">View all work</TextLink>}
+          action={<TextLink to="/work">View all work</TextLink>}
         />
         {featuredProjects.length ? (
           <div className="grid gap-5 md:grid-cols-2">
             {featuredProjects.map((p, i) => (
               <Reveal key={p.id} delay={(i % 2) * 80} className={i % 4 === 3 ? "md:mt-14" : ""}>
                 <Link
-                  to="/projects/$slug"
+                  to="/work/$slug"
                   params={{ slug: p.slug }}
                   className="image-reveal group block overflow-hidden rounded-sm border border-border bg-elevated"
                 >
@@ -252,25 +267,35 @@ function HomePage() {
         </Section>
       ) : null}
 
+      {/* Founder */}
+      <Section className="border-t border-border">
+        <SectionHeading
+          eyebrow="Leadership"
+          title="Yomi Onalaru — Founder & Creative Producer."
+          body="Yomi leads the creative vision, develops ideas, builds production teams and oversees execution. The company delivers the work."
+          action={<TextLink to="/about/founder">Meet the founder</TextLink>}
+        />
+      </Section>
+
       {/* Final CTA */}
       <section className="border-t border-border py-24 md:py-36">
         <Container className="text-center">
           <h2 className="text-display mx-auto max-w-4xl text-[clamp(2rem,6.5vw,4.4rem)]">
-            Let's build something people remember.
+            Have an idea? Let's make it real.
           </h2>
           <p className="mx-auto mt-6 max-w-lg text-[15px] leading-relaxed text-muted-foreground">
             Tell us what you're building, what you want people to feel, and where you want your brand to go.
           </p>
           <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link
-              to="/book"
+              to="/start-a-project"
               className="inline-flex items-center justify-center gap-2 rounded-sm bg-primary px-8 py-4 text-[12.5px] font-medium uppercase tracking-[0.14em] text-primary-foreground transition-opacity hover:opacity-90"
             >
               Start a Project
               <ArrowUpRight className="h-4 w-4" />
             </Link>
             <Link
-              to="/portfolio"
+              to="/work"
               className="inline-flex items-center justify-center gap-2 rounded-sm border border-border-strong px-8 py-4 text-[12.5px] font-medium uppercase tracking-[0.14em] transition-colors hover:bg-elevated"
             >
               View Selected Work
@@ -290,7 +315,7 @@ function FallbackShowcase({ photos }: { photos: PortfolioImage[] }) {
       {photos.map((img, i) => (
         <Link
           key={img.id}
-          to="/portfolio"
+          to="/work"
           className="image-reveal group mb-3 block w-full overflow-hidden rounded-sm border border-border bg-elevated md:mb-4"
         >
           <div
