@@ -131,6 +131,36 @@ function HomePage() {
         </Container>
       </section>
 
+      {/* Objective-led entry — turns a visitor into a brief in one click */}
+      <Section className="border-t border-border">
+        <SectionHeading
+          eyebrow="Start Here"
+          title="What are you trying to make?"
+          body="Pick the closest one. We'll build the brief around it and recommend the production scope."
+        />
+        <div className="grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
+          {PROJECT_TYPES.map((t) => (
+            <Link
+              key={t.key}
+              to="/start-a-project"
+              search={{ type: t.key }}
+              className="group flex flex-col justify-between gap-6 bg-background p-6 transition-colors duration-[var(--motion-fast)] hover:bg-elevated md:p-8"
+            >
+              <div>
+                <h3 className="text-[16px] font-medium tracking-tight md:text-[17px]">{t.label}</h3>
+                <p className="mt-2 text-[13.5px] leading-relaxed text-muted-foreground">{t.body}</p>
+              </div>
+              <span className="inline-flex items-center gap-2 text-[11.5px] uppercase tracking-[0.16em] text-subtle">
+                Start a brief
+                <ArrowUpRight className="h-3.5 w-3.5 text-gold transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+              </span>
+            </Link>
+          ))}
+        </div>
+      </Section>
+
+
+
       {/* Selected work */}
 
       <Section>
