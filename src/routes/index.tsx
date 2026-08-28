@@ -7,6 +7,7 @@ import { HeroRotator } from "@/components/HeroRotator";
 import { Container, Section, SectionHeading, Reveal, TextLink, Eyebrow } from "@/components/site/ui";
 import { ScrollCue, useHeroScroll } from "@/components/motion";
 import { STAGGER } from "@/lib/motion";
+import { PROJECT_TYPES } from "@/lib/project-engine";
 import { PILLARS, PROCESS_STAGES, DIVISIONS } from "@/lib/ecosystem";
 
 export const Route = createFileRoute("/")({
