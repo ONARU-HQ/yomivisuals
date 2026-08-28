@@ -1085,6 +1085,7 @@ export type Database = {
           title: string
         }[]
       }
+      submit_project_brief: { Args: { payload: Json }; Returns: string }
     }
     Enums: {
       app_role:
