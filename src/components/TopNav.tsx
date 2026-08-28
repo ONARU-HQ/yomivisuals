@@ -4,9 +4,10 @@ import { ArrowUpRight, Menu, X } from "lucide-react";
 
 const links = [
   { to: "/projects", label: "Work" },
-  { to: "/capabilities", label: "Capabilities" },
+  { to: "/services", label: "Services" },
+  { to: "/how-we-work", label: "How We Work" },
   { to: "/about", label: "About" },
-  { to: "/for-agencies", label: "For Agencies" },
+  { to: "/ecosystem", label: "Ecosystem" },
 ] as const;
 
 export function TopNav() {

@@ -5,6 +5,7 @@ import { projectsQuery, servicesQuery, testimonialsQuery, coverFor } from "@/lib
 import { portfolioQuery, heroSlides, rotatedFeatured, focalStyle, type PortfolioImage } from "@/lib/portfolio";
 import { HeroRotator } from "@/components/HeroRotator";
 import { Container, Section, SectionHeading, Reveal, TextLink, Eyebrow } from "@/components/site/ui";
+import { PILLARS, PROCESS_STAGES, DIVISIONS } from "@/lib/ecosystem";
 
 export const Route = createFileRoute("/")({
   loader: async ({ context }) => {
@@ -19,16 +20,16 @@ export const Route = createFileRoute("/")({
 
   head: ({ loaderData }) => ({
     meta: [
-      { title: "Yomi Visuals — Creative Agency in Lagos, Nigeria" },
+      { title: "Yomi Visuals — Creative Production Company, Lagos" },
       {
         name: "description",
         content:
-          "Yomi Visuals is a premium creative agency in Lagos specializing in campaign creative, commercial photography, brand photography, creative direction and visual production.",
+          "Yomi Visuals is a creative production company in Lagos developing ideas, campaigns and visual experiences for ambitious brands — creative direction, campaign development and full production.",
       },
-      { property: "og:title", content: "Yomi Visuals — Creative Agency in Lagos, Nigeria" },
+      { property: "og:title", content: "Yomi Visuals — Creative Production Company" },
       {
         property: "og:description",
-        content: "We build visuals that move brands. Campaign creative, photography and visual production from Lagos.",
+        content: "We make ideas real. Creative direction, campaign development and production from Lagos, Nigeria.",
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://yomivisuals.lovable.app/" },
@@ -50,12 +51,6 @@ export const Route = createFileRoute("/")({
   component: HomePage,
 });
 
-const PROCESS = [
-  { title: "Discover", body: "Understand the brand, audience, objective and desired perception." },
-  { title: "Concept", body: "Develop the creative concept and visual direction." },
-  { title: "Produce", body: "Photography, film, styling, lighting, art direction and production." },
-  { title: "Deliver", body: "Premium final assets ready for campaigns, websites, advertising and digital platforms." },
-];
 
 function HomePage() {
   const { data: projects } = useSuspenseQuery(projectsQuery);
@@ -80,12 +75,11 @@ function HomePage() {
 
         <Container className="relative">
           <div className="fade-up">
-            <Eyebrow>Yomi Visuals — Creative Agency, Lagos</Eyebrow>
-            <h1 className="text-display mt-5 max-w-5xl text-[clamp(2.4rem,8.5vw,6.2rem)]">
-              We build visuals that move brands.
-            </h1>
+            <Eyebrow>Yomi Visuals — Creative Production Company</Eyebrow>
+            <h1 className="text-display mt-5 max-w-5xl text-[clamp(2.4rem,8.5vw,6.2rem)]">We make ideas real.</h1>
             <p className="mt-6 max-w-xl text-[15px] leading-relaxed text-subtle md:text-lg">
-              Campaign creative, brand photography and visual production for brands that refuse to be forgotten.
+              Yomi Visuals is a creative production company developing ideas, campaigns and visual experiences for
+              ambitious brands.
             </p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Link
@@ -99,7 +93,7 @@ function HomePage() {
                 to="/portfolio"
                 className="inline-flex items-center justify-center gap-2 rounded-full border border-border-strong px-7 py-4 text-[13.5px] font-medium transition-colors hover:bg-elevated"
               >
-                View Selected Work
+                View Our Work
               </Link>
             </div>
           </div>
@@ -174,22 +168,68 @@ function HomePage() {
         </div>
       </Section>
 
-      {/* Creative process */}
+      {/* Three pillars */}
       <Section className="border-t border-border">
-        <h2 className="text-display max-w-4xl text-[clamp(1.9rem,5.5vw,3.6rem)] leading-[1.05]">
-          Good visuals get attention.
-          <br />
-          <span className="text-muted-foreground">Great visuals build perception.</span>
-        </h2>
-        <div className="mt-12 grid gap-px overflow-hidden rounded-[14px] border border-border bg-border sm:grid-cols-2 lg:grid-cols-4 md:mt-16">
-          {PROCESS.map((step, i) => (
-            <div key={step.title} className="bg-background p-6 md:p-7">
-              <span className="text-[12px] text-muted-foreground">0{i + 1}</span>
+        <SectionHeading
+          eyebrow="How We're Built"
+          title="Ideas first. Production second."
+          body="Three pillars carry every project — the thinking, the making, and the campaign that ties them together."
+          action={<TextLink to="/services">All capabilities</TextLink>}
+        />
+        <div className="grid gap-px overflow-hidden border border-border bg-border md:grid-cols-3">
+          {PILLARS.map((p, i) => (
+            <Reveal key={p.code} delay={i * 80}>
+              <div className="flex h-full flex-col bg-background p-7 md:p-9">
+                <span className="text-index">0{i + 1}</span>
+                <h3 className="text-headline mt-5 text-[clamp(1.3rem,3vw,1.8rem)]">{p.code}</h3>
+                <p className="text-serif mt-2 text-[1.05rem] normal-case text-gold">{p.title}</p>
+                <p className="mt-4 text-[14px] leading-relaxed text-muted-foreground">{p.body}</p>
+                <ul className="mt-6 flex flex-wrap gap-1.5">
+                  {p.items.slice(0, 6).map((s) => (
+                    <li key={s} className="border border-border px-2.5 py-1.5 text-[11.5px] text-muted-foreground">
+                      {s}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </Section>
+
+      {/* Process */}
+      <Section className="border-t border-border">
+        <SectionHeading
+          eyebrow="The Process"
+          title="Seven stages, brief to rollout."
+          action={<TextLink to="/how-we-work">See how we work</TextLink>}
+        />
+        <div className="grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-2 lg:grid-cols-4">
+          {PROCESS_STAGES.map((step) => (
+            <div key={step.code} className="bg-background p-6 md:p-7">
+              <span className="text-index">{step.code}</span>
               <h3 className="mt-4 text-[15px] font-medium uppercase tracking-[0.08em]">{step.title}</h3>
               <p className="mt-2.5 text-[13.5px] leading-relaxed text-muted-foreground">{step.body}</p>
             </div>
           ))}
         </div>
+      </Section>
+
+      {/* Ecosystem teaser */}
+      <Section className="border-t border-border">
+        <SectionHeading
+          eyebrow="The Ecosystem"
+          title="One master brand. Connected divisions."
+          body="Creative, production, campaigns, studios, entertainment, management and a curated creators network — assembled per project."
+          action={<TextLink to="/ecosystem">Explore the ecosystem</TextLink>}
+        />
+        <ul className="flex flex-wrap gap-2">
+          {DIVISIONS.map((d) => (
+            <li key={d.name} className="border border-border px-4 py-2.5 text-[12.5px] text-subtle">
+              {d.name}
+            </li>
+          ))}
+        </ul>
       </Section>
 
       {/* Testimonials — only rendered when real ones exist */}

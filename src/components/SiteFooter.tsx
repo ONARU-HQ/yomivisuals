@@ -8,10 +8,12 @@ import { Container, inputClass } from "@/components/site/ui";
 
 const columns = [
   {
-    title: "Studio",
+    title: "Company",
     links: [
       { to: "/portfolio", label: "Work" },
       { to: "/services", label: "Services" },
+      { to: "/how-we-work", label: "How We Work" },
+      { to: "/ecosystem", label: "Ecosystem" },
       { to: "/about", label: "About" },
       { to: "/contact", label: "Contact" },
     ],
