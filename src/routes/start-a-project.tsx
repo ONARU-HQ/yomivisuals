@@ -2,6 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useRef, useState } from "react";
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Paperclip, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { SwapFade } from "@/components/motion";
+import { ACTION_LABELS, type ActionState } from "@/lib/motion";
 import { Container, PageHero, Field, inputClass, Button, Eyebrow } from "@/components/site/ui";
 import { PROJECT_TYPE_OPTIONS, BUDGET_RANGES, TIMELINES } from "@/lib/ecosystem";
 
@@ -66,7 +68,8 @@ function StartProjectPage() {
   const [step, setStep] = useState(0);
   const [brief, setBrief] = useState<Brief>(EMPTY);
   const [file, setFile] = useState<File | null>(null);
-  const [sending, setSending] = useState(false);
+  const [action, setAction] = useState<ActionState>("idle");
+  const sending = action === "submitting" || action === "processing";
   const [done, setDone] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -99,7 +102,7 @@ function StartProjectPage() {
   }
 
   async function submit() {
-    setSending(true);
+    setAction(file ? "processing" : "submitting");
     setError(null);
 
     let reference_file: string | null = null;
@@ -111,11 +114,12 @@ function StartProjectPage() {
         upsert: false,
       });
       if (upErr) {
-        setSending(false);
+        setAction("error");
         setError("The reference file couldn't be uploaded. Your brief is still here — try a smaller file, or send it without one.");
         return;
       }
       reference_file = path;
+      setAction("submitting");
     }
 
     const message = [
@@ -138,11 +142,12 @@ function StartProjectPage() {
       reference_file,
     });
 
-    setSending(false);
     if (dbError) {
+      setAction("error");
       setError("We couldn't send your brief. Your information is still here — please try again.");
       return;
     }
+    setAction("success");
     setDone(true);
     window.scrollTo({ top: 0 });
   }
@@ -346,7 +351,7 @@ function StartProjectPage() {
                   <button
                     type="button"
                     onClick={() => fileRef.current?.click()}
-                    className="tap flex w-full items-center justify-center gap-2 border border-dashed border-border-strong bg-elevated px-4 py-8 text-[13px] text-subtle transition-colors hover:bg-surface"
+                    className="tap press flex w-full items-center justify-center gap-2 border border-dashed border-border-strong bg-elevated px-4 py-8 text-[13px] text-subtle transition-colors duration-[var(--motion-fast)] hover:bg-surface"
                   >
                     <Paperclip className="h-4 w-4" />
                     Upload a brief, moodboard or reference
@@ -383,7 +388,7 @@ function StartProjectPage() {
             ) : null}
 
             {error ? (
-              <p role="alert" className="border border-destructive/40 px-4 py-3 text-[13px] text-destructive">
+              <p role="alert" className="field-error border border-destructive/40 px-4 py-3 text-[13px] text-destructive">
                 {error}
               </p>
             ) : null}
@@ -393,7 +398,7 @@ function StartProjectPage() {
                 <button
                   type="button"
                   onClick={back}
-                  className="tap inline-flex items-center justify-center gap-2 border border-border-strong px-6 py-4 text-[12px] uppercase tracking-[0.16em]"
+                  className="tap press inline-flex items-center justify-center gap-2 border border-border-strong px-6 py-4 text-[12px] uppercase tracking-[0.16em] transition-colors duration-[var(--motion-fast)] hover:bg-elevated"
                 >
                   <ArrowLeft className="h-4 w-4" />
                   Back
@@ -401,16 +406,22 @@ function StartProjectPage() {
               ) : null}
               {isReview ? (
                 <Button type="button" onClick={submit} disabled={sending} className="flex-1 py-4 text-[13px]">
-                  {sending ? "Sending your brief…" : "Send project brief"}
+                  {action === "processing"
+                    ? "Uploading your reference…"
+                    : action === "submitting"
+                      ? "Sending your brief…"
+                      : action === "error"
+                        ? ACTION_LABELS.error
+                        : "Send project brief"}
                 </Button>
               ) : (
                 <button
                   type="button"
                   onClick={next}
-                  className="tap inline-flex flex-1 items-center justify-center gap-2 bg-primary px-6 py-4 text-[12px] uppercase tracking-[0.18em] text-primary-foreground transition-opacity hover:opacity-90"
+                  className="tap press group inline-flex flex-1 items-center justify-center gap-2 bg-primary px-6 py-4 text-[12px] uppercase tracking-[0.18em] text-primary-foreground transition-opacity duration-[var(--motion-fast)] hover:opacity-90"
                 >
                   Continue
-                  <ArrowRight className="h-4 w-4" />
+                  <ArrowRight className="arrow-nudge h-4 w-4" />
                 </button>
               )}
             </div>
