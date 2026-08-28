@@ -47,7 +47,7 @@ function ArticlePage() {
         </p>
       </Container>
       <Container>
-        <div className="overflow-hidden rounded-[14px] border border-border">
+        <div className="overflow-hidden rounded-sm border border-border">
           <img src={coverFor(article as any)} alt={article.title} className="w-full object-cover" />
         </div>
       </Container>

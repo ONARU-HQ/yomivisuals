@@ -202,4 +202,4 @@ export function Field({
 }
 
 export const inputClass =
-  "w-full rounded-[10px] border border-input bg-elevated px-4 py-3 text-[14px] text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-border-strong";
+  "w-full rounded-sm border border-input bg-elevated px-4 py-3 text-[14px] text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-border-strong";

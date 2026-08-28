@@ -26,7 +26,7 @@ function ArticlesPage() {
       <Container className="py-14 md:py-20">
         <div className="grid gap-6 md:grid-cols-3">
           {articles.map((a, i) => (
-            <Link key={a.id} to="/articles/$slug" params={{ slug: a.slug }} className="image-reveal group block overflow-hidden rounded-[14px] border border-border">
+            <Link key={a.id} to="/articles/$slug" params={{ slug: a.slug }} className="image-reveal group block overflow-hidden rounded-sm border border-border">
               <div className="aspect-[3/2] overflow-hidden">
                 <img src={coverFor(a as any, i)} alt={a.title} loading="lazy" className="h-full w-full object-cover" />
               </div>

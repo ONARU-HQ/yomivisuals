@@ -50,7 +50,7 @@ function ServicesPage() {
         <h2 className="type-heading-l mb-8 uppercase">Specialised capabilities</h2>
 
 
-        <div className="grid gap-px overflow-hidden rounded-[14px] border border-border bg-border md:grid-cols-2">
+        <div className="grid gap-px overflow-hidden rounded-sm border border-border bg-border md:grid-cols-2">
           {services.map((s) => {
             const price = Array.isArray(s.pricing) && s.pricing.length ? s.pricing[0].price : null;
             return (

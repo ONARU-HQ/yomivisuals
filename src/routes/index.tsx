@@ -115,7 +115,7 @@ function HomePage() {
                 <Link
                   to="/projects/$slug"
                   params={{ slug: p.slug }}
-                  className="image-reveal group block overflow-hidden rounded-[14px] border border-border bg-elevated"
+                  className="image-reveal group block overflow-hidden rounded-sm border border-border bg-elevated"
                 >
                   <div className="aspect-[4/3] overflow-hidden">
                     <img
@@ -291,7 +291,7 @@ function FallbackShowcase({ photos }: { photos: PortfolioImage[] }) {
         <Link
           key={img.id}
           to="/portfolio"
-          className="image-reveal group mb-3 block w-full overflow-hidden rounded-[10px] border border-border bg-elevated md:mb-4"
+          className="image-reveal group mb-3 block w-full overflow-hidden rounded-sm border border-border bg-elevated md:mb-4"
         >
           <div
             className="relative w-full"

@@ -116,7 +116,7 @@ function BookPage() {
   if (done) {
     return (
       <Container className="flex min-h-[80svh] flex-col items-center justify-center py-32 text-center">
-        <div className="grid h-14 w-14 place-items-center rounded-full border border-border-strong">
+        <div className="grid h-14 w-14 place-items-center rounded-sm border border-border-strong">
           <Check className="h-6 w-6" />
         </div>
         <h1 className="text-display mt-8 text-[clamp(2rem,5vw,3.2rem)]">Request received.</h1>
@@ -126,7 +126,7 @@ function BookPage() {
         </p>
         <Link
           to="/portfolio"
-          className="mt-10 inline-flex items-center gap-2 rounded-full border border-border-strong px-6 py-3.5 text-[13px] font-medium"
+          className="mt-10 inline-flex items-center gap-2 rounded-sm border border-border-strong px-6 py-3.5 text-[13px] font-medium"
         >
           View selected work
           <ArrowUpRight className="h-4 w-4" />
@@ -219,7 +219,7 @@ function BookPage() {
               onChange={(e) => pickFile(e.target.files?.[0] ?? null)}
             />
             {file ? (
-              <div className="flex items-center justify-between gap-3 rounded-[10px] border border-border bg-elevated px-4 py-3">
+              <div className="flex items-center justify-between gap-3 rounded-sm border border-border bg-elevated px-4 py-3">
                 <span className="flex min-w-0 items-center gap-2 text-[13px]">
                   <Paperclip className="h-4 w-4 shrink-0 text-muted-foreground" />
                   <span className="truncate">{file.name}</span>
@@ -231,7 +231,7 @@ function BookPage() {
                     setFile(null);
                     if (fileRef.current) fileRef.current.value = "";
                   }}
-                  className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-border"
+                  className="grid h-8 w-8 shrink-0 place-items-center rounded-sm border border-border"
                 >
                   <X className="h-3.5 w-3.5" />
                 </button>
@@ -240,7 +240,7 @@ function BookPage() {
               <button
                 type="button"
                 onClick={() => fileRef.current?.click()}
-                className="flex w-full items-center justify-center gap-2 rounded-[10px] border border-dashed border-border-strong bg-elevated px-4 py-6 text-[13px] text-subtle transition-colors hover:bg-surface"
+                className="flex w-full items-center justify-center gap-2 rounded-sm border border-dashed border-border-strong bg-elevated px-4 py-6 text-[13px] text-subtle transition-colors hover:bg-surface"
               >
                 <Paperclip className="h-4 w-4" />
                 Attach a reference file
