@@ -212,6 +212,57 @@ export type Database = {
         }
         Relationships: []
       }
+      client_records: {
+        Row: {
+          brief_count: number
+          company: string | null
+          created_at: string
+          email: string
+          id: string
+          industry: string | null
+          instagram: string | null
+          last_brief_at: string | null
+          name: string | null
+          notes: string | null
+          phone: string | null
+          role: string | null
+          updated_at: string
+          website: string | null
+        }
+        Insert: {
+          brief_count?: number
+          company?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          industry?: string | null
+          instagram?: string | null
+          last_brief_at?: string | null
+          name?: string | null
+          notes?: string | null
+          phone?: string | null
+          role?: string | null
+          updated_at?: string
+          website?: string | null
+        }
+        Update: {
+          brief_count?: number
+          company?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          industry?: string | null
+          instagram?: string | null
+          last_brief_at?: string | null
+          name?: string | null
+          notes?: string | null
+          phone?: string | null
+          role?: string | null
+          updated_at?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
       deliverables: {
         Row: {
           booking_id: string
@@ -609,6 +660,119 @@ export type Database = {
         }
         Relationships: []
       }
+      project_briefs: {
+        Row: {
+          brand: string | null
+          budget: string | null
+          capabilities: string[]
+          category: string
+          client_id: string | null
+          company: string | null
+          created_at: string
+          email: string
+          id: string
+          industry: string | null
+          instagram: string | null
+          internal_notes: string | null
+          last_contacted_at: string | null
+          location: string | null
+          name: string
+          objective: string | null
+          phone: string | null
+          production_date: string | null
+          project_id: string
+          project_types: string[]
+          recommended: string[]
+          reference_file: string | null
+          role: string | null
+          size: Database["public"]["Enums"]["project_size"]
+          source: string | null
+          stage: Database["public"]["Enums"]["project_stage"]
+          summary: string | null
+          timeline: string | null
+          updated_at: string
+          user_id: string | null
+          website: string | null
+          workflow: string
+        }
+        Insert: {
+          brand?: string | null
+          budget?: string | null
+          capabilities?: string[]
+          category?: string
+          client_id?: string | null
+          company?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          industry?: string | null
+          instagram?: string | null
+          internal_notes?: string | null
+          last_contacted_at?: string | null
+          location?: string | null
+          name: string
+          objective?: string | null
+          phone?: string | null
+          production_date?: string | null
+          project_id: string
+          project_types?: string[]
+          recommended?: string[]
+          reference_file?: string | null
+          role?: string | null
+          size?: Database["public"]["Enums"]["project_size"]
+          source?: string | null
+          stage?: Database["public"]["Enums"]["project_stage"]
+          summary?: string | null
+          timeline?: string | null
+          updated_at?: string
+          user_id?: string | null
+          website?: string | null
+          workflow?: string
+        }
+        Update: {
+          brand?: string | null
+          budget?: string | null
+          capabilities?: string[]
+          category?: string
+          client_id?: string | null
+          company?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          industry?: string | null
+          instagram?: string | null
+          internal_notes?: string | null
+          last_contacted_at?: string | null
+          location?: string | null
+          name?: string
+          objective?: string | null
+          phone?: string | null
+          production_date?: string | null
+          project_id?: string
+          project_types?: string[]
+          recommended?: string[]
+          reference_file?: string | null
+          role?: string | null
+          size?: Database["public"]["Enums"]["project_size"]
+          source?: string | null
+          stage?: Database["public"]["Enums"]["project_stage"]
+          summary?: string | null
+          timeline?: string | null
+          updated_at?: string
+          user_id?: string | null
+          website?: string | null
+          workflow?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_briefs_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "client_records"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       projects: {
         Row: {
           behind_the_scenes: string[]
@@ -921,6 +1085,7 @@ export type Database = {
           title: string
         }[]
       }
+      submit_project_brief: { Args: { payload: Json }; Returns: string }
     }
     Enums: {
       app_role:
@@ -930,6 +1095,21 @@ export type Database = {
         | "marketing"
         | "writer"
         | "developer"
+      project_size: "small" | "medium" | "large" | "enterprise"
+      project_stage:
+        | "new_brief"
+        | "reviewing"
+        | "qualified"
+        | "discovery"
+        | "proposal"
+        | "approved"
+        | "pre_production"
+        | "production"
+        | "post_production"
+        | "client_review"
+        | "delivered"
+        | "completed"
+        | "archived"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1064,6 +1244,22 @@ export const Constants = {
         "marketing",
         "writer",
         "developer",
+      ],
+      project_size: ["small", "medium", "large", "enterprise"],
+      project_stage: [
+        "new_brief",
+        "reviewing",
+        "qualified",
+        "discovery",
+        "proposal",
+        "approved",
+        "pre_production",
+        "production",
+        "post_production",
+        "client_review",
+        "delivered",
+        "completed",
+        "archived",
       ],
     },
   },
