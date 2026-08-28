@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowUpRight } from "lucide-react";
 import { DIVISIONS, FUTURE_DIVISIONS } from "@/lib/ecosystem";
 import { Container, PageHero, Reveal, Eyebrow } from "@/components/site/ui";
+import { EcosystemMap } from "@/components/yv";
 
 export const Route = createFileRoute("/ecosystem")({
   head: () => ({
