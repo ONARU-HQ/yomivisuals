@@ -56,7 +56,7 @@ type ButtonProps = {
 };
 
 const buttonBase =
-  "inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-[13px] font-medium tracking-tight transition-all duration-300";
+  "inline-flex items-center justify-center gap-2 rounded-sm px-6 py-4 text-[12.5px] font-medium uppercase tracking-[0.14em] transition-all duration-300";
 
 const variants = {
   solid: "bg-primary text-primary-foreground hover:opacity-90",
