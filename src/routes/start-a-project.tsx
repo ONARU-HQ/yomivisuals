@@ -154,7 +154,7 @@ function StartProjectPage() {
 
   if (done) {
     return (
-      <Container className="flex min-h-[80svh] flex-col items-center justify-center py-28 text-center">
+      <Container className="confirm-in flex min-h-[80svh] flex-col items-center justify-center py-28 text-center">
         <div className="grid h-14 w-14 place-items-center border border-border-strong">
           <Check className="h-6 w-6" aria-hidden />
         </div>
@@ -184,14 +184,19 @@ function StartProjectPage() {
           {/* Progress */}
           <div className="flex items-center gap-3" aria-hidden>
             {STEPS.map((_, i) => (
-              <span key={i} className={`h-px flex-1 ${i <= step ? "bg-gold" : "bg-border"}`} />
+              <span
+              key={i}
+              className={`h-px flex-1 origin-left transition-all duration-[var(--motion-standard)] ease-[var(--ease-out-expo)] ${
+                i <= step ? "bg-gold" : "bg-border"
+              }`}
+            />
             ))}
           </div>
           <p className="mt-3 text-[11.5px] uppercase tracking-[0.16em] text-muted-foreground" aria-live="polite">
             Step {String(step + 1).padStart(2, "0")} / {String(STEPS.length).padStart(2, "0")}
           </p>
 
-          <div className="mt-10 space-y-6">
+          <SwapFade swapKey={String(step)} className="mt-10 space-y-6">
             {step === 0 ? (
               <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
                 {PROJECT_TYPE_OPTIONS.map((t) => (
@@ -203,7 +208,7 @@ function StartProjectPage() {
                       setError(null);
                     }}
                     aria-pressed={brief.projectType === t}
-                    className={`tap border px-4 py-4 text-left text-[13px] transition-colors ${
+                    className={`tap press border px-4 py-4 text-left text-[13px] transition-colors duration-[var(--motion-fast)] ${
                       brief.projectType === t
                         ? "border-gold text-foreground"
                         : "border-border text-muted-foreground hover:text-foreground"
@@ -247,7 +252,7 @@ function StartProjectPage() {
                     type="button"
                     onClick={() => set("timeline", t)}
                     aria-pressed={brief.timeline === t}
-                    className={`tap border px-4 py-4 text-left text-[13px] transition-colors ${
+                    className={`tap press border px-4 py-4 text-left text-[13px] transition-colors duration-[var(--motion-fast)] ${
                       brief.timeline === t ? "border-gold text-foreground" : "border-border text-muted-foreground hover:text-foreground"
                     }`}
                   >
@@ -265,7 +270,7 @@ function StartProjectPage() {
                     type="button"
                     onClick={() => set("budget", b)}
                     aria-pressed={brief.budget === b}
-                    className={`tap border px-4 py-4 text-left text-[13px] transition-colors ${
+                    className={`tap press border px-4 py-4 text-left text-[13px] transition-colors duration-[var(--motion-fast)] ${
                       brief.budget === b ? "border-gold text-foreground" : "border-border text-muted-foreground hover:text-foreground"
                     }`}
                   >
