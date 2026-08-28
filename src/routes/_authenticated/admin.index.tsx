@@ -30,6 +30,7 @@ function Stat({ label, value, to, tone }: { label: string; value: number | undef
 }
 
 function AdminOverview() {
+  const newBriefs = useCount("project_briefs", (q) => q.eq("stage", "new_brief"));
   const newLeads = useCount("leads", (q) => q.eq("status", "new"));
   const pendingBookings = useCount("bookings", (q) => q.eq("status", "pending"));
   const unpaid = useCount("invoices", (q) => q.eq("status", "unpaid"));
@@ -53,7 +54,8 @@ function AdminOverview() {
       <p className="text-eyebrow">Overview</p>
       <h1 className="text-display mt-3 text-[clamp(2rem,5vw,3rem)]">Studio control room.</h1>
 
-      <div className="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
+        <Stat label="New briefs" value={newBriefs.data} to="/admin/pipeline" tone="text-gold" />
         <Stat label="New leads" value={newLeads.data} to="/admin/inbox" />
         <Stat label="Pending bookings" value={pendingBookings.data} to="/admin/inbox" />
         <Stat label="Unpaid invoices" value={unpaid.data} to="/admin/invoices" />
