@@ -1,4 +1,5 @@
-import markAsset from "@/assets/yv-mark.png.asset.json";
+import markAsset from "@/assets/yv-mark-ink.png.asset.json";
+import markLightAsset from "@/assets/yv-mark.png.asset.json";
 import watermarkAsset from "@/assets/yv-watermark.png.asset.json";
 
 /**
@@ -12,8 +13,10 @@ const absolute = (url: string) => (url.startsWith("http") ? url : `${SITE_ORIGIN
 
 /** Official, uploaded brand assets. Never redrawn, recolored or distorted. */
 export const brandAssets = {
-  /** Transparent YV mark — for light surfaces, headers and signatures. */
+  /** YV mark for light surfaces (dark Y, gold V) — headers, signatures, documents. */
   mark: absolute(markAsset.url),
+  /** YV mark for dark surfaces (white Y, gold V). */
+  markOnDark: absolute(markLightAsset.url),
   /** Official YV watermark (dark plate) — for dark surfaces. */
   watermark: absolute(watermarkAsset.url),
 };
