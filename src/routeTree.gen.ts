@@ -18,6 +18,7 @@ import { Route as HowWeWorkRouteImport } from './routes/how-we-work'
 import { Route as ForAgenciesRouteImport } from './routes/for-agencies'
 import { Route as FaqsRouteImport } from './routes/faqs'
 import { Route as EcosystemRouteImport } from './routes/ecosystem'
+import { Route as DesignSystemRouteImport } from './routes/design-system'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CareersRouteImport } from './routes/careers'
 import { Route as CapabilitiesRouteImport } from './routes/capabilities'
@@ -87,6 +88,11 @@ const FaqsRoute = FaqsRouteImport.update({
 const EcosystemRoute = EcosystemRouteImport.update({
   id: '/ecosystem',
   path: '/ecosystem',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DesignSystemRoute = DesignSystemRouteImport.update({
+  id: '/design-system',
+  path: '/design-system',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -229,6 +235,7 @@ export interface FileRoutesByFullPath {
   '/capabilities': typeof CapabilitiesRoute
   '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
+  '/design-system': typeof DesignSystemRoute
   '/ecosystem': typeof EcosystemRoute
   '/faqs': typeof FaqsRoute
   '/for-agencies': typeof ForAgenciesRoute
@@ -264,6 +271,7 @@ export interface FileRoutesByTo {
   '/capabilities': typeof CapabilitiesRoute
   '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
+  '/design-system': typeof DesignSystemRoute
   '/ecosystem': typeof EcosystemRoute
   '/faqs': typeof FaqsRoute
   '/for-agencies': typeof ForAgenciesRoute
@@ -299,6 +307,7 @@ export interface FileRoutesById {
   '/capabilities': typeof CapabilitiesRoute
   '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
+  '/design-system': typeof DesignSystemRoute
   '/ecosystem': typeof EcosystemRoute
   '/faqs': typeof FaqsRoute
   '/for-agencies': typeof ForAgenciesRoute
@@ -336,6 +345,7 @@ export interface FileRouteTypes {
     | '/capabilities'
     | '/careers'
     | '/contact'
+    | '/design-system'
     | '/ecosystem'
     | '/faqs'
     | '/for-agencies'
@@ -371,6 +381,7 @@ export interface FileRouteTypes {
     | '/capabilities'
     | '/careers'
     | '/contact'
+    | '/design-system'
     | '/ecosystem'
     | '/faqs'
     | '/for-agencies'
@@ -405,6 +416,7 @@ export interface FileRouteTypes {
     | '/capabilities'
     | '/careers'
     | '/contact'
+    | '/design-system'
     | '/ecosystem'
     | '/faqs'
     | '/for-agencies'
@@ -442,6 +454,7 @@ export interface RootRouteChildren {
   CapabilitiesRoute: typeof CapabilitiesRoute
   CareersRoute: typeof CareersRoute
   ContactRoute: typeof ContactRoute
+  DesignSystemRoute: typeof DesignSystemRoute
   EcosystemRoute: typeof EcosystemRoute
   FaqsRoute: typeof FaqsRoute
   ForAgenciesRoute: typeof ForAgenciesRoute
@@ -522,6 +535,13 @@ declare module '@tanstack/react-router' {
       path: '/ecosystem'
       fullPath: '/ecosystem'
       preLoaderRoute: typeof EcosystemRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/design-system': {
+      id: '/design-system'
+      path: '/design-system'
+      fullPath: '/design-system'
+      preLoaderRoute: typeof DesignSystemRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -761,6 +781,7 @@ const rootRouteChildren: RootRouteChildren = {
   CapabilitiesRoute: CapabilitiesRoute,
   CareersRoute: CareersRoute,
   ContactRoute: ContactRoute,
+  DesignSystemRoute: DesignSystemRoute,
   EcosystemRoute: EcosystemRoute,
   FaqsRoute: FaqsRoute,
   ForAgenciesRoute: ForAgenciesRoute,

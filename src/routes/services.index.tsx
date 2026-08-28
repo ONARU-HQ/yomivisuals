@@ -3,7 +3,13 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { ArrowUpRight } from "lucide-react";
 import { servicesQuery } from "@/lib/cms";
 import { Container, PageHero, ButtonLink } from "@/components/site/ui";
-import { PILLARS } from "@/lib/ecosystem";
+import { PILLARS, DIVISIONS } from "@/lib/ecosystem";
+import { ServiceAccordion } from "@/components/yv";
+
+const SERVICE_ROWS = [
+  ...PILLARS.map((p, i) => ({ code: `0${i + 1}`, title: p.code, summary: p.title, items: p.items })),
+  { code: "04", title: "Studio", summary: "The production environment.", items: DIVISIONS[3].services },
+];
 
 export const Route = createFileRoute("/services/")({
   loader: ({ context }) => context.queryClient.ensureQueryData(servicesQuery),
@@ -38,26 +44,13 @@ function ServicesPage() {
       </PageHero>
 
       <Container className="py-14 md:py-20">
-        <div className="mb-14 grid gap-px border border-border bg-border md:mb-20 md:grid-cols-3">
-          {PILLARS.map((p, i) => (
-            <div key={p.code} className="flex flex-col bg-background p-7 md:p-9">
-              <span className="text-index">0{i + 1}</span>
-              <h2 className="text-headline mt-5 text-[clamp(1.3rem,3vw,1.9rem)]">{p.code}</h2>
-              <p className="text-serif mt-2 text-[1.05rem] normal-case text-gold">{p.title}</p>
-              <p className="mt-4 text-[14px] leading-relaxed text-muted-foreground">{p.body}</p>
-              <ul className="mt-6 space-y-1.5">
-                {p.items.map((s) => (
-                  <li key={s} className="text-[13px] text-subtle">
-                    {s}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+        <div className="mb-14 md:mb-20">
+          <ServiceAccordion rows={SERVICE_ROWS} />
         </div>
-        <h2 className="text-display mb-8 text-[clamp(1.5rem,3.5vw,2.2rem)]">Specialised capabilities</h2>
+        <h2 className="type-heading-l mb-8 uppercase">Specialised capabilities</h2>
 
-        <div className="grid gap-px overflow-hidden rounded-[14px] border border-border bg-border md:grid-cols-2">
+
+        <div className="grid gap-px overflow-hidden rounded-sm border border-border bg-border md:grid-cols-2">
           {services.map((s) => {
             const price = Array.isArray(s.pricing) && s.pricing.length ? s.pricing[0].price : null;
             return (

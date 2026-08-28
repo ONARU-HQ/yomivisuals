@@ -73,7 +73,7 @@ function ServicePage() {
         <div className="grid gap-4 sm:grid-cols-3">
           {matched.length
             ? matched.map((img) => (
-                <div key={img.id} className="image-reveal overflow-hidden rounded-[14px] border border-border">
+                <div key={img.id} className="image-reveal overflow-hidden rounded-sm border border-border">
                   <img
                     src={img.thumb_url ?? img.url}
                     alt={`${service.title} — ${img.title} by Yomi Visuals`}
@@ -86,7 +86,7 @@ function ServicePage() {
               ))
             : (service.gallery?.length ? service.gallery : [0, 1, 2].map((i) => imageFor(service.slug, i))).map(
                 (src: string, i: number) => (
-                  <div key={i} className="image-reveal overflow-hidden rounded-[14px] border border-border">
+                  <div key={i} className="image-reveal overflow-hidden rounded-sm border border-border">
                     <img
                       src={src}
                       alt={`${service.title} work ${i + 1}`}
@@ -103,7 +103,7 @@ function ServicePage() {
       {process.length ? (
         <Section className="border-t border-border">
           <Eyebrow>Process</Eyebrow>
-          <div className="mt-10 grid gap-px overflow-hidden rounded-[14px] border border-border bg-border md:grid-cols-3">
+          <div className="mt-10 grid gap-px overflow-hidden rounded-sm border border-border bg-border md:grid-cols-3">
             {process.map((step: any, i: number) => (
               <div key={i} className="bg-background p-7">
                 <span className="text-[12px] text-muted-foreground">0{i + 1}</span>
@@ -164,7 +164,7 @@ function ServicePage() {
               key={s.id}
               to="/services/$slug"
               params={{ slug: s.slug }}
-              className="rounded-full border border-border px-4 py-2 text-[13px] text-subtle transition-colors hover:bg-elevated hover:text-foreground"
+              className="rounded-sm border border-border px-4 py-2 text-[13px] text-subtle transition-colors hover:bg-elevated hover:text-foreground"
             >
               {s.title}
             </Link>

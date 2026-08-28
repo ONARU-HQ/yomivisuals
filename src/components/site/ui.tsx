@@ -56,7 +56,7 @@ type ButtonProps = {
 };
 
 const buttonBase =
-  "inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-[13px] font-medium tracking-tight transition-all duration-300";
+  "inline-flex items-center justify-center gap-2 rounded-sm px-6 py-4 text-[12.5px] font-medium uppercase tracking-[0.14em] transition-all duration-300";
 
 const variants = {
   solid: "bg-primary text-primary-foreground hover:opacity-90",
@@ -202,4 +202,4 @@ export function Field({
 }
 
 export const inputClass =
-  "w-full rounded-[10px] border border-input bg-elevated px-4 py-3 text-[14px] text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-border-strong";
+  "w-full rounded-sm border border-input bg-elevated px-4 py-3 text-[14px] text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-border-strong";

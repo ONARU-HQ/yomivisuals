@@ -48,7 +48,7 @@ function ProjectsPage() {
             <button
               key={ind}
               onClick={() => setFilter(ind)}
-              className={`rounded-full border px-4 py-2 text-[13px] transition-colors ${
+              className={`rounded-sm border px-4 py-2 text-[13px] transition-colors ${
                 filter === ind
                   ? "border-transparent bg-primary text-primary-foreground"
                   : "border-border text-subtle hover:bg-elevated"
@@ -65,7 +65,7 @@ function ProjectsPage() {
               <Link
                 to="/projects/$slug"
                 params={{ slug: p.slug }}
-                className="image-reveal group block overflow-hidden rounded-[14px] border border-border bg-elevated"
+                className="image-reveal group block overflow-hidden rounded-sm border border-border bg-elevated"
               >
                 <div className="aspect-[4/3] overflow-hidden">
                   <img src={coverFor(p, i)} alt={p.title} loading="lazy" className="h-full w-full object-cover" />

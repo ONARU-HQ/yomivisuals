@@ -109,7 +109,7 @@ function ProjectPage() {
 
         <div className="mt-14 grid gap-4 sm:grid-cols-2">
           {gallery.map((src, i) => (
-            <div key={i} className="overflow-hidden rounded-[14px] border border-border">
+            <div key={i} className="overflow-hidden rounded-sm border border-border">
               <img src={src} alt={`${project.title} image ${i + 1}`} loading="lazy" className="w-full object-cover" />
             </div>
           ))}
@@ -127,7 +127,7 @@ function ProjectPage() {
               key={p.id}
               to="/projects/$slug"
               params={{ slug: p.slug }}
-              className="image-reveal block overflow-hidden rounded-[14px] border border-border"
+              className="image-reveal block overflow-hidden rounded-sm border border-border"
             >
               <div className="aspect-[16/10] overflow-hidden">
                 <img src={coverFor(p, i)} alt={p.title} loading="lazy" className="h-full w-full object-cover" />

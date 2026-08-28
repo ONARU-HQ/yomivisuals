@@ -79,7 +79,7 @@ function PortfolioPage() {
                 key={p.id}
                 to="/projects/$slug"
                 params={{ slug: p.slug }}
-                className="image-reveal group block overflow-hidden rounded-[14px] border border-border bg-elevated"
+                className="image-reveal group block overflow-hidden rounded-sm border border-border bg-elevated"
               >
                 <div className="aspect-[4/3] overflow-hidden">
                   <img
@@ -114,7 +114,7 @@ function PortfolioPage() {
               <button
                 key={c}
                 onClick={() => setCategory(c)}
-                className={`shrink-0 rounded-full border px-4 py-2 text-[12.5px] transition-colors ${
+                className={`shrink-0 rounded-sm border px-4 py-2 text-[12.5px] transition-colors ${
                   c === category
                     ? "border-border-strong bg-elevated text-foreground"
                     : "border-transparent text-muted-foreground hover:text-foreground"
@@ -148,7 +148,7 @@ function GalleryTile({ img, onOpen, eager }: { img: PortfolioImage; onOpen: () =
   return (
     <button
       onClick={onOpen}
-      className="image-reveal group mb-3 block w-full overflow-hidden rounded-[10px] border border-border bg-elevated md:mb-4"
+      className="image-reveal group mb-3 block w-full overflow-hidden rounded-sm border border-border bg-elevated md:mb-4"
       aria-label={`Open ${img.title}`}
     >
       <div

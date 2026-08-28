@@ -84,14 +84,14 @@ function HomePage() {
             <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Link
                 to="/book"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-7 py-4 text-[13.5px] font-medium text-primary-foreground transition-opacity hover:opacity-90"
+                className="inline-flex items-center justify-center gap-2 rounded-sm bg-primary px-7 py-4 text-[12.5px] font-medium uppercase tracking-[0.14em] text-primary-foreground transition-opacity hover:opacity-90"
               >
                 Start a Project
                 <ArrowUpRight className="h-4 w-4" />
               </Link>
               <Link
                 to="/portfolio"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-border-strong px-7 py-4 text-[13.5px] font-medium transition-colors hover:bg-elevated"
+                className="inline-flex items-center justify-center gap-2 rounded-sm border border-border-strong px-7 py-4 text-[12.5px] font-medium uppercase tracking-[0.14em] transition-colors hover:bg-elevated"
               >
                 View Our Work
               </Link>
@@ -115,7 +115,7 @@ function HomePage() {
                 <Link
                   to="/projects/$slug"
                   params={{ slug: p.slug }}
-                  className="image-reveal group block overflow-hidden rounded-[14px] border border-border bg-elevated"
+                  className="image-reveal group block overflow-hidden rounded-sm border border-border bg-elevated"
                 >
                   <div className="aspect-[4/3] overflow-hidden">
                     <img
@@ -264,14 +264,14 @@ function HomePage() {
           <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link
               to="/book"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-8 py-4 text-[13.5px] font-medium text-primary-foreground transition-opacity hover:opacity-90"
+              className="inline-flex items-center justify-center gap-2 rounded-sm bg-primary px-8 py-4 text-[12.5px] font-medium uppercase tracking-[0.14em] text-primary-foreground transition-opacity hover:opacity-90"
             >
               Start a Project
               <ArrowUpRight className="h-4 w-4" />
             </Link>
             <Link
               to="/portfolio"
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-border-strong px-8 py-4 text-[13.5px] font-medium transition-colors hover:bg-elevated"
+              className="inline-flex items-center justify-center gap-2 rounded-sm border border-border-strong px-8 py-4 text-[12.5px] font-medium uppercase tracking-[0.14em] transition-colors hover:bg-elevated"
             >
               View Selected Work
             </Link>
@@ -291,7 +291,7 @@ function FallbackShowcase({ photos }: { photos: PortfolioImage[] }) {
         <Link
           key={img.id}
           to="/portfolio"
-          className="image-reveal group mb-3 block w-full overflow-hidden rounded-[10px] border border-border bg-elevated md:mb-4"
+          className="image-reveal group mb-3 block w-full overflow-hidden rounded-sm border border-border bg-elevated md:mb-4"
         >
           <div
             className="relative w-full"
