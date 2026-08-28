@@ -97,6 +97,15 @@ function ServicePage() {
                 ),
               )}
         </div>
+        <div className="mt-8">
+          <Link
+            to="/work"
+            search={{ service: service.title }}
+            className="tap inline-flex items-center gap-2 border border-border-strong px-6 py-3.5 text-[12px] uppercase tracking-[0.16em]"
+          >
+            View related work
+          </Link>
+        </div>
       </Container>
 
 
