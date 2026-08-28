@@ -430,7 +430,7 @@ function StartProjectPage() {
                 </button>
               )}
             </div>
-          </div>
+          </SwapFade>
         </div>
       </Container>
     </>
