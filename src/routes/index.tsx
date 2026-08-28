@@ -185,13 +185,15 @@ function HomePage() {
       <section id="intro" className="border-t border-border py-16 md:py-28">
         <Container>
           <Eyebrow>Yomi Visuals</Eyebrow>
-          <p className="text-display mt-6 max-w-4xl text-[clamp(1.6rem,5.5vw,3.4rem)] leading-[1.08]">
+          <h2 className="text-display mt-6 max-w-4xl text-[clamp(1.6rem,5.5vw,3.4rem)] leading-[1.08]">
             From idea to final frame.
-          </p>
+          </h2>
           <p className="mt-7 max-w-2xl text-[15.5px] leading-relaxed text-subtle md:text-[17px]">
-            Yomi Visuals develops the creative idea, builds the production and delivers the visual work ambitious
-            brands need — from a single production to a full brand campaign.
+            Yomi Visuals is a creative production company based in Lagos, Nigeria. We develop the creative idea, build
+            the production and deliver the finished work — campaigns, brand films, commercials, photography and
+            content — for brands that need their visuals to sell as well as they look.
           </p>
+
           <div className="mt-10 grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-3">
             {["Creative", "Production", "Campaigns"].map((pillar) => (
               <div key={pillar} className="bg-background p-6 md:p-8">
