@@ -69,6 +69,13 @@
   --color-ring: var(--ring);
   --color-gold: var(--gold);
   --color-gold-soft: var(--gold-soft);
+  --color-charcoal: var(--charcoal);
+  --color-dark-grey: var(--dark-grey);
+  --color-mid-grey: var(--mid-grey);
+  --color-light-grey: var(--light-grey);
+  --color-off-white: var(--off-white);
+  --color-pure-white: #ffffff;
+
 
   --font-sans: "Inter", "SF Pro Display", "Helvetica Neue", system-ui, sans-serif;
   --font-display: "Inter", "SF Pro Display", "Helvetica Neue", sans-serif;
