@@ -271,8 +271,13 @@ export function PageTransition({ children }: { children: ReactNode }) {
  * wordmark. Never a blank screen, never a dominating spinner.
  */
 export function RouteProgress() {
-  const isLoading = useRouterState({ select: (s) => s.status === "pending" || s.isLoading });
+  const routerLoading = useRouterState({ select: (s) => s.status === "pending" || s.isLoading });
+  const [mounted, setMounted] = useState(false);
   const [visible, setVisible] = useState(false);
+  // Server render is always idle so hydration matches; loading is a client concern.
+  const isLoading = mounted && routerLoading;
+
+  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     if (isLoading) {
