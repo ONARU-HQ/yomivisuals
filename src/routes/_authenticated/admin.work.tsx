@@ -294,7 +294,7 @@ function ProjectDrawer({
           <Field label="Cover image URL">
             <input className={inputClass} value={row.cover_image ?? ""} onChange={(e) => set({ cover_image: e.target.value })} />
           </Field>
-          <Field label="Hero video (YouTube, Vimeo or MP4)" full>
+          <Field label="Hero video (YouTube, Vimeo or MP4)">
             <input className={inputClass} value={row.hero_video ?? ""} onChange={(e) => set({ hero_video: e.target.value })} />
           </Field>
         </div>
