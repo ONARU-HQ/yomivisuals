@@ -14,8 +14,10 @@ import { Route as TermsRouteImport } from './routes/terms'
 import { Route as StudioRouteImport } from './routes/studio'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
+import { Route as HowWeWorkRouteImport } from './routes/how-we-work'
 import { Route as ForAgenciesRouteImport } from './routes/for-agencies'
 import { Route as FaqsRouteImport } from './routes/faqs'
+import { Route as EcosystemRouteImport } from './routes/ecosystem'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CareersRouteImport } from './routes/careers'
 import { Route as CapabilitiesRouteImport } from './routes/capabilities'
@@ -67,6 +69,11 @@ const PortfolioRoute = PortfolioRouteImport.update({
   path: '/portfolio',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HowWeWorkRoute = HowWeWorkRouteImport.update({
+  id: '/how-we-work',
+  path: '/how-we-work',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ForAgenciesRoute = ForAgenciesRouteImport.update({
   id: '/for-agencies',
   path: '/for-agencies',
@@ -75,6 +82,11 @@ const ForAgenciesRoute = ForAgenciesRouteImport.update({
 const FaqsRoute = FaqsRouteImport.update({
   id: '/faqs',
   path: '/faqs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EcosystemRoute = EcosystemRouteImport.update({
+  id: '/ecosystem',
+  path: '/ecosystem',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -217,8 +229,10 @@ export interface FileRoutesByFullPath {
   '/capabilities': typeof CapabilitiesRoute
   '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
+  '/ecosystem': typeof EcosystemRoute
   '/faqs': typeof FaqsRoute
   '/for-agencies': typeof ForAgenciesRoute
+  '/how-we-work': typeof HowWeWorkRoute
   '/portfolio': typeof PortfolioRoute
   '/privacy': typeof PrivacyRoute
   '/studio': typeof StudioRoute
@@ -250,8 +264,10 @@ export interface FileRoutesByTo {
   '/capabilities': typeof CapabilitiesRoute
   '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
+  '/ecosystem': typeof EcosystemRoute
   '/faqs': typeof FaqsRoute
   '/for-agencies': typeof ForAgenciesRoute
+  '/how-we-work': typeof HowWeWorkRoute
   '/portfolio': typeof PortfolioRoute
   '/privacy': typeof PrivacyRoute
   '/studio': typeof StudioRoute
@@ -283,8 +299,10 @@ export interface FileRoutesById {
   '/capabilities': typeof CapabilitiesRoute
   '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
+  '/ecosystem': typeof EcosystemRoute
   '/faqs': typeof FaqsRoute
   '/for-agencies': typeof ForAgenciesRoute
+  '/how-we-work': typeof HowWeWorkRoute
   '/portfolio': typeof PortfolioRoute
   '/privacy': typeof PrivacyRoute
   '/studio': typeof StudioRoute
@@ -318,8 +336,10 @@ export interface FileRouteTypes {
     | '/capabilities'
     | '/careers'
     | '/contact'
+    | '/ecosystem'
     | '/faqs'
     | '/for-agencies'
+    | '/how-we-work'
     | '/portfolio'
     | '/privacy'
     | '/studio'
@@ -351,8 +371,10 @@ export interface FileRouteTypes {
     | '/capabilities'
     | '/careers'
     | '/contact'
+    | '/ecosystem'
     | '/faqs'
     | '/for-agencies'
+    | '/how-we-work'
     | '/portfolio'
     | '/privacy'
     | '/studio'
@@ -383,8 +405,10 @@ export interface FileRouteTypes {
     | '/capabilities'
     | '/careers'
     | '/contact'
+    | '/ecosystem'
     | '/faqs'
     | '/for-agencies'
+    | '/how-we-work'
     | '/portfolio'
     | '/privacy'
     | '/studio'
@@ -418,8 +442,10 @@ export interface RootRouteChildren {
   CapabilitiesRoute: typeof CapabilitiesRoute
   CareersRoute: typeof CareersRoute
   ContactRoute: typeof ContactRoute
+  EcosystemRoute: typeof EcosystemRoute
   FaqsRoute: typeof FaqsRoute
   ForAgenciesRoute: typeof ForAgenciesRoute
+  HowWeWorkRoute: typeof HowWeWorkRoute
   PortfolioRoute: typeof PortfolioRoute
   PrivacyRoute: typeof PrivacyRoute
   StudioRoute: typeof StudioRoute
@@ -470,6 +496,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortfolioRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/how-we-work': {
+      id: '/how-we-work'
+      path: '/how-we-work'
+      fullPath: '/how-we-work'
+      preLoaderRoute: typeof HowWeWorkRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/for-agencies': {
       id: '/for-agencies'
       path: '/for-agencies'
@@ -482,6 +515,13 @@ declare module '@tanstack/react-router' {
       path: '/faqs'
       fullPath: '/faqs'
       preLoaderRoute: typeof FaqsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ecosystem': {
+      id: '/ecosystem'
+      path: '/ecosystem'
+      fullPath: '/ecosystem'
+      preLoaderRoute: typeof EcosystemRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -721,8 +761,10 @@ const rootRouteChildren: RootRouteChildren = {
   CapabilitiesRoute: CapabilitiesRoute,
   CareersRoute: CareersRoute,
   ContactRoute: ContactRoute,
+  EcosystemRoute: EcosystemRoute,
   FaqsRoute: FaqsRoute,
   ForAgenciesRoute: ForAgenciesRoute,
+  HowWeWorkRoute: HowWeWorkRoute,
   PortfolioRoute: PortfolioRoute,
   PrivacyRoute: PrivacyRoute,
   StudioRoute: StudioRoute,

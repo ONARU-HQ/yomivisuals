@@ -4,16 +4,10 @@ import { ArrowRight, ArrowUpRight, Check, Paperclip, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Field, inputClass } from "@/components/site/ui";
 
-export const PROJECT_TYPES = [
-  "Campaign",
-  "Commercial",
-  "Brand Film",
-  "Photography",
-  "Content",
-  "Creative Direction",
-  "Production",
-  "Something Else",
-];
+import { PROJECT_TYPE_OPTIONS } from "@/lib/ecosystem";
+
+export const PROJECT_TYPES = PROJECT_TYPE_OPTIONS;
+
 
 export const BUDGETS = ["Under ₦500,000", "₦500,000 – ₦2M", "₦2M – ₦5M", "₦5M – ₦15M", "₦15M+", "Not sure yet"];
 
@@ -99,15 +93,15 @@ export function ProjectForm({ source = "website" }: { source?: string }) {
 
   if (done) {
     return (
-      <div className="border border-border p-8 md:p-14">
+      <div className="fade-up border border-border p-8 md:p-14">
         <div className="grid h-12 w-12 place-items-center border border-gold/50 text-gold">
           <Check className="h-5 w-5" />
         </div>
         <h3 className="text-headline mt-8 text-[clamp(1.7rem,5vw,2.6rem)]">
-          Received. <span className="text-serif normal-case text-gold">Thank you.</span>
+          Brief received. <span className="text-serif normal-case text-gold">Thank you.</span>
         </h3>
         <p className="mt-5 max-w-md text-[15px] leading-relaxed text-muted-foreground">
-          We read every enquiry personally and respond within one working day.
+          YV will review your project and get back to you — usually within one working day.
         </p>
         <Link
           to="/projects"
@@ -236,7 +230,7 @@ export function ProjectForm({ source = "website" }: { source?: string }) {
         disabled={sending}
         className="group inline-flex w-full items-center justify-between gap-3 bg-primary px-7 py-5 text-[12px] uppercase tracking-[0.18em] text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-40 sm:w-auto"
       >
-        {sending ? "Sending…" : "Start the conversation"}
+        {sending ? "Submitting…" : "Submit Project Brief"}
         <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
       </button>
       <p className="text-[12px] text-muted-foreground">We reply within one working day. Proposals within five.</p>
