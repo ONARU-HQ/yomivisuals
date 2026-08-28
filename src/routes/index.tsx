@@ -3,7 +3,8 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { ArrowUpRight } from "lucide-react";
 import { projectsQuery, servicesQuery, testimonialsQuery, coverFor } from "@/lib/cms";
 import { portfolioQuery, heroSlides, rotatedFeatured, focalStyle, type PortfolioImage } from "@/lib/portfolio";
-import { HeroRotator } from "@/components/HeroRotator";
+import { HeroFilm } from "@/components/HeroFilm";
+import { track } from "@/lib/analytics";
 import { Container, Section, SectionHeading, Reveal, TextLink, Eyebrow } from "@/components/site/ui";
 import { ScrollCue, useHeroScroll } from "@/components/motion";
 import { STAGGER } from "@/lib/motion";
@@ -69,68 +70,87 @@ function HomePage() {
 
   return (
     <>
-      {/* Hero */}
-      <section className="relative flex min-h-[100svh] flex-col justify-end overflow-hidden pb-14 pt-28 md:pb-20">
-        <div className="absolute inset-0" style={hero.media}>
-          {slides.length ? <HeroRotator slides={slides} /> : <div className="absolute inset-0 bg-surface" />}
-        </div>
-
-        <Container className="relative">
-          <div className="fade-up" style={hero.headline}>
-            <div style={{ animation: `fade-up var(--motion-dramatic) var(--ease-out-expo) both`, animationDelay: `${STAGGER.label}ms` }}>
-              <Eyebrow>Yomi Visuals — Creative Production Company</Eyebrow>
-            </div>
-            <h1
-              className="text-display mt-5 max-w-5xl text-[clamp(2.4rem,8.5vw,6.2rem)]"
-              style={{ animation: "fade-up var(--motion-dramatic) var(--ease-out-expo) both", animationDelay: `${STAGGER.headline}ms` }}
-            >
-              We make ideas real.
-            </h1>
-            <p
-              className="mt-6 max-w-xl text-[15px] leading-relaxed text-subtle md:text-lg"
-              style={{ ...hero.support, animation: "fade-up var(--motion-dramatic) var(--ease-out-expo) both", animationDelay: `${STAGGER.body}ms` }}
-            >
-              Yomi Visuals is a creative production company developing ideas, campaigns and visual experiences for
-              ambitious brands.
-            </p>
-            <div
-              className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap"
-              style={{ animation: "fade-up var(--motion-dramatic) var(--ease-out-expo) both", animationDelay: `${STAGGER.action}ms` }}
-            >
-              <Link
-                to="/start-a-project"
-                className="press group inline-flex items-center justify-center gap-2 rounded-sm bg-primary px-7 py-4 text-[12.5px] font-medium uppercase tracking-[0.14em] text-primary-foreground transition-opacity duration-[var(--motion-fast)] hover:opacity-90"
+      {/* Hero film — the lights go down, the film starts */}
+      <HeroFilm mediaStyle={hero.media}>
+        {({ soundOn, toggleSound }: { soundOn: boolean; toggleSound: () => void }) => (
+          <Container>
+            <div className="fade-up max-w-3xl pb-16 md:pb-10" style={hero.headline}>
+              <div style={{ animation: `fade-up var(--motion-dramatic) var(--ease-out-expo) both`, animationDelay: `${STAGGER.label}ms` }}>
+                <Eyebrow>Yomi Visuals — Creative Production Company</Eyebrow>
+              </div>
+              <h1
+                className="text-display mt-5 text-[clamp(2.4rem,8.5vw,6.2rem)]"
+                style={{ animation: "fade-up var(--motion-dramatic) var(--ease-out-expo) both", animationDelay: `${STAGGER.headline}ms` }}
               >
-                Start a Project
-                <ArrowUpRight className="arrow-nudge-diagonal h-4 w-4" />
-              </Link>
-              <Link
-                to="/work"
-                className="press inline-flex items-center justify-center gap-2 rounded-sm border border-border-strong px-7 py-4 text-[12.5px] font-medium uppercase tracking-[0.14em] transition-colors duration-[var(--motion-fast)] hover:bg-elevated"
+                We make
+                <br />
+                ideas real.
+              </h1>
+              <p
+                className="mt-6 max-w-xl text-[15px] leading-relaxed text-subtle md:text-lg"
+                style={{ ...hero.support, animation: "fade-up var(--motion-dramatic) var(--ease-out-expo) both", animationDelay: `${STAGGER.body}ms` }}
               >
-                View Our Work
-              </Link>
+                Creative direction, campaigns and production for ambitious brands.
+              </p>
+              <div
+                className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap"
+                style={{ animation: "fade-up var(--motion-dramatic) var(--ease-out-expo) both", animationDelay: `${STAGGER.action}ms` }}
+              >
+                <Link
+                  to="/start-a-project"
+                  search={{ source: "homepage" }}
+                  onClick={() => track("START_PROJECT", { source: "hero" })}
+                  className="press group inline-flex items-center justify-center gap-2 rounded-sm bg-primary px-7 py-4 text-[12.5px] font-medium uppercase tracking-[0.14em] text-primary-foreground transition-opacity duration-[var(--motion-fast)] hover:opacity-90"
+                >
+                  Start a Project
+                  <ArrowUpRight className="arrow-nudge-diagonal h-4 w-4" />
+                </Link>
+                <Link
+                  to="/work"
+                  onClick={() => track("VIEW_WORK", { source: "hero" })}
+                  className="press inline-flex items-center justify-center gap-2 rounded-sm border border-border-strong px-7 py-4 text-[12.5px] font-medium uppercase tracking-[0.14em] transition-colors duration-[var(--motion-fast)] hover:bg-elevated"
+                >
+                  View Our Work
+                </Link>
+              </div>
+              {!soundOn && (
+                <button
+                  type="button"
+                  onClick={toggleSound}
+                  className="tap mt-7 inline-flex min-h-11 items-center gap-2 text-[10.5px] uppercase tracking-[0.26em] text-muted-foreground transition-colors duration-[var(--motion-fast)] hover:text-foreground"
+                >
+                  Watch film with sound
+                </button>
+              )}
+              <div className="mt-6">
+                <ScrollCue targetId="intro" />
+              </div>
             </div>
-            <div className="mt-10">
-              <ScrollCue targetId="intro" />
-            </div>
-          </div>
-        </Container>
-      </section>
+          </Container>
+        )}
+      </HeroFilm>
 
       {/* Brand introduction */}
       <section id="intro" className="border-t border-border py-16 md:py-28">
         <Container>
           <Eyebrow>Yomi Visuals</Eyebrow>
           <p className="text-display mt-6 max-w-4xl text-[clamp(1.6rem,5.5vw,3.4rem)] leading-[1.08]">
-            We are a creative production company.
+            From idea to final frame.
           </p>
           <p className="mt-7 max-w-2xl text-[15.5px] leading-relaxed text-subtle md:text-[17px]">
-            We develop ideas, direct creative and build the production required to bring ambitious visions to life —
-            from a single production to a full brand campaign.
+            Yomi Visuals develops the creative idea, builds the production and delivers the visual work ambitious
+            brands need — from a single production to a full brand campaign.
           </p>
+          <div className="mt-10 grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-3">
+            {["Creative", "Production", "Campaigns"].map((pillar) => (
+              <div key={pillar} className="bg-background p-6 md:p-8">
+                <p className="text-[13px] uppercase tracking-[0.22em] text-gold">{pillar}</p>
+              </div>
+            ))}
+          </div>
         </Container>
       </section>
+
 
       {/* Objective-led entry — turns a visitor into a brief in one click */}
       <Section className="border-t border-border">
