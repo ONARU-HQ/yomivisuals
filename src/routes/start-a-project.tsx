@@ -22,9 +22,8 @@ import {
 } from "@/lib/project-engine";
 
 export const Route = createFileRoute("/start-a-project")({
-  validateSearch: (search: Record<string, unknown>) => ({
-    type: typeof search.type === "string" ? search.type : undefined,
-  }),
+  validateSearch: (search: Record<string, unknown>): { type?: string } =>
+    typeof search.type === "string" ? { type: search.type } : {},
   head: () => ({
     meta: [
       { title: "Start a Project — Yomi Visuals" },
@@ -343,7 +342,7 @@ function StartProjectPage() {
             </div>
           </div>
 
-          <SwapFade key={step}>
+          <SwapFade swapKey={String(step)}>
             <div className="pt-10">
               <h2 className="text-display text-[clamp(1.6rem,5.5vw,2.6rem)]">{STEPS[step]}</h2>
 
