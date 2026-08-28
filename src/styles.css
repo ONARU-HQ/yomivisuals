@@ -125,11 +125,21 @@
   --input: rgba(255, 255, 255, 0.16);
   --ring: rgba(198, 161, 91, 0.55);
 
-  /* Motion */
-  --motion-fast: 180ms;
+  /* Motion tokens — mirrored in src/lib/motion.ts (single source of truth). */
+  --motion-micro: 130ms;
+  --motion-fast: 220ms;
   --motion-standard: 380ms;
-  --motion-cinematic: 800ms;
+  --motion-cinematic: 640ms;
+  --motion-dramatic: 1000ms;
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-yv: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-in-yv: cubic-bezier(0.55, 0, 1, 0.45);
+  --distance-sm: 12px;
+  --distance-md: 24px;
+  --distance-lg: 40px;
+  --scale-press: 0.97;
+  --scale-hover-image: 1.03;
+
 
   /* Layout */
   --container-max: 1440px;
