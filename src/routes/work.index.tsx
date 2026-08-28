@@ -4,6 +4,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowUpRight, Search, X } from "lucide-react";
 import { projectsQuery, coverFor, type Project } from "@/lib/cms";
 import { Container, PageHero, Reveal, Eyebrow } from "@/components/site/ui";
+import { SwapFade } from "@/components/motion";
+import { STAGGER } from "@/lib/motion";
 
 export const Route = createFileRoute("/work/")({
   loader: ({ context }) => context.queryClient.ensureQueryData(projectsQuery),
@@ -85,7 +87,7 @@ function WorkArchive() {
                   type="button"
                   onClick={() => setFilter(c)}
                   aria-pressed={filter === c}
-                  className={`tap shrink-0 whitespace-nowrap border px-4 py-2 text-[11.5px] uppercase tracking-[0.14em] transition-colors ${
+                  className={`tap press filter-chip shrink-0 whitespace-nowrap border px-4 py-2 text-[11.5px] uppercase tracking-[0.14em] ${
                     filter === c
                       ? "border-transparent bg-primary text-primary-foreground"
                       : "border-border text-muted-foreground hover:text-foreground"
@@ -99,7 +101,7 @@ function WorkArchive() {
               type="button"
               onClick={() => setSearchOpen(true)}
               aria-label="Search the work archive"
-              className="tap grid h-11 w-11 shrink-0 place-items-center border border-border text-foreground transition-colors hover:border-border-strong"
+              className="tap press grid h-11 w-11 shrink-0 place-items-center border border-border text-foreground transition-colors duration-[var(--motion-fast)] hover:border-border-strong"
             >
               <Search className="h-4 w-4" />
             </button>
@@ -108,6 +110,7 @@ function WorkArchive() {
       </Container>
 
       <Container className="py-10 md:py-14">
+        <SwapFade swapKey={`${filter}|${q.trim()}`}>
         {visible.length === 0 ? (
           <div className="border border-dashed border-border px-6 py-20 text-center">
             <Eyebrow>Nothing here yet</Eyebrow>
@@ -133,19 +136,19 @@ function WorkArchive() {
               const span = i % 5 === 0 ? "md:col-span-12" : i % 5 === 3 ? "md:col-span-7" : i % 5 === 4 ? "md:col-span-5" : "md:col-span-6";
               const ratio = i % 5 === 0 ? "aspect-[16/9]" : i % 5 === 3 ? "aspect-[4/3]" : "aspect-[3/4] md:aspect-[4/5]";
               return (
-                <Reveal key={p.id} delay={(i % 3) * 70} className={span}>
+                <Reveal key={p.id} delay={(i % 3) * STAGGER.step} className={span}>
                   <Link
                     to="/work/$slug"
                     params={{ slug: p.slug }}
-                    className="image-reveal group block"
+                    className="group block"
                     aria-label={`${p.title} — view case study`}
                   >
-                    <div className={`overflow-hidden border border-border bg-elevated ${ratio}`}>
+                    <div data-cursor="view" className={`media-zoom overflow-hidden border border-border bg-elevated ${ratio}`}>
                       <img
                         src={coverFor(p, i)}
                         alt={p.title}
                         loading={i < 2 ? "eager" : "lazy"}
-                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                        className="h-full w-full object-cover"
                       />
                     </div>
                     <div className="mt-4 flex items-start justify-between gap-4">
@@ -157,7 +160,7 @@ function WorkArchive() {
                           {yearOf(p) ? ` · ${yearOf(p)}` : ""}
                         </p>
                       </div>
-                      <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-muted-foreground transition-colors group-hover:text-gold" />
+                      <ArrowUpRight className="arrow-nudge-diagonal mt-1 h-4 w-4 shrink-0 text-muted-foreground transition-colors duration-[var(--motion-fast)] group-hover:text-gold" />
                     </div>
                   </Link>
                 </Reveal>
@@ -165,11 +168,12 @@ function WorkArchive() {
             })}
           </div>
         )}
+        </SwapFade>
       </Container>
 
       {/* Search overlay */}
       {searchOpen ? (
-        <div className="fixed inset-0 z-[60] flex flex-col bg-background/98 backdrop-blur">
+        <div className="confirm-in fixed inset-0 z-[60] flex flex-col bg-background/98 backdrop-blur">
           <div className="flex items-center gap-3 border-b border-border px-5 py-4 md:px-10">
             <Search className="h-4 w-4 shrink-0 text-muted-foreground" />
             <input

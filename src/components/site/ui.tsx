@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowUpRight, ArrowRight } from "lucide-react";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { type ReactNode } from "react";
+import { Reveal as MotionReveal, type RevealVariant as MotionRevealVariant } from "@/components/motion";
 
 export function Container({ children, className = "" }: { children: ReactNode; className?: string }) {
   return <div className={`mx-auto w-full max-w-[1320px] px-5 md:px-10 ${className}`}>{children}</div>;
@@ -56,7 +57,7 @@ type ButtonProps = {
 };
 
 const buttonBase =
-  "inline-flex items-center justify-center gap-2 rounded-sm px-6 py-4 text-[12.5px] font-medium uppercase tracking-[0.14em] transition-all duration-300";
+  "press group inline-flex items-center justify-center gap-2 rounded-sm px-6 py-4 text-[12.5px] font-medium uppercase tracking-[0.14em] transition-all duration-[var(--motion-fast)] ease-[var(--ease-out-expo)]";
 
 const variants = {
   solid: "bg-primary text-primary-foreground hover:opacity-90",
@@ -77,7 +78,7 @@ export function ButtonLink({
   const inner = (
     <>
       {children}
-      {arrow ? <ArrowUpRight className="h-4 w-4" /> : null}
+      {arrow ? <ArrowUpRight className="arrow-nudge-diagonal h-4 w-4" /> : null}
     </>
   );
   if (href) {
@@ -118,43 +119,27 @@ export function TextLink({ to, params, children }: { to: any; params?: any; chil
       className="group inline-flex items-center gap-2 text-[13px] font-medium text-foreground"
     >
       <span className="link-underline">{children}</span>
-      <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+      <ArrowRight className="arrow-nudge h-4 w-4" />
     </Link>
   );
 }
 
-export function Reveal({ children, delay = 0, className = "" }: { children: ReactNode; delay?: number; className?: string }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [shown, setShown] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setShown(true);
-          io.disconnect();
-        }
-      },
-      { rootMargin: "0px 0px -10% 0px" },
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
-
+/** Delegates to the centralized YV motion system. */
+export function Reveal({
+  children,
+  delay = 0,
+  className = "",
+  variant = "up",
+}: {
+  children: ReactNode;
+  delay?: number;
+  className?: string;
+  variant?: MotionRevealVariant;
+}) {
   return (
-    <div
-      ref={ref}
-      className={className}
-      style={{
-        opacity: shown ? 1 : 0,
-        transform: shown ? "none" : "translateY(20px)",
-        transition: `opacity 800ms cubic-bezier(0.16,1,0.3,1) ${delay}ms, transform 800ms cubic-bezier(0.16,1,0.3,1) ${delay}ms`,
-      }}
-    >
+    <MotionReveal delay={delay} className={className} variant={variant}>
       {children}
-    </div>
+    </MotionReveal>
   );
 }
 

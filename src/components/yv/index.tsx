@@ -3,8 +3,10 @@
  * Every component is token-driven; no hardcoded colours.
  */
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, ArrowUpRight, Minus, Plus } from "lucide-react";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { ArrowRight, ArrowUpRight, Plus } from "lucide-react";
+import { useState, type ReactNode } from "react";
+import { Reveal as MotionReveal, type RevealVariant as MotionRevealVariant } from "@/components/motion";
+import { STAGGER, useInView } from "@/lib/motion";
 
 /* ───────────────────────── Brand ───────────────────────── */
 
@@ -88,7 +90,7 @@ export function SectionHeader({
 type Variant = "primary" | "secondary" | "text";
 
 const base =
-  "tap group inline-flex items-center justify-center gap-2.5 rounded-sm text-[13px] font-medium uppercase tracking-[0.14em] transition-all duration-[var(--motion-standard)] ease-[cubic-bezier(0.16,1,0.3,1)] disabled:cursor-not-allowed disabled:opacity-40";
+  "tap press group inline-flex items-center justify-center gap-2.5 rounded-sm text-[13px] font-medium uppercase tracking-[0.14em] transition-all duration-[var(--motion-standard)] ease-[cubic-bezier(0.16,1,0.3,1)] disabled:cursor-not-allowed disabled:opacity-40";
 
 const variantClass: Record<Variant, string> = {
   primary: "bg-primary px-6 py-4 text-primary-foreground hover:opacity-90",
@@ -111,7 +113,7 @@ export function Button({
     <button {...rest} className={`${base} ${variantClass[variant]} ${className}`}>
       {children}
       {arrow ? (
-        <ArrowRight className="h-4 w-4 transition-transform duration-[var(--motion-fast)] group-hover:translate-x-1" />
+        <ArrowRight className="arrow-nudge h-4 w-4" />
       ) : null}
     </button>
   );
@@ -139,7 +141,7 @@ export function ButtonLink({
     <>
       {children}
       {arrow ? (
-        <ArrowUpRight className="h-4 w-4 transition-transform duration-[var(--motion-fast)] group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+        <ArrowUpRight className="arrow-nudge-diagonal h-4 w-4" />
       ) : null}
     </>
   );
@@ -172,50 +174,22 @@ export function TextLink({ to, params, children }: { to: any; params?: any; chil
 
 /* ───────────────────────── Motion ───────────────────────── */
 
+/** Delegates to the centralized YV motion system. */
 export function Reveal({
   children,
   delay = 0,
   className = "",
+  variant = "up",
 }: {
   children: ReactNode;
   delay?: number;
   className?: string;
+  variant?: MotionRevealVariant;
 }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [shown, setShown] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setShown(true);
-      return;
-    }
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setShown(true);
-          io.disconnect();
-        }
-      },
-      { rootMargin: "0px 0px -8% 0px" },
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
-
   return (
-    <div
-      ref={ref}
-      className={className}
-      style={{
-        opacity: shown ? 1 : 0,
-        transform: shown ? "none" : "translateY(18px)",
-        transition: `opacity 800ms cubic-bezier(0.16,1,0.3,1) ${delay}ms, transform 800ms cubic-bezier(0.16,1,0.3,1) ${delay}ms`,
-      }}
-    >
+    <MotionReveal delay={delay} className={className} variant={variant}>
       {children}
-    </div>
+    </MotionReveal>
   );
 }
 
@@ -255,7 +229,7 @@ export function ImageBlock({
   return (
     <figure className={variant === "full-bleed" ? `full-bleed ${className}` : className}>
       <div
-        className={`image-reveal relative overflow-hidden bg-elevated ${ratioClass[ratio]} ${
+        className={`media-zoom relative overflow-hidden bg-elevated ${ratioClass[ratio]} ${
           variant === "editorial" ? "rounded-sm border border-border" : ""
         }`}
         style={placeholder ? { backgroundImage: `url(${placeholder})`, backgroundSize: "cover" } : undefined}
@@ -321,7 +295,8 @@ export function ProjectCard({ project, priority = false }: { project: ProjectCar
   const inner = (
     <>
       <div
-        className={`image-reveal relative overflow-hidden bg-elevated ${ratioClass[project.ratio ?? "landscape"]}`}
+        data-cursor="view"
+        className={`media-zoom relative overflow-hidden bg-elevated ${ratioClass[project.ratio ?? "landscape"]}`}
         style={
           project.placeholder ? { backgroundImage: `url(${project.placeholder})`, backgroundSize: "cover" } : undefined
         }
@@ -368,7 +343,7 @@ export function ProjectGrid({ projects }: { projects: ProjectCardData[] }) {
   return (
     <div className="grid gap-8 md:grid-cols-2 md:gap-x-6 md:gap-y-16">
       {projects.map((p, i) => (
-        <Reveal key={`${p.title}-${i}`} delay={(i % 2) * 80} className={i % 4 === 3 ? "md:mt-16" : ""}>
+        <Reveal key={`${p.title}-${i}`} delay={(i % 2) * STAGGER.step} className={i % 4 === 3 ? "md:mt-16" : ""}>
           <ProjectCard project={p} priority={i < 2} />
         </Reveal>
       ))}
@@ -393,7 +368,7 @@ export function ServiceAccordion({ rows }: { rows: ServiceRowData[] }) {
                 type="button"
                 aria-expanded={isOpen}
                 onClick={() => setOpen(isOpen ? null : row.code)}
-                className="tap flex w-full items-start gap-4 py-6 text-left md:gap-8 md:py-8"
+                className="tap press flex w-full items-start gap-4 py-6 text-left md:gap-8 md:py-8"
               >
                 <span className="text-index mt-2 shrink-0">{row.code}</span>
                 <span className="min-w-0 flex-1">
@@ -401,7 +376,10 @@ export function ServiceAccordion({ rows }: { rows: ServiceRowData[] }) {
                   <span className="type-small mt-2 block text-muted-foreground">{row.summary}</span>
                 </span>
                 <span className="mt-1 shrink-0 text-gold" aria-hidden>
-                  {isOpen ? <Minus className="h-5 w-5" /> : <Plus className="h-5 w-5" />}
+                  <Plus
+                    className="icon-morph h-5 w-5"
+                    style={{ transform: isOpen ? "rotate(135deg)" : "rotate(0deg)" }}
+                  />
                 </span>
               </button>
             </h3>
@@ -431,20 +409,49 @@ export function ServiceAccordion({ rows }: { rows: ServiceRowData[] }) {
 export function ProcessTimeline({ stages }: { stages: { code: string; title: string; body: string }[] }) {
   return (
     <ol className="grid gap-px bg-border md:grid-flow-col md:auto-cols-fr">
-      {stages.map((s) => (
-        <li key={s.code} className="group bg-background p-5 md:p-6">
-          <div className="flex items-center gap-3 md:block">
-            <span className="text-index">{s.code}</span>
-            <span
-              className="hidden h-px w-full bg-border transition-colors duration-[var(--motion-standard)] group-hover:bg-gold md:mt-4 md:block"
-              aria-hidden
-            />
-            <h3 className="type-heading-s uppercase md:mt-4">{s.title}</h3>
-          </div>
-          <p className="type-small mt-3 text-muted-foreground">{s.body}</p>
-        </li>
+      {stages.map((s, i) => (
+        <ProcessStage key={s.code} stage={s} index={i} />
       ))}
     </ol>
+  );
+}
+
+/** Active stage tracks scroll position via IntersectionObserver, not scroll maths. */
+function ProcessStage({
+  stage,
+  index,
+}: {
+  stage: { code: string; title: string; body: string };
+  index: number;
+}) {
+  const { ref, inView } = useInView<HTMLLIElement>({ once: false, margin: "-35% 0px -35% 0px" });
+  return (
+    <li
+      ref={ref}
+      aria-current={inView || undefined}
+      className="group bg-background p-5 transition-colors duration-[var(--motion-standard)] md:p-6"
+      style={{ opacity: inView ? 1 : 0.55, transition: "opacity var(--motion-standard) var(--ease-out-expo)" }}
+    >
+      <div className="flex items-center gap-3 md:block">
+        <span className="text-index">{stage.code}</span>
+        <span
+          aria-hidden
+          className="hidden h-px w-full origin-left bg-border transition-transform duration-[var(--motion-cinematic)] ease-[var(--ease-out-expo)] md:mt-4 md:block"
+          style={{
+            backgroundColor: inView ? "var(--gold)" : undefined,
+            transform: inView ? "scaleX(1)" : "scaleX(0.25)",
+            transitionDelay: `${index * 40}ms`,
+          }}
+        />
+        <h3
+          className="type-heading-s uppercase transition-colors duration-[var(--motion-standard)] md:mt-4"
+          style={{ color: inView ? "var(--foreground)" : "var(--muted-foreground)" }}
+        >
+          {stage.title}
+        </h3>
+      </div>
+      <p className="type-small mt-3 text-muted-foreground">{stage.body}</p>
+    </li>
   );
 }
 
@@ -456,10 +463,15 @@ export function EcosystemMap({
   divisions: { code: string; name: string; tagline: string; body: string }[];
 }) {
   const [active, setActive] = useState(divisions[0]?.code ?? "");
+  const [hovering, setHovering] = useState(false);
   const current = divisions.find((d) => d.code === active) ?? divisions[0];
   return (
     <div className="grid gap-px bg-border lg:grid-cols-[minmax(0,1fr)_1fr]">
-      <ul className="bg-background">
+      <ul
+        className="bg-background"
+        onMouseEnter={() => setHovering(true)}
+        onMouseLeave={() => setHovering(false)}
+      >
         {divisions.map((d) => (
           <li key={d.code}>
             <button
@@ -468,7 +480,8 @@ export function EcosystemMap({
               onFocus={() => setActive(d.code)}
               onClick={() => setActive(d.code)}
               aria-current={active === d.code}
-              className={`tap flex w-full items-baseline gap-4 border-b border-border px-1 py-4 text-left transition-colors duration-[var(--motion-fast)] md:px-3 md:py-5 ${
+              style={{ opacity: hovering && active !== d.code ? 0.45 : 1 }}
+              className={`tap press peer-dim flex w-full items-baseline gap-4 border-b border-border px-1 py-4 text-left transition-colors duration-[var(--motion-fast)] md:px-3 md:py-5 ${
                 active === d.code ? "bg-elevated" : "hover:bg-elevated/60"
               }`}
             >
@@ -508,7 +521,7 @@ export function TeamMember({
 }) {
   return (
     <article className="group">
-      <div className={`image-reveal relative overflow-hidden bg-elevated ${ratioClass.tall}`}>
+      <div className={`media-zoom relative overflow-hidden bg-elevated ${ratioClass.tall}`}>
         {image ? (
           <img
             src={image}

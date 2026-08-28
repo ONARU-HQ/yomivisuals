@@ -125,11 +125,21 @@
   --input: rgba(255, 255, 255, 0.16);
   --ring: rgba(198, 161, 91, 0.55);
 
-  /* Motion */
-  --motion-fast: 180ms;
+  /* Motion tokens — mirrored in src/lib/motion.ts (single source of truth). */
+  --motion-micro: 130ms;
+  --motion-fast: 220ms;
   --motion-standard: 380ms;
-  --motion-cinematic: 800ms;
+  --motion-cinematic: 640ms;
+  --motion-dramatic: 1000ms;
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-yv: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-in-yv: cubic-bezier(0.55, 0, 1, 0.45);
+  --distance-sm: 12px;
+  --distance-md: 24px;
+  --distance-lg: 40px;
+  --scale-press: 0.97;
+  --scale-hover-image: 1.03;
+
 
   /* Layout */
   --container-max: 1440px;
@@ -488,5 +498,153 @@
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* ═══════════════════════ YV Interaction & Motion System ═══════════════════════
+   Utilities only — durations/easings come from the tokens above and from
+   src/lib/motion.ts. Never hardcode ad-hoc timings in components.
+   ============================================================================= */
+
+/* Touch/press feedback: every tappable element visibly reacts. */
+@utility press {
+  transition:
+    transform var(--motion-fast) var(--ease-out-expo),
+    opacity var(--motion-micro) var(--ease-out-expo);
+  &:active {
+    transform: scale(var(--scale-press));
+    opacity: 0.9;
+  }
+}
+
+/* Arrow micro-interaction on hover/focus of a `group` parent. */
+@utility arrow-nudge {
+  transition: transform var(--motion-fast) var(--ease-out-expo);
+  .group:hover &,
+  .group:focus-visible & {
+    transform: translateX(6px);
+  }
+}
+
+@utility arrow-nudge-diagonal {
+  transition: transform var(--motion-fast) var(--ease-out-expo);
+  .group:hover &,
+  .group:focus-visible & {
+    transform: translate(4px, -4px);
+  }
+}
+
+/* Image depth on hover — subtle, never distorting. */
+@utility media-zoom {
+  overflow: hidden;
+  & img,
+  & video {
+    transition: transform var(--motion-dramatic) var(--ease-out-expo);
+    will-change: transform;
+  }
+  .group:hover & img,
+  &:hover img,
+  .group:hover & video,
+  &:hover video {
+    transform: scale(var(--scale-hover-image));
+  }
+}
+
+/* Hover emphasis inside a set: siblings recede. */
+@utility peer-dim {
+  transition: opacity var(--motion-standard) var(--ease-in-out-yv);
+}
+
+/* Menu icon morph: MENU ↔ CLOSE, never an instant swap. */
+@utility icon-morph {
+  transition:
+    transform var(--motion-standard) var(--ease-out-expo),
+    opacity var(--motion-fast) var(--ease-out-expo);
+}
+
+/* Scroll cue */
+@keyframes yv-cue-drift {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(5px); }
+}
+
+@utility yv-cue-arrow {
+  display: inline-block;
+  animation: yv-cue-drift 2.4s var(--ease-in-out-yv) infinite;
+}
+
+/* Brand loading state — restrained tracking/opacity breathing. */
+@keyframes yv-breathe {
+  0%, 100% { opacity: 0.35; letter-spacing: 0.42em; }
+  50% { opacity: 1; letter-spacing: 0.5em; }
+}
+
+@utility yv-breathe {
+  animation: yv-breathe 2.2s var(--ease-in-out-yv) infinite;
+}
+
+/* Mobile menu link reveal — sequential, driven by --i index var. */
+@keyframes yv-menu-in {
+  from { opacity: 0; transform: translate3d(0, 18px, 0); }
+  to { opacity: 1; transform: none; }
+}
+
+@utility menu-item {
+  opacity: 0;
+  animation: yv-menu-in var(--motion-cinematic) var(--ease-out-expo) forwards;
+  animation-delay: calc(80ms + (var(--i, 0) * 55ms));
+}
+
+/* Closing is faster than opening. */
+@utility menu-closing {
+  animation: none;
+  opacity: 0;
+  transition:
+    opacity var(--motion-fast) var(--ease-in-yv),
+    transform var(--motion-fast) var(--ease-in-yv);
+  transform: translate3d(0, 10px, 0);
+}
+
+/* Inline validation / error movement — calm, never a full-interface shake. */
+@keyframes yv-nudge {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  75% { transform: translateX(3px); }
+}
+
+@utility field-error {
+  animation: yv-nudge var(--motion-standard) var(--ease-in-out-yv);
+  border-color: var(--destructive) !important;
+}
+
+/* Success confirmation — opacity + scale only. */
+@keyframes yv-confirm {
+  from { opacity: 0; transform: scale(0.94); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@utility confirm-in {
+  animation: yv-confirm var(--motion-cinematic) var(--ease-out-expo) both;
+}
+
+/* Filter active indicator */
+@utility filter-chip {
+  position: relative;
+  transition:
+    color var(--motion-fast) var(--ease-out-expo),
+    background-color var(--motion-fast) var(--ease-out-expo),
+    border-color var(--motion-fast) var(--ease-out-expo);
+}
+
+/* Hide the native cursor only where the custom layer is active. */
+@media (hover: hover) and (pointer: fine) {
+  [data-cursor] {
+    cursor: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-cursor] {
+    cursor: pointer;
   }
 }

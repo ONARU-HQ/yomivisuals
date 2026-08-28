@@ -5,6 +5,8 @@ import { projectsQuery, servicesQuery, testimonialsQuery, coverFor } from "@/lib
 import { portfolioQuery, heroSlides, rotatedFeatured, focalStyle, type PortfolioImage } from "@/lib/portfolio";
 import { HeroRotator } from "@/components/HeroRotator";
 import { Container, Section, SectionHeading, Reveal, TextLink, Eyebrow } from "@/components/site/ui";
+import { ScrollCue, useHeroScroll } from "@/components/motion";
+import { STAGGER } from "@/lib/motion";
 import { PILLARS, PROCESS_STAGES, DIVISIONS } from "@/lib/ecosystem";
 
 export const Route = createFileRoute("/")({
@@ -53,6 +55,7 @@ export const Route = createFileRoute("/")({
 
 
 function HomePage() {
+  const hero = useHeroScroll();
   const { data: projects } = useSuspenseQuery(projectsQuery);
   const { data: services } = useSuspenseQuery(servicesQuery);
   const { data: testimonials } = useSuspenseQuery(testimonialsQuery);
@@ -67,41 +70,55 @@ function HomePage() {
     <>
       {/* Hero */}
       <section className="relative flex min-h-[100svh] flex-col justify-end overflow-hidden pb-14 pt-28 md:pb-20">
-        {slides.length ? (
-          <HeroRotator slides={slides} />
-        ) : (
-          <div className="absolute inset-0 bg-surface" />
-        )}
+        <div className="absolute inset-0" style={hero.media}>
+          {slides.length ? <HeroRotator slides={slides} /> : <div className="absolute inset-0 bg-surface" />}
+        </div>
 
         <Container className="relative">
-          <div className="fade-up">
-            <Eyebrow>Yomi Visuals — Creative Production Company</Eyebrow>
-            <h1 className="text-display mt-5 max-w-5xl text-[clamp(2.4rem,8.5vw,6.2rem)]">We make ideas real.</h1>
-            <p className="mt-6 max-w-xl text-[15px] leading-relaxed text-subtle md:text-lg">
+          <div className="fade-up" style={hero.headline}>
+            <div style={{ animation: `fade-up var(--motion-dramatic) var(--ease-out-expo) both`, animationDelay: `${STAGGER.label}ms` }}>
+              <Eyebrow>Yomi Visuals — Creative Production Company</Eyebrow>
+            </div>
+            <h1
+              className="text-display mt-5 max-w-5xl text-[clamp(2.4rem,8.5vw,6.2rem)]"
+              style={{ animation: "fade-up var(--motion-dramatic) var(--ease-out-expo) both", animationDelay: `${STAGGER.headline}ms` }}
+            >
+              We make ideas real.
+            </h1>
+            <p
+              className="mt-6 max-w-xl text-[15px] leading-relaxed text-subtle md:text-lg"
+              style={{ ...hero.support, animation: "fade-up var(--motion-dramatic) var(--ease-out-expo) both", animationDelay: `${STAGGER.body}ms` }}
+            >
               Yomi Visuals is a creative production company developing ideas, campaigns and visual experiences for
               ambitious brands.
             </p>
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <div
+              className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap"
+              style={{ animation: "fade-up var(--motion-dramatic) var(--ease-out-expo) both", animationDelay: `${STAGGER.action}ms` }}
+            >
               <Link
                 to="/start-a-project"
-                className="inline-flex items-center justify-center gap-2 rounded-sm bg-primary px-7 py-4 text-[12.5px] font-medium uppercase tracking-[0.14em] text-primary-foreground transition-opacity hover:opacity-90"
+                className="press group inline-flex items-center justify-center gap-2 rounded-sm bg-primary px-7 py-4 text-[12.5px] font-medium uppercase tracking-[0.14em] text-primary-foreground transition-opacity duration-[var(--motion-fast)] hover:opacity-90"
               >
                 Start a Project
-                <ArrowUpRight className="h-4 w-4" />
+                <ArrowUpRight className="arrow-nudge-diagonal h-4 w-4" />
               </Link>
               <Link
                 to="/work"
-                className="inline-flex items-center justify-center gap-2 rounded-sm border border-border-strong px-7 py-4 text-[12.5px] font-medium uppercase tracking-[0.14em] transition-colors hover:bg-elevated"
+                className="press inline-flex items-center justify-center gap-2 rounded-sm border border-border-strong px-7 py-4 text-[12.5px] font-medium uppercase tracking-[0.14em] transition-colors duration-[var(--motion-fast)] hover:bg-elevated"
               >
                 View Our Work
               </Link>
+            </div>
+            <div className="mt-10">
+              <ScrollCue targetId="intro" />
             </div>
           </div>
         </Container>
       </section>
 
       {/* Brand introduction */}
-      <section className="border-t border-border py-16 md:py-28">
+      <section id="intro" className="border-t border-border py-16 md:py-28">
         <Container>
           <Eyebrow>Yomi Visuals</Eyebrow>
           <p className="text-display mt-6 max-w-4xl text-[clamp(1.6rem,5.5vw,3.4rem)] leading-[1.08]">
