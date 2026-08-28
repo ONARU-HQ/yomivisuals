@@ -473,11 +473,15 @@ function MediaManager({ projectId, onCover }: { projectId: string; onCover: (url
         const path = `${projectId}/${Date.now()}-${slugify(file.name)}`;
         const { error } = await supabase.storage.from("media").upload(path, file, { upsert: true });
         if (error) throw new Error(error.message);
-        const { data } = supabase.storage.from("media").getPublicUrl(path);
+        // The workspace blocks public buckets, so we mint a long-lived signed URL (10 years).
+        const { data, error: signError } = await supabase.storage
+          .from("media")
+          .createSignedUrl(path, 60 * 60 * 24 * 365 * 10);
+        if (signError || !data) throw new Error(signError?.message ?? "Could not create media URL");
         rows.push({
           project_id: projectId,
           type: file.type.startsWith("video") ? "video" : "image",
-          url: data.publicUrl,
+          url: data.signedUrl,
           filename: file.name,
           alt: file.name.replace(/\.[a-z0-9]+$/i, ""),
           layout: "half",
