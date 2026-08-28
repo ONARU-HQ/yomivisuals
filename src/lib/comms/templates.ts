@@ -374,7 +374,7 @@ export const templates: CommsTemplate[] = [
       issueDate: "12 March 2026",
       dueDate: "26 March 2026",
       items: [
-        { label: "Campaign production — 50% deposit", amount: "₦2,365,000" },
+        { label: "Campaign production — 50% deposit", amount: "₦2,200,000" },
       ],
       totals: [
         { label: "Subtotal", value: "₦2,200,000" },
