@@ -25,16 +25,17 @@ export const Route = createFileRoute("/")({
 
   head: ({ loaderData }) => ({
     meta: [
-      { title: "Yomi Visuals — Creative Production Company, Lagos" },
+      { title: "Yomi Visuals — Creative Production Company in Lagos, Nigeria" },
       {
         name: "description",
         content:
-          "Yomi Visuals is a creative production company in Lagos developing ideas, campaigns and visual experiences for ambitious brands — creative direction, campaign development and full production.",
+          "Yomi Visuals is a creative production company in Lagos, Nigeria producing campaigns, brand films, commercials, photography and visual content for ambitious brands.",
       },
-      { property: "og:title", content: "Yomi Visuals — Creative Production Company" },
+      { property: "og:title", content: "Yomi Visuals — Creative Production Company in Lagos, Nigeria" },
       {
         property: "og:description",
-        content: "We make ideas real. Creative direction, campaign development and production from Lagos, Nigeria.",
+        content:
+          "We make ideas real. Campaigns, brand films, commercials, photography and content production from Lagos, Nigeria.",
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://yomivisuals.lovable.app/" },
@@ -46,15 +47,64 @@ export const Route = createFileRoute("/")({
           ]
         : []),
     ],
-    links: [
-      { rel: "canonical", href: "https://yomivisuals.lovable.app/" },
-      ...(loaderData?.ogImage
-        ? [{ rel: "preload", as: "image", href: loaderData.ogImage, fetchpriority: "high" } as const]
-        : []),
+    links: [{ rel: "canonical", href: "https://yomivisuals.lovable.app/" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "Yomi Visuals",
+          url: "https://yomivisuals.lovable.app/",
+          potentialAction: {
+            "@type": "SearchAction",
+            target: "https://yomivisuals.lovable.app/work?q={search_term_string}",
+            "query-input": "required name=search_term_string",
+          },
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: HOME_FAQS.map((f) => ({
+            "@type": "Question",
+            name: f.q,
+            acceptedAnswer: { "@type": "Answer", text: f.a },
+          })),
+        }),
+      },
     ],
   }),
   component: HomePage,
 });
+
+/** Homepage FAQs — real buyer questions, mirrored into FAQ schema above. */
+const HOME_FAQS = [
+  {
+    q: "What does Yomi Visuals do?",
+    a: "Yomi Visuals is a creative production company based in Lagos, Nigeria. We develop the creative idea, produce the campaign, film or photography, and deliver finished visual content brands can run across every channel.",
+  },
+  {
+    q: "Do you work with brands outside Lagos?",
+    a: "Yes. We are based in Lagos and produce across Nigeria and internationally, building local crews and logistics around each production.",
+  },
+  {
+    q: "How much does a project cost?",
+    a: "Every project is scoped individually. Start a project brief and we return a scoped proposal with a clear budget range before anything is confirmed.",
+  },
+  {
+    q: "How long does a project take?",
+    a: "A single production day can be delivered in one to two weeks. Full campaigns typically run four to eight weeks from brief to final delivery.",
+  },
+  {
+    q: "Can you handle creative direction and production together?",
+    a: "Yes. Most clients use us end to end — idea, creative direction, production and delivery — but we also produce work directed by in-house or agency teams.",
+  },
+] as const;
+
+
 
 
 function HomePage() {
@@ -135,13 +185,15 @@ function HomePage() {
       <section id="intro" className="border-t border-border py-16 md:py-28">
         <Container>
           <Eyebrow>Yomi Visuals</Eyebrow>
-          <p className="text-display mt-6 max-w-4xl text-[clamp(1.6rem,5.5vw,3.4rem)] leading-[1.08]">
+          <h2 className="text-display mt-6 max-w-4xl text-[clamp(1.6rem,5.5vw,3.4rem)] leading-[1.08]">
             From idea to final frame.
-          </p>
+          </h2>
           <p className="mt-7 max-w-2xl text-[15.5px] leading-relaxed text-subtle md:text-[17px]">
-            Yomi Visuals develops the creative idea, builds the production and delivers the visual work ambitious
-            brands need — from a single production to a full brand campaign.
+            Yomi Visuals is a creative production company based in Lagos, Nigeria. We develop the creative idea, build
+            the production and deliver the finished work — campaigns, brand films, commercials, photography and
+            content — for brands that need their visuals to sell as well as they look.
           </p>
+
           <div className="mt-10 grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-3">
             {["Creative", "Production", "Campaigns"].map((pillar) => (
               <div key={pillar} className="bg-background p-6 md:p-8">
@@ -346,6 +398,27 @@ function HomePage() {
         />
       </Section>
 
+
+      {/* FAQ — buyer questions, indexed */}
+      <Section className="border-t border-border">
+        <SectionHeading
+          eyebrow="Questions"
+          title="What brands ask before they start."
+          action={<TextLink to="/faqs">All FAQs</TextLink>}
+        />
+        <div className="divide-y divide-border border-y border-border">
+          {HOME_FAQS.map((f) => (
+            <details key={f.q} className="group py-6">
+              <summary className="flex cursor-pointer list-none items-start justify-between gap-6 text-[15.5px] font-medium tracking-tight md:text-[17px]">
+                <h3 className="font-medium">{f.q}</h3>
+                <span aria-hidden className="mt-1 text-gold transition-transform duration-300 group-open:rotate-45">+</span>
+              </summary>
+              <p className="mt-3 max-w-2xl text-[14px] leading-relaxed text-muted-foreground">{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </Section>
+
       {/* Final CTA */}
       <section className="border-t border-border py-24 md:py-36">
         <Container className="text-center">
@@ -358,6 +431,8 @@ function HomePage() {
           <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link
               to="/start-a-project"
+              search={{ source: "homepage-footer" }}
+              onClick={() => track("START_PROJECT", { source: "footer-cta" })}
               className="inline-flex items-center justify-center gap-2 rounded-sm bg-primary px-8 py-4 text-[12.5px] font-medium uppercase tracking-[0.14em] text-primary-foreground transition-opacity hover:opacity-90"
             >
               Start a Project
@@ -365,6 +440,7 @@ function HomePage() {
             </Link>
             <Link
               to="/work"
+              onClick={() => track("VIEW_WORK", { source: "footer-cta" })}
               className="inline-flex items-center justify-center gap-2 rounded-sm border border-border-strong px-8 py-4 text-[12.5px] font-medium uppercase tracking-[0.14em] transition-colors hover:bg-elevated"
             >
               View Selected Work
@@ -372,6 +448,7 @@ function HomePage() {
           </div>
         </Container>
       </section>
+
     </>
   );
 }
