@@ -72,6 +72,31 @@ function PortalBookings() {
           </article>
         );
       })}
+      <ComingSoon />
     </div>
+  );
+}
+
+const ROADMAP = [
+  "Concept review & approvals",
+  "Production status tracking",
+  "Milestone timeline",
+  "Contracts",
+  "Direct messaging with production",
+];
+
+function ComingSoon() {
+  return (
+    <section className="panel p-6 md:p-8">
+      <p className="text-eyebrow">Client portal roadmap</p>
+      <h2 className="text-display mt-2 text-xl">Coming soon</h2>
+      <ul className="mt-5 flex flex-wrap gap-2">
+        {ROADMAP.map((r) => (
+          <li key={r} className="border border-dashed border-border px-3.5 py-2 text-[12.5px] text-muted-foreground">
+            {r}
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 }
