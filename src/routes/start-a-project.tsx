@@ -217,38 +217,33 @@ function StartProjectPage() {
     }
 
     const payload = { ...brief, scope };
-    const { data: session } = await supabase.auth.getUser();
 
-    const { data, error: dbError } = await (supabase as any)
-      .from("project_briefs")
-      .insert({
+    const { data, error: dbError } = await (supabase as any).rpc("submit_project_brief", {
+      payload: {
         project_types: brief.types,
         objective: [objectiveLabel(brief.objective), brief.detail].filter(Boolean).join(" — "),
-        brand: brief.brand || null,
-        industry: brief.industry || null,
-        website: brief.website || null,
-        instagram: brief.instagram || null,
+        brand: brief.brand,
+        industry: brief.industry,
+        website: brief.website,
+        instagram: brief.instagram,
         capabilities: scope,
         recommended,
-        timeline: brief.timeline || null,
-        production_date: brief.productionDate || null,
-        budget: brief.budget || null,
-        location: brief.location || null,
-        name: brief.name.trim(),
-        company: brief.company.trim() || null,
-        role: brief.role.trim() || null,
-        email: brief.email.trim().toLowerCase(),
-        phone: brief.phone.trim() || null,
+        timeline: brief.timeline,
+        production_date: brief.productionDate,
+        budget: brief.budget,
+        location: brief.location,
+        name: brief.name,
+        company: brief.company,
+        role: brief.role,
+        email: brief.email,
+        phone: brief.phone,
         category,
         size,
         workflow,
         summary: summarise(payload),
         reference_file,
-        source: "website",
-        user_id: session?.user?.id ?? null,
-      })
-      .select("project_id")
-      .single();
+      },
+    });
 
     if (dbError) {
       setState("error");
@@ -261,7 +256,7 @@ function StartProjectPage() {
     } catch {
       /* ignore */
     }
-    setProjectId(data?.project_id ?? null);
+    setProjectId(typeof data === "string" ? data : null);
     setState("success");
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
