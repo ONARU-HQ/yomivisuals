@@ -51,7 +51,8 @@ function AdminLayout() {
     { to: "/admin/pipeline", label: "Pipeline", icon: GitBranch },
     { to: "/admin/inbox", label: "Inbox", icon: Inbox },
     { to: "/admin/invoices", label: "Invoices", icon: Receipt },
-    { to: "/admin/portfolio", label: "Portfolio", icon: Images },
+    { to: "/admin/work", label: "Work", icon: Layers },
+    { to: "/admin/portfolio", label: "Media library", icon: Images },
     { to: "/admin/communications", label: "Comms", icon: Mail },
   ];
 
