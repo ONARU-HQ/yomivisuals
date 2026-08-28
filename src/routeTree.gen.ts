@@ -13,6 +13,7 @@ import { Route as TestimonialsRouteImport } from './routes/testimonials'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as StudioRouteImport } from './routes/studio'
 import { Route as StartAProjectRouteImport } from './routes/start-a-project'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
 import { Route as HowWeWorkRouteImport } from './routes/how-we-work'
@@ -73,6 +74,11 @@ const StudioRoute = StudioRouteImport.update({
 const StartAProjectRoute = StartAProjectRouteImport.update({
   id: '/start-a-project',
   path: '/start-a-project',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyRoute = PrivacyRouteImport.update({
@@ -303,6 +309,7 @@ export interface FileRoutesByFullPath {
   '/how-we-work': typeof HowWeWorkRoute
   '/portfolio': typeof PortfolioRoute
   '/privacy': typeof PrivacyRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/start-a-project': typeof StartAProjectRoute
   '/studio': typeof StudioRoute
   '/terms': typeof TermsRoute
@@ -349,6 +356,7 @@ export interface FileRoutesByTo {
   '/how-we-work': typeof HowWeWorkRoute
   '/portfolio': typeof PortfolioRoute
   '/privacy': typeof PrivacyRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/start-a-project': typeof StartAProjectRoute
   '/studio': typeof StudioRoute
   '/terms': typeof TermsRoute
@@ -395,6 +403,7 @@ export interface FileRoutesById {
   '/how-we-work': typeof HowWeWorkRoute
   '/portfolio': typeof PortfolioRoute
   '/privacy': typeof PrivacyRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/start-a-project': typeof StartAProjectRoute
   '/studio': typeof StudioRoute
   '/terms': typeof TermsRoute
@@ -443,6 +452,7 @@ export interface FileRouteTypes {
     | '/how-we-work'
     | '/portfolio'
     | '/privacy'
+    | '/sitemap.xml'
     | '/start-a-project'
     | '/studio'
     | '/terms'
@@ -489,6 +499,7 @@ export interface FileRouteTypes {
     | '/how-we-work'
     | '/portfolio'
     | '/privacy'
+    | '/sitemap.xml'
     | '/start-a-project'
     | '/studio'
     | '/terms'
@@ -534,6 +545,7 @@ export interface FileRouteTypes {
     | '/how-we-work'
     | '/portfolio'
     | '/privacy'
+    | '/sitemap.xml'
     | '/start-a-project'
     | '/studio'
     | '/terms'
@@ -582,6 +594,7 @@ export interface RootRouteChildren {
   HowWeWorkRoute: typeof HowWeWorkRoute
   PortfolioRoute: typeof PortfolioRoute
   PrivacyRoute: typeof PrivacyRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   StartAProjectRoute: typeof StartAProjectRoute
   StudioRoute: typeof StudioRoute
   TermsRoute: typeof TermsRoute
@@ -630,6 +643,13 @@ declare module '@tanstack/react-router' {
       path: '/start-a-project'
       fullPath: '/start-a-project'
       preLoaderRoute: typeof StartAProjectRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy': {
@@ -992,6 +1012,7 @@ const rootRouteChildren: RootRouteChildren = {
   HowWeWorkRoute: HowWeWorkRoute,
   PortfolioRoute: PortfolioRoute,
   PrivacyRoute: PrivacyRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   StartAProjectRoute: StartAProjectRoute,
   StudioRoute: StudioRoute,
   TermsRoute: TermsRoute,
