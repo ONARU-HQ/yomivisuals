@@ -40,7 +40,7 @@ function ServicesPage() {
         title="Three pillars. One standard."
         body="Creative develops the idea. Production makes it happen. Campaigns take it from brief to final rollout."
       >
-        <ButtonLink to="/book">Start a Project</ButtonLink>
+        <ButtonLink to="/start-a-project">Start a Project</ButtonLink>
       </PageHero>
 
       <Container className="py-14 md:py-20">

@@ -17,25 +17,34 @@ import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
-        <h1 className="text-display text-6xl">404</h1>
-        <h2 className="mt-4 text-lg font-medium">Page not found</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          The page you're looking for doesn't exist or has been moved.
+    <div className="flex min-h-[85svh] flex-col justify-center px-5 py-24 md:px-10">
+      <div className="mx-auto w-full max-w-[1440px]">
+        <p className="text-[11.5px] uppercase tracking-[0.2em] text-muted-foreground">404 — Not Found</p>
+        <h1 className="text-display mt-6 max-w-3xl text-[clamp(2.2rem,9vw,5.5rem)] leading-[0.95]">
+          This frame doesn't exist.
+        </h1>
+        <p className="mt-6 max-w-md text-[15px] leading-relaxed text-muted-foreground">
+          The page you're looking for may have moved, been renamed, or never made the final cut.
         </p>
-        <div className="mt-6">
+        <div className="mt-10 flex flex-col gap-3 sm:flex-row">
           <Link
             to="/"
-            className="inline-flex items-center justify-center rounded-sm bg-primary px-5 py-3 text-sm font-medium text-primary-foreground"
+            className="inline-flex min-h-[48px] items-center justify-center bg-primary px-7 py-4 text-[12px] uppercase tracking-[0.18em] text-primary-foreground"
           >
-            Go home
+            Back to YV
+          </Link>
+          <Link
+            to="/work"
+            className="inline-flex min-h-[48px] items-center justify-center border border-border-strong px-7 py-4 text-[12px] uppercase tracking-[0.18em]"
+          >
+            View our work
           </Link>
         </div>
       </div>
     </div>
   );
 }
+
 
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);

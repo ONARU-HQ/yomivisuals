@@ -10,18 +10,21 @@ const columns = [
   {
     title: "Company",
     links: [
-      { to: "/portfolio", label: "Work" },
+      { to: "/work", label: "Work" },
       { to: "/services", label: "Services" },
       { to: "/how-we-work", label: "How We Work" },
       { to: "/ecosystem", label: "Ecosystem" },
       { to: "/about", label: "About" },
+      { to: "/about/founder", label: "Founder" },
       { to: "/contact", label: "Contact" },
     ],
   },
   {
     title: "Enquiries",
     links: [
-      { to: "/book", label: "Start a Project" },
+      { to: "/start-a-project", label: "Start a Project" },
+      { to: "/studio", label: "YV Studios" },
+      { to: "/ecosystem/$slug", params: { slug: "yv-creators-network" }, label: "Creators Network" },
       { to: "/faqs", label: "FAQs" },
       { to: "/privacy", label: "Privacy Policy" },
       { to: "/terms", label: "Terms" },
@@ -63,7 +66,7 @@ export function SiteFooter() {
               people remember.
             </p>
             <Link
-              to="/book"
+              to="/start-a-project"
               className="mt-7 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3.5 text-[13px] font-medium text-primary-foreground transition-opacity hover:opacity-90"
             >
               Start a Project
@@ -102,7 +105,7 @@ export function SiteFooter() {
                 <ul className="mt-5 space-y-3">
                   {col.links.map((l) => (
                     <li key={l.to}>
-                      <Link to={l.to} className="text-[13.5px] text-subtle transition-colors hover:text-foreground">
+                      <Link to={l.to} params={"params" in l ? l.params : undefined} className="text-[13.5px] text-subtle transition-colors hover:text-foreground">
                         {l.label}
                       </Link>
                     </li>

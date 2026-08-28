@@ -163,11 +163,11 @@ function DesignSystemPage() {
 
       <Block id="buttons" title="06 — Buttons">
         <div className="flex flex-wrap items-center gap-4">
-          <ButtonLink to="/book">Start a Project</ButtonLink>
-          <ButtonLink to="/projects" variant="secondary">
+          <ButtonLink to="/start-a-project">Start a Project</ButtonLink>
+          <ButtonLink to="/work" variant="secondary">
             View Work
           </ButtonLink>
-          <TextLink to="/projects">View Project</TextLink>
+          <TextLink to="/work">View Project</TextLink>
           <Button variant="primary" disabled>
             Submitting
           </Button>
@@ -257,15 +257,15 @@ function DesignSystemPage() {
           eyebrow="Selected Work"
           title="Campaigns, films and visual stories."
           body="Reusable header used across every section of the site."
-          action={<TextLink to="/projects">View all</TextLink>}
+          action={<TextLink to="/work">View all</TextLink>}
         />
       </Block>
 
       <CTA
         title="Make something people remember."
         body="Every component above is production-ready and reusable."
-        primary={{ to: "/book", label: "Start a Project" }}
-        secondary={{ to: "/projects", label: "View Work" }}
+        primary={{ to: "/start-a-project", label: "Start a Project" }}
+        secondary={{ to: "/work", label: "View Work" }}
       />
     </>
   );

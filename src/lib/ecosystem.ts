@@ -218,3 +218,62 @@ export const PROJECT_TYPE_OPTIONS = [
   "Studio Production",
   "Other",
 ];
+
+/** URL slug for a division, e.g. "YV Creators Network" -> "yv-creators-network". */
+export const divisionSlug = (name: string) => name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+
+export const divisionBySlug = (slug: string) => DIVISIONS.find((d) => divisionSlug(d.name) === slug);
+
+/** Work archive categories. */
+export const WORK_CATEGORIES = [
+  "All",
+  "Campaigns",
+  "Commercials",
+  "Film",
+  "Photography",
+  "Fashion",
+  "Product",
+  "Entertainment",
+  "Documentary",
+];
+
+export const CREATOR_ROLES = [
+  "Photographer",
+  "Director",
+  "Filmmaker",
+  "Editor",
+  "Stylist",
+  "Makeup Artist",
+  "Model",
+  "Designer",
+  "Producer",
+  "Writer",
+  "Set Designer",
+  "Motion Designer",
+];
+
+export const ENQUIRY_TYPES = [
+  "General enquiry",
+  "Production enquiry",
+  "Studio enquiry",
+  "Creator collaboration",
+  "Partnership",
+];
+
+export const BUDGET_RANGES = [
+  "Under ₦500,000",
+  "₦500,000 – ₦2M",
+  "₦2M – ₦5M",
+  "₦5M – ₦15M",
+  "₦15M+",
+  "Not sure yet",
+];
+
+export const TIMELINES = [
+  "As soon as possible",
+  "Within 2 weeks",
+  "This month",
+  "Next 1–3 months",
+  "Later this year",
+  "Still planning",
+];

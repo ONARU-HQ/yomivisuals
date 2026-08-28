@@ -4,7 +4,7 @@ import { DIVISIONS, FUTURE_DIVISIONS } from "@/lib/ecosystem";
 import { Container, PageHero, Reveal, Eyebrow } from "@/components/site/ui";
 import { EcosystemMap } from "@/components/yv";
 
-export const Route = createFileRoute("/ecosystem")({
+export const Route = createFileRoute("/ecosystem/")({
   head: () => ({
     meta: [
       { title: "The YV Ecosystem — Yomi Visuals Creative Production Company" },

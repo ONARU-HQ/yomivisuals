@@ -102,7 +102,7 @@ function HowWeWorkPage() {
             )}
           </ol>
           <Link
-            to="/book"
+            to="/start-a-project"
             className="mt-12 inline-flex items-center gap-2 bg-primary px-7 py-4 text-[12px] uppercase tracking-[0.18em] text-primary-foreground transition-opacity hover:opacity-90"
           >
             Submit a project brief

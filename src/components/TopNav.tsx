@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 
 const links = [
-  { to: "/projects", label: "Work" },
+  { to: "/work", label: "Work" },
   { to: "/services", label: "Services" },
   { to: "/how-we-work", label: "How We Work" },
   { to: "/about", label: "About" },
@@ -64,7 +64,7 @@ export function TopNav() {
 
           <div className="flex shrink-0 items-center gap-3">
             <Link
-              to="/book"
+              to="/start-a-project"
               className="hidden items-center gap-1.5 text-[11.5px] uppercase tracking-[0.16em] text-foreground transition-colors hover:text-gold lg:inline-flex"
             >
               Start a Project
@@ -103,7 +103,7 @@ export function TopNav() {
             </Link>
           ))}
           <Link
-            to="/book"
+            to="/start-a-project"
             tabIndex={open ? 0 : -1}
             className="mt-8 inline-flex min-h-[56px] items-center justify-between gap-2 bg-primary px-6 py-5 text-[12px] uppercase tracking-[0.18em] text-primary-foreground"
           >
@@ -111,7 +111,25 @@ export function TopNav() {
             <ArrowUpRight className="h-4 w-4" />
           </Link>
 
+          <div className="mt-10 grid gap-3 text-[12.5px] text-muted-foreground">
+            <Link
+              to="/contact"
+              tabIndex={open ? 0 : -1}
+              className="tap flex items-center justify-between border-t border-border pt-3 transition-colors hover:text-foreground"
+            >
+              Contact <span className="text-subtle">Enquiries</span>
+            </Link>
+            <Link
+              to="/auth"
+              tabIndex={open ? 0 : -1}
+              className="tap flex items-center justify-between border-t border-border pt-3 transition-colors hover:text-foreground"
+            >
+              Client Login <span className="text-subtle">Portal</span>
+            </Link>
+          </div>
+
           <div className="mt-auto grid gap-3 pt-10 text-[12.5px] text-muted-foreground">
+
             <a
               href="https://instagram.com/yomivisuals"
               target="_blank"

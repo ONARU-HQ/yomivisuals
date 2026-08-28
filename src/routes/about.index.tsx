@@ -5,7 +5,7 @@ import { settingsQuery, industriesQuery, studioPortraitImage } from "@/lib/cms";
 import { Container, PageHero, Section, SectionHeading, ButtonLink, Reveal, Eyebrow } from "@/components/site/ui";
 import { DIVISIONS, PROCESS_STAGES, TEAM_STRUCTURE } from "@/lib/ecosystem";
 
-export const Route = createFileRoute("/about")({
+export const Route = createFileRoute("/about/")({
   loader: async ({ context }) => {
     await Promise.all([
       context.queryClient.ensureQueryData(settingsQuery),
