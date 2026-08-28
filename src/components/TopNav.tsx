@@ -90,26 +90,48 @@ export function TopNav() {
         }`}
         aria-hidden={!open}
       >
-        <nav aria-label="Mobile" className="flex flex-1 flex-col px-5 pt-28 pb-10">
+        <nav aria-label="Mobile" className="flex flex-1 flex-col overflow-y-auto px-4 pt-24 pb-8">
           {links.map((l, i) => (
             <Link
               key={l.to}
               to={l.to}
               tabIndex={open ? 0 : -1}
-              className="flex items-baseline justify-between border-b border-border py-6 text-foreground"
+              className="flex items-baseline justify-between border-b border-border py-5 text-foreground"
             >
-              <span className="text-headline text-[30px]">{l.label}</span>
+              <span className="text-headline text-[clamp(28px,8vw,38px)]">{l.label}</span>
               <span className="text-index">0{i + 1}</span>
             </Link>
           ))}
           <Link
             to="/book"
             tabIndex={open ? 0 : -1}
-            className="mt-auto inline-flex items-center justify-between gap-2 border border-border-strong px-6 py-5 text-[12px] uppercase tracking-[0.18em] text-foreground"
+            className="mt-8 inline-flex min-h-[56px] items-center justify-between gap-2 bg-primary px-6 py-5 text-[12px] uppercase tracking-[0.18em] text-primary-foreground"
           >
             Start a Project
-            <ArrowUpRight className="h-4 w-4 text-gold" />
+            <ArrowUpRight className="h-4 w-4" />
           </Link>
+
+          <div className="mt-auto grid gap-3 pt-10 text-[12.5px] text-muted-foreground">
+            <a
+              href="https://instagram.com/yomivisuals"
+              target="_blank"
+              rel="noreferrer"
+              tabIndex={open ? 0 : -1}
+              className="tap flex items-center justify-between border-t border-border pt-3 transition-colors hover:text-foreground"
+            >
+              Instagram <span className="text-gold">@yomivisuals</span>
+            </a>
+            <a
+              href="mailto:hello@yomivisuals.com"
+              tabIndex={open ? 0 : -1}
+              className="tap flex items-center justify-between border-t border-border pt-3 transition-colors hover:text-foreground"
+            >
+              Email <span className="text-gold">hello@yomivisuals.com</span>
+            </a>
+            <p className="flex items-center justify-between border-t border-border pt-3">
+              Location <span className="text-subtle">Lagos, Nigeria</span>
+            </p>
+          </div>
         </nav>
       </div>
     </>
