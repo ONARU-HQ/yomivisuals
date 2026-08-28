@@ -43,15 +43,7 @@ function EcosystemPage() {
             <p className="mt-2 text-[13px] text-muted-foreground">Creative Production Company</p>
           </div>
           <div className="mx-auto my-8 h-10 w-px bg-border-strong md:my-12" aria-hidden />
-          <ul className="grid gap-px bg-border sm:grid-cols-2 lg:grid-cols-4">
-            {DIVISIONS.map((d) => (
-              <li key={d.code} className="bg-background px-4 py-6 text-center">
-                <span className="text-index">{d.code}</span>
-                <p className="mt-3 text-[13.5px] font-medium uppercase tracking-[0.12em]">{d.name}</p>
-                <p className="mt-1.5 text-[12px] text-muted-foreground">{d.tagline}</p>
-              </li>
-            ))}
-          </ul>
+          <EcosystemMap divisions={DIVISIONS} />
         </div>
       </Container>
 
