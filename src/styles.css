@@ -246,6 +246,156 @@
   border-top: 1px solid var(--border);
 }
 
+/* ——— Type scale (mobile-first, fluid to desktop) ——— */
+
+@utility type-display-xl {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(40px, 11vw, 72px);
+  line-height: 0.94;
+  letter-spacing: -0.045em;
+}
+
+@utility type-display-l {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(36px, 8.5vw, 64px);
+  line-height: 0.96;
+  letter-spacing: -0.042em;
+}
+
+@utility type-display-m {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(30px, 6.5vw, 48px);
+  line-height: 1;
+  letter-spacing: -0.038em;
+}
+
+@utility type-heading-l {
+  font-weight: 500;
+  font-size: clamp(26px, 4.6vw, 36px);
+  line-height: 1.06;
+  letter-spacing: -0.032em;
+}
+
+@utility type-heading-m {
+  font-weight: 500;
+  font-size: clamp(22px, 3.4vw, 28px);
+  line-height: 1.15;
+  letter-spacing: -0.028em;
+}
+
+@utility type-heading-s {
+  font-weight: 500;
+  font-size: clamp(18px, 2.4vw, 22px);
+  line-height: 1.25;
+  letter-spacing: -0.022em;
+}
+
+@utility type-body-l {
+  font-size: clamp(17px, 1.8vw, 20px);
+  line-height: 1.55;
+}
+
+@utility type-body {
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+@utility type-small {
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+@utility type-micro {
+  font-size: 11px;
+  line-height: 1.4;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* ——— Grid system: 4 columns mobile, 12 columns desktop ——— */
+
+@utility yv-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  @media (width >= 768px) {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 24px;
+  }
+}
+
+@utility col-full {
+  grid-column: span 4;
+  @media (width >= 768px) {
+    grid-column: span 12;
+  }
+}
+
+@utility col-half {
+  grid-column: span 4;
+  @media (width >= 768px) {
+    grid-column: span 6;
+  }
+}
+
+@utility col-third {
+  grid-column: span 4;
+  @media (width >= 768px) {
+    grid-column: span 4;
+  }
+}
+
+@utility col-two-thirds {
+  grid-column: span 4;
+  @media (width >= 768px) {
+    grid-column: span 8;
+  }
+}
+
+@utility col-quarter {
+  grid-column: span 2;
+  @media (width >= 768px) {
+    grid-column: span 3;
+  }
+}
+
+@utility col-three-quarters {
+  grid-column: span 4;
+  @media (width >= 768px) {
+    grid-column: span 9;
+  }
+}
+
+/* Escape the container for edge-to-edge media. */
+@utility full-bleed {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+}
+
+/* Minimum accessible tap target. */
+@utility tap {
+  min-height: var(--touch-target);
+  min-width: var(--touch-target);
+}
+
+/* ——— Loading ——— */
+
+@keyframes yv-shimmer {
+  0% { opacity: 0.45; }
+  50% { opacity: 0.8; }
+  100% { opacity: 0.45; }
+}
+
+@utility skeleton {
+  background: var(--elevated);
+  animation: yv-shimmer 1.6s ease-in-out infinite;
+}
+
+
 
 /* ——— Surface utilities ——— */
 
