@@ -1,4 +1,4 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound, redirect } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Check } from "lucide-react";
 import { serviceQuery, servicesQuery, coverFor, imageFor } from "@/lib/cms";
@@ -6,7 +6,21 @@ import { portfolioQuery, imagesForSubject, focalStyle } from "@/lib/portfolio";
 import { Container, Section, Eyebrow, ButtonLink, PageHero } from "@/components/site/ui";
 
 
+/** Legacy service URLs → their current equivalents (permanent redirect). */
+const LEGACY_SLUGS: Record<string, string> = {
+  "campaign-creative": "campaigns",
+  "brand-photography": "photography",
+  "commercial-content": "content-production",
+  "visual-brand-direction": "creative-direction",
+};
+
 export const Route = createFileRoute("/services/$slug")({
+  beforeLoad: ({ params }) => {
+    const target = LEGACY_SLUGS[params.slug];
+    if (target) {
+      throw redirect({ to: "/services/$slug", params: { slug: target }, statusCode: 301, replace: true });
+    }
+  },
   loader: async ({ context, params }) => {
     const service = await context.queryClient.ensureQueryData(serviceQuery(params.slug));
     if (!service) throw notFound();

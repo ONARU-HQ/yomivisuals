@@ -1,10 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { supabase } from "@/integrations/supabase/client";
+import type {} from "@tanstack/react-start";
 
 const BASE = "https://yomivisuals.lovable.app";
 
+interface SitemapEntry {
+  path: string;
+  lastmod?: string;
+  changefreq?: string;
+  priority?: string;
+}
+
 /** Static, indexable public routes. Private/portal/admin routes are excluded. */
-const STATIC_ROUTES: { path: string; priority: string; changefreq: string }[] = [
+const STATIC_ROUTES: SitemapEntry[] = [
   { path: "/", priority: "1.0", changefreq: "weekly" },
   { path: "/work", priority: "0.9", changefreq: "weekly" },
   { path: "/services", priority: "0.9", changefreq: "monthly" },
@@ -20,45 +27,91 @@ const STATIC_ROUTES: { path: string; priority: string; changefreq: string }[] = 
   { path: "/terms", priority: "0.2", changefreq: "yearly" },
 ];
 
-function url(loc: string, lastmod: string | null, changefreq: string, priority: string) {
+function renderUrl(e: SitemapEntry) {
   return [
     "  <url>",
-    `    <loc>${BASE}${loc}</loc>`,
-    lastmod ? `    <lastmod>${new Date(lastmod).toISOString().slice(0, 10)}</lastmod>` : "",
-    `    <changefreq>${changefreq}</changefreq>`,
-    `    <priority>${priority}</priority>`,
+    `    <loc>${BASE}${e.path}</loc>`,
+    e.lastmod ? `    <lastmod>${new Date(e.lastmod).toISOString().slice(0, 10)}</lastmod>` : null,
+    e.changefreq ? `    <changefreq>${e.changefreq}</changefreq>` : null,
+    e.priority ? `    <priority>${e.priority}</priority>` : null,
     "  </url>",
   ]
     .filter(Boolean)
     .join("\n");
 }
 
-async function buildSitemap() {
-  const entries = STATIC_ROUTES.map((r) => url(r.path, null, r.changefreq, r.priority));
-
-  const [{ data: services }, { data: projects }, { data: divisions }] = await Promise.all([
-    supabase.from("services").select("slug, updated_at").eq("published", true),
-    supabase.from("projects").select("slug, updated_at, visibility, published").eq("published", true),
-    Promise.resolve({ data: [] as { slug: string }[] }),
-  ]);
-
-  for (const s of services ?? []) {
-    entries.push(url(`/services/${s.slug}`, s.updated_at, "monthly", "0.8"));
-  }
-  for (const p of projects ?? []) {
-    if (p.visibility && p.visibility !== "public") continue;
-    entries.push(url(`/work/${p.slug}`, p.updated_at, "monthly", "0.8"));
-  }
-  void divisions;
-
-  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entries.join("\n")}\n</urlset>\n`;
-}
-
 export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
       GET: async () => {
-        const xml = await buildSitemap();
+        const entries: SitemapEntry[] = [...STATIC_ROUTES];
+
+        const { createClient } = await import("@supabase/supabase-js");
+        const key = process.env['SUPABASE_PUBLISHABLE_KEY']!;
+        const supabase = createClient(process.env['SUPABASE_URL']!, key, {
+          auth: { persistSession: false, autoRefreshToken: false },
+          global: {
+            fetch: (input, init) => {
+              const headers = new Headers(init?.headers);
+              // Opaque sb_ keys are not JWTs; send apikey without the default bearer.
+              if (key.startsWith("sb_") && headers.get("Authorization") === "Bearer " + key) {
+                headers.delete("Authorization");
+              }
+              headers.set("apikey", key);
+              return fetch(input, { ...init, headers });
+            },
+          },
+        });
+
+        const pageSize = 1000;
+
+        for (let offset = 0; ; offset += pageSize) {
+          const { data, error } = await supabase
+            .from("services")
+            .select("slug, updated_at")
+            .eq("published", true)
+            .order("slug")
+            .range(offset, offset + pageSize - 1);
+          if (error) throw error;
+          entries.push(
+            ...(data ?? []).map((s: { slug: string; updated_at: string | null }) => ({
+              path: `/services/${encodeURIComponent(s.slug)}`,
+              lastmod: s.updated_at ?? undefined,
+              changefreq: "monthly",
+              priority: "0.8",
+            })),
+          );
+          if (!data || data.length < pageSize) break;
+        }
+
+        for (let offset = 0; ; offset += pageSize) {
+          const { data, error } = await supabase
+            .from("projects")
+            .select("slug, updated_at, visibility")
+            .eq("published", true)
+            .order("slug")
+            .range(offset, offset + pageSize - 1);
+          if (error) throw error;
+          entries.push(
+            ...(data ?? [])
+              .filter((p: { visibility: string | null }) => !p.visibility || p.visibility === "public")
+              .map((p: { slug: string; updated_at: string | null }) => ({
+                path: `/work/${encodeURIComponent(p.slug)}`,
+                lastmod: p.updated_at ?? undefined,
+                changefreq: "monthly",
+                priority: "0.8",
+              })),
+          );
+          if (!data || data.length < pageSize) break;
+        }
+
+        const xml = [
+          `<?xml version="1.0" encoding="UTF-8"?>`,
+          `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`,
+          ...entries.map(renderUrl),
+          `</urlset>`,
+        ].join("\n");
+
         return new Response(xml, {
           headers: {
             "Content-Type": "application/xml; charset=utf-8",
