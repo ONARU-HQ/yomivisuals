@@ -5,7 +5,6 @@ import { ArrowUpRight, Menu, X } from "lucide-react";
 const links = [
   { to: "/work", label: "Work" },
   { to: "/services", label: "Services" },
-  { to: "/how-we-work", label: "How We Work" },
   { to: "/about", label: "About" },
   { to: "/ecosystem", label: "Ecosystem" },
 ] as const;
