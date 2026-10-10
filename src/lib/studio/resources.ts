@@ -48,7 +48,7 @@ export function buildRecipe(key:string,brand:string,kit:Kit,info:BrandInformatio
 }
 export function recipesForBrand(name:string){return RECIPES.filter(r=>(r.brands as readonly string[]).includes(name));}
 export function recommendRecipes(name:string,brief:string){const words=brief.toLowerCase();return recipesForBrand(name).map(r=>({recipe:r,score:[r.name,r.category,r.objective,r.style,r.key].join(' ').toLowerCase().split(/[\s-]+/).filter(w=>w.length>3&&words.includes(w)).length+(words.includes('carousel')&&r.key==='ecosystem-widgets'?5:0)+(words.includes('food')&&r.key==='launch-showcase'?5:0)+(words.includes('book')&&r.objective==='Enquiries'?3:0)})).sort((a,b)=>b.score-a.score).map(r=>r.recipe);}
-export function buildRecipe(key:string,brand:string,kit:Kit,info:BrandInformation={},logoId?:string):StudioDocument{
+function legacyBuildRecipe(key:string,brand:string,kit:Kit,info:BrandInformation={},logoId?:string):StudioDocument{
  const recipe=LEGACY_RECIPES.find(r=>r.key===key&&(r.brands as readonly string[]).includes(brand));if(!recipe)throw new Error('This template is not assigned to this business.');
  const w=1080,h=1350,ink=kit.colors[1]??'#FFFFFF',accent=kit.colors[2]??ink;
  const doc:StudioDocument={version:1,width:w,height:h,scenes:[],audio:[]};
