@@ -3,7 +3,8 @@ import { Output, streamText } from 'ai';
 import { createOpenAI } from '@ai-sdk/openai';
 import { z } from 'zod';
 import { createLovableAiGatewayRunIdFetch, getLovableAiGatewayRunId, getLovableAiGatewayResponseHeaders } from '@/lib/ai/run-id.server';
-const schema=z.object({font:z.enum(['Inter','Instrument Serif','Arial','Georgia']),colors:z.array(z.string()).min(2).max(5),tone:z.string(),scenes:z.array(z.object({name:z.string(),purpose:z.string(),duration:z.number(),headline:z.string(),support:z.string(),cta:z.string(),layout:z.enum(['Editorial','Offer','Minimal']),motion:z.enum(['Slide','Fade','Scale & settle','Typewriter','Cinematic zoom','Word reveal']),transition:z.enum(['Fade','Cut']),soundCue:z.string()})).max(40)});
+import { STUDIO_FONTS } from './resources';
+const schema=z.object({font:z.string().refine(value=>STUDIO_FONTS.some(f=>f.name===value),'Choose a registered font'),colors:z.array(z.string()).min(2).max(5),tone:z.string(),scenes:z.array(z.object({name:z.string(),purpose:z.string(),duration:z.number(),headline:z.string(),support:z.string(),cta:z.string(),layout:z.enum(['Editorial','Offer','Minimal']),motion:z.enum(['Slide','Fade','Scale & settle','Typewriter','Cinematic zoom','Word reveal']),transition:z.enum(['Fade','Cut']),soundCue:z.string()})).max(40)});
 export async function studioAI(request:Request){
  const url=process.env['SUPABASE_URL'];const publicKey=process.env['SUPABASE_PUBLISHABLE_KEY'];const key=process.env['LOVABLE_API_KEY'];if(!url||!publicKey||!key)return Response.json({message:'AI studio is not configured.'},{status:401});
  const auth=request.headers.get('authorization');if(!auth?.startsWith('Bearer '))return Response.json({message:'Sign in to the studio.'},{status:401});
