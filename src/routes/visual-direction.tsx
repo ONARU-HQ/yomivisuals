@@ -46,6 +46,7 @@ function VisualDirection() {
       if (!response.ok) { const payload = await response.json(); throw new Error(payload.message || "The visual brief could not be generated."); }
       if (!response.body) throw new Error("No visual brief was returned.");
       await readBriefStream(response.body, event => {
+        if (abort.signal.aborted) return;
         if (event.type === "text") setText(t => t + (event.text ?? ""));
         if (event.type === "thinking") setThinking(t => t + (event.text ?? ""));
         if (event.type === "done") setComplete(true);
@@ -69,7 +70,7 @@ function VisualDirection() {
           <Field label="What should the visuals achieve?"><textarea required minLength={10} maxLength={2000} rows={4} disabled={busy} value={goal} onChange={e => setGoal(e.target.value)} className={inputClass} placeholder="A product launch, a new audience, a stronger brand presence…" /></Field>
           <Field label="Primary marketing channel"><select disabled={busy} value={channel} onChange={e => setChannel(e.target.value)} className={inputClass}>{["Social media", "Paid advertising", "Website", "Campaign", "Email"].map(c => <option key={c}>{c}</option>)}</select></Field>
           <label className="flex items-start gap-3 text-xs leading-relaxed text-muted-foreground"><input type="checkbox" required checked={consent} disabled={busy} onChange={e => setConsent(e.target.checked)} className="mt-1" /><span>I have permission to share this image for AI analysis. It will be sent to an AI service, not added to the public library.</span></label>
-          {busy ? <Button type="button" variant="outline" onClick={() => controller.current?.abort()}><Square className="h-4 w-4" />Stop generation</Button> : <Button type="submit" disabled={!file || !consent || !brand.trim() || goal.trim().length < 10}><Sparkles className="h-4 w-4" />Generate visual brief</Button>}
+          {busy ? <Button type="button" variant="outline" onClick={() => { controller.current?.abort(); setStopped(true); setComplete(false); }}><Square className="h-4 w-4" />Stop generation</Button> : <Button type="submit" disabled={!file || !consent || !brand.trim() || goal.trim().length < 10}><Sparkles className="h-4 w-4" />Generate visual brief</Button>}
           {error ? <p role="alert" className="break-words text-sm text-destructive">{error}</p> : null}
         </form>
         <section aria-label="Visual direction brief" className="min-w-0 border-t border-border pt-6 md:border-t-0 md:border-l md:pl-10 md:pt-0">
