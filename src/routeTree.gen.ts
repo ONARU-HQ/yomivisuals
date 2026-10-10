@@ -46,6 +46,7 @@ import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/
 import { Route as AuthenticatedPortalIndexRouteImport } from './routes/_authenticated/portal.index'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as ApiPublicVisualBriefRouteImport } from './routes/api/public/visual-brief'
+import { Route as ApiPublicStudioGenerateRouteImport } from './routes/api/public/studio-generate'
 import { Route as ApiDocumentsKindRouteImport } from './routes/api/documents.$kind'
 import { Route as AuthenticatedPortalProfileRouteImport } from './routes/_authenticated/portal.profile'
 import { Route as AuthenticatedPortalInvoicesRouteImport } from './routes/_authenticated/portal.invoices'
@@ -244,6 +245,11 @@ const ApiPublicVisualBriefRoute = ApiPublicVisualBriefRouteImport.update({
   path: '/api/public/visual-brief',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicStudioGenerateRoute = ApiPublicStudioGenerateRouteImport.update({
+  id: '/api/public/studio-generate',
+  path: '/api/public/studio-generate',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiDocumentsKindRoute = ApiDocumentsKindRouteImport.update({
   id: '/api/documents/$kind',
   path: '/api/documents/$kind',
@@ -358,6 +364,7 @@ export interface FileRoutesByFullPath {
   '/portal/invoices': typeof AuthenticatedPortalInvoicesRoute
   '/portal/profile': typeof AuthenticatedPortalProfileRoute
   '/api/documents/$kind': typeof ApiDocumentsKindRoute
+  '/api/public/studio-generate': typeof ApiPublicStudioGenerateRoute
   '/api/public/visual-brief': typeof ApiPublicVisualBriefRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/portal/': typeof AuthenticatedPortalIndexRoute
@@ -406,6 +413,7 @@ export interface FileRoutesByTo {
   '/portal/invoices': typeof AuthenticatedPortalInvoicesRoute
   '/portal/profile': typeof AuthenticatedPortalProfileRoute
   '/api/documents/$kind': typeof ApiDocumentsKindRoute
+  '/api/public/studio-generate': typeof ApiPublicStudioGenerateRoute
   '/api/public/visual-brief': typeof ApiPublicVisualBriefRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/portal': typeof AuthenticatedPortalIndexRoute
@@ -458,6 +466,7 @@ export interface FileRoutesById {
   '/_authenticated/portal/invoices': typeof AuthenticatedPortalInvoicesRoute
   '/_authenticated/portal/profile': typeof AuthenticatedPortalProfileRoute
   '/api/documents/$kind': typeof ApiDocumentsKindRoute
+  '/api/public/studio-generate': typeof ApiPublicStudioGenerateRoute
   '/api/public/visual-brief': typeof ApiPublicVisualBriefRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/portal/': typeof AuthenticatedPortalIndexRoute
@@ -510,6 +519,7 @@ export interface FileRouteTypes {
     | '/portal/invoices'
     | '/portal/profile'
     | '/api/documents/$kind'
+    | '/api/public/studio-generate'
     | '/api/public/visual-brief'
     | '/admin/'
     | '/portal/'
@@ -558,6 +568,7 @@ export interface FileRouteTypes {
     | '/portal/invoices'
     | '/portal/profile'
     | '/api/documents/$kind'
+    | '/api/public/studio-generate'
     | '/api/public/visual-brief'
     | '/admin'
     | '/portal'
@@ -609,6 +620,7 @@ export interface FileRouteTypes {
     | '/_authenticated/portal/invoices'
     | '/_authenticated/portal/profile'
     | '/api/documents/$kind'
+    | '/api/public/studio-generate'
     | '/api/public/visual-brief'
     | '/_authenticated/admin/'
     | '/_authenticated/portal/'
@@ -650,6 +662,7 @@ export interface RootRouteChildren {
   ServicesIndexRoute: typeof ServicesIndexRoute
   WorkIndexRoute: typeof WorkIndexRoute
   ApiDocumentsKindRoute: typeof ApiDocumentsKindRoute
+  ApiPublicStudioGenerateRoute: typeof ApiPublicStudioGenerateRoute
   ApiPublicVisualBriefRoute: typeof ApiPublicVisualBriefRoute
   LovableEmailTransactionalPreviewRoute: typeof LovableEmailTransactionalPreviewRoute
 }
@@ -915,6 +928,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicVisualBriefRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/studio-generate': {
+      id: '/api/public/studio-generate'
+      path: '/api/public/studio-generate'
+      fullPath: '/api/public/studio-generate'
+      preLoaderRoute: typeof ApiPublicStudioGenerateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/documents/$kind': {
       id: '/api/documents/$kind'
       path: '/api/documents/$kind'
@@ -1092,6 +1112,7 @@ const rootRouteChildren: RootRouteChildren = {
   ServicesIndexRoute: ServicesIndexRoute,
   WorkIndexRoute: WorkIndexRoute,
   ApiDocumentsKindRoute: ApiDocumentsKindRoute,
+  ApiPublicStudioGenerateRoute: ApiPublicStudioGenerateRoute,
   ApiPublicVisualBriefRoute: ApiPublicVisualBriefRoute,
   LovableEmailTransactionalPreviewRoute: LovableEmailTransactionalPreviewRoute,
 }
