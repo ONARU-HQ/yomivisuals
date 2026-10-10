@@ -9,5 +9,5 @@ test('keyword replacement preserves source and verified brand/footer',()=>{const
 
 test("all ten businesses have at least five curated starters",()=>{for(const name of ["Yomi Visuals","YV Studios Africa","YV Experience","Shop 1401","Folak Catering","NUWA Africa","TRYSA","YOFA","TRYSA Community","ONARU"])assert.ok(recipesForBrand(name).length>=5,name);});
 
-test('eight reference families are assigned to each of ten businesses',()=>{for(const name of ['Yomi Visuals','YV Studios Africa','YV Experience','Shop 1401','Folak Catering','NUWA Africa','TRYSA','YOFA','TRYSA Community','ONARU'])assert.equal(recipesForBrand(name).length,8,name);});
+test('eight reference families plus ratecards and insight bars serve ten businesses',()=>{for(const name of ['Yomi Visuals','YV Studios Africa','YV Experience','Shop 1401','Folak Catering','NUWA Africa','TRYSA','YOFA','TRYSA Community','ONARU'])assert.equal(recipesForBrand(name).length,10,name);});
 test('new template selects requested family font without mutating brand identity',()=>{const source=structuredClone(kit);const d=buildRecipe('trust-stack','Yomi Visuals',kit);assert.equal(d.scenes[0].canvas.objects.find(l=>l.role==='headline')?.fontFamily,'Plus Jakarta Sans');assert.deepEqual(kit,source);});

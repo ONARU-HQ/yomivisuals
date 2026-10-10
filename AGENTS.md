@@ -26,3 +26,4 @@
 - Store reviewed campaign groups and internal calendar plans in existing studio_projects metadata; preview batches locally and persist only selected drafts after explicit review, never imply external publishing.
 
 - Render template previews through the same Fabric scene renderer as exports and keep generated recipe masters versioned; this preserves primitive fidelity and separates legacy sources without overwriting edits.
+- Bind generated masters to the saved brand kit and explicitly assigned approved asset roles; reuse portfolio URLs with provenance in studio_assets so cross-brand marketing review never implies client attribution or duplicates source files.
