@@ -1,5 +1,5 @@
 # Multi-brand studio upgrade
-- [ ] Reference-led redesign: agree one plan for eight premium SaaS template families, selected fonts, brand-prefixed favourites and preservation of previous designs.
+- [x] Reference-led redesign: eight editable SaaS families, selected fonts and 80 brand-prefixed favourite masters saved across ten brands; earlier Trending recipes preserved under Legacy. Saved/reopened 1080×1350 design and stored PNG verified; 26 tests pass and 320–430px library checks pass.
 - [x] Audit existing libraries and agree phased implementation plan.
 - [x] Central font registry, loaded open-license matches, grouped existing resources, logo-colour draft sampling.
 - [x] 62 original brand-assigned Trending templates saved across ten workspaces; approved brand fonts preserved.
