@@ -1,6 +1,13 @@
+import { referenceDocument } from './reference-families';
 import { emptyScene, textLayer, uid, type Kit, type StudioDocument, type Layer } from './model';
 import { contactValue, type BrandInformation } from './catalogue';
 export const STUDIO_FONTS = [
+ {name:'Plus Jakarta Sans',style:'Premium startup sans',license:'SIL OFL',match:'Trust stacks and micro-UI'},
+ {name:'Clash Display',style:'Distinctive display',license:'ITF FFL · web embedding',match:'Curiosity hooks'},
+ {name:'Syne',style:'Geometric display',license:'SIL OFL',match:'Services and monoline statements'},
+ {name:'Bebas Neue',style:'Condensed display',license:'SIL OFL',match:'Launches and posters'},
+ {name:'Oswald',style:'Condensed sans',license:'SIL OFL',match:'Poster labels'},
+ {name:'Archivo',style:'High-contrast grotesk',license:'SIL OFL',match:'Curiosity supporting typography'},
  {name:'Inter',style:'Neutral grotesk',license:'SIL OFL',match:'Existing brand font'},
  {name:'Manrope',style:'Bold geometric',license:'SIL OFL',match:'Keyword-led posters'},
  {name:'DM Sans',style:'Modern sans',license:'SIL OFL',match:'Service lists and clean campaigns'},
@@ -12,7 +19,7 @@ export const STUDIO_FONTS = [
 ];
 export const OBJECTIVES=['Awareness','Education','Enquiries','Engagement','Launch','Conversion','Retention'];
 const ALL=['Yomi Visuals','YV Studios Africa','YV Experience','Shop 1401','Folak Catering','NUWA Africa','TRYSA','YOFA','TRYSA Community','ONARU'];
-export const RECIPES=[
+const LEGACY_RECIPES=[
  {key:'editorial-keyword',name:'The keyword edit',objective:'Awareness',category:'Brand awareness',style:'Editorial',font:'Manrope',brands:ALL},
  {key:'service-index',name:'The service index',objective:'Enquiries',category:'Product or service showcases',style:'Minimal',font:'DM Sans',brands:['Yomi Visuals','YV Studios Africa','Folak Catering','NUWA Africa','TRYSA','ONARU']},
  {key:'trust-statement',name:'The bold statement',objective:'Awareness',category:'Trust and credibility',style:'Bold typography',font:'Anton',brands:ALL},
@@ -23,10 +30,26 @@ export const RECIPES=[
  {key:'partner-carousel',name:'The partnership story',objective:'Education',category:'Carousel posts',style:'Minimal',font:'DM Sans',brands:ALL},
  {key:'food-discovery',name:'The discovery menu',objective:'Conversion',category:'Product or service showcases',style:'Expressive',font:'Manrope',brands:['YOFA','Folak Catering']},
 ] as const;
-export function recipesForBrand(name:string){return RECIPES.filter(r=>(r.brands as readonly string[]).includes(name));}
-export function recommendRecipes(name:string,brief:string){const words=brief.toLowerCase();return recipesForBrand(name).map(r=>({recipe:r,score:[r.name,r.category,r.objective,r.style,r.key].join(' ').toLowerCase().split(/[\s-]+/).filter(w=>w.length>3&&words.includes(w)).length+(words.includes('carousel')&&r.key==='partner-carousel'?5:0)+(words.includes('food')&&r.key==='food-discovery'?5:0)+(words.includes('book')&&r.objective==='Enquiries'?3:0)})).sort((a,b)=>b.score-a.score).map(r=>r.recipe);}
+export const RECIPE_VERSION=2;
+export const RECIPES=[
+ {key:'services-matrix',family:'services',name:'Services Matrix',objective:'Enquiries',category:'Product or service showcases',style:'Premium SaaS',font:'Syne',brands:ALL},
+ {key:'trust-stack',family:'trust',name:'Trust Stack',objective:'Awareness',category:'Brand awareness',style:'Dimensional',font:'Plus Jakarta Sans',brands:ALL},
+ {key:'curiosity-hook',family:'curiosity',name:'Curiosity Hook',objective:'Education',category:'Educational and informative posts',style:'White editorial',font:'Clash Display',brands:ALL},
+ {key:'stopwatch-cta',family:'stopwatch',name:'Stopwatch CTA',objective:'Conversion',category:'Advertisements',style:'Dimensional',font:'Plus Jakarta Sans',brands:ALL},
+ {key:'monoline-statement',family:'monoline',name:'Monoline Statement',objective:'Awareness',category:'Brand awareness',style:'Minimal',font:'Syne',brands:ALL},
+ {key:'launch-showcase',family:'launch',name:'Launch Showcase',objective:'Launch',category:'Announcements and launches',style:'Premium SaaS',font:'Bebas Neue',brands:ALL},
+ {key:'ecosystem-widgets',family:'widgets',name:'Ecosystem Widgets',objective:'Engagement',category:'Carousel posts',style:'Micro UI',font:'Plus Jakarta Sans',brands:ALL},
+ {key:'community-poster',family:'community',name:'Community Poster',objective:'Engagement',category:'Announcements and launches',style:'Newsprint',font:'Anton',brands:ALL},
+] as const;
 export function buildRecipe(key:string,brand:string,kit:Kit,info:BrandInformation={},logoId?:string):StudioDocument{
- const recipe=recipesForBrand(brand).find(r=>r.key===key);if(!recipe)throw new Error('This template is not assigned to this business.');
+ const recipe=recipesForBrand(brand).find(r=>r.key===key);
+ if(recipe)return referenceDocument(recipe.family,brand,kit,info,logoId);
+ return legacyBuildRecipe(key,brand,kit,info,logoId);
+}
+export function recipesForBrand(name:string){return RECIPES.filter(r=>(r.brands as readonly string[]).includes(name));}
+export function recommendRecipes(name:string,brief:string){const words=brief.toLowerCase();return recipesForBrand(name).map(r=>({recipe:r,score:[r.name,r.category,r.objective,r.style,r.key].join(' ').toLowerCase().split(/[\s-]+/).filter(w=>w.length>3&&words.includes(w)).length+(words.includes('carousel')&&r.key==='ecosystem-widgets'?5:0)+(words.includes('food')&&r.key==='launch-showcase'?5:0)+(words.includes('book')&&r.objective==='Enquiries'?3:0)})).sort((a,b)=>b.score-a.score).map(r=>r.recipe);}
+function legacyBuildRecipe(key:string,brand:string,kit:Kit,info:BrandInformation={},logoId?:string):StudioDocument{
+ const recipe=LEGACY_RECIPES.find(r=>r.key===key&&(r.brands as readonly string[]).includes(brand));if(!recipe)throw new Error('This template is not assigned to this business.');
  const w=1080,h=1350,ink=kit.colors[1]??'#FFFFFF',accent=kit.colors[2]??ink;
  const doc:StudioDocument={version:1,width:w,height:h,scenes:[],audio:[]};
  const count=key==='partner-carousel'?3:1;

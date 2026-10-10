@@ -5,6 +5,21 @@
 @import "@fontsource-variable/dm-sans";
 @import "@fontsource/anton";
 @import "@fontsource-variable/space-grotesk";
+@import "@fontsource-variable/plus-jakarta-sans";
+@import "@fontsource-variable/syne";
+@import "@fontsource/bebas-neue";
+@import "@fontsource-variable/oswald";
+@import "@fontsource-variable/archivo";
+
+
+@font-face { font-family: 'Clash Display'; font-style: normal; font-weight: 400; font-display: swap; src: url('/__l5e/assets-v1/dc6540ee-3244-4919-91e9-20b1bfe78049/clash-display-400.woff2') format('woff2'); }
+@font-face { font-family: 'Clash Display'; font-style: normal; font-weight: 500; font-display: swap; src: url('/__l5e/assets-v1/0594422f-b3d4-45d7-a15f-eb9bf891c9a2/clash-display-500.woff2') format('woff2'); }
+@font-face { font-family: 'Clash Display'; font-style: normal; font-weight: 600; font-display: swap; src: url('/__l5e/assets-v1/777da089-00a6-4972-96a6-1e8eff0d5a5a/clash-display-600.woff2') format('woff2'); }
+@font-face { font-family: 'Clash Display'; font-style: normal; font-weight: 700; font-display: swap; src: url('/__l5e/assets-v1/5e42af9c-8e92-486f-8866-4bf78ab2c20a/clash-display-700.woff2') format('woff2'); }
+@font-face { font-family: 'Plus Jakarta Sans'; font-style: normal; font-weight: 200 800; font-display: swap; src: url('@fontsource-variable/plus-jakarta-sans/files/plus-jakarta-sans-latin-wght-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Syne'; font-style: normal; font-weight: 400 800; font-display: swap; src: url('@fontsource-variable/syne/files/syne-latin-wght-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Oswald'; font-style: normal; font-weight: 200 700; font-display: swap; src: url('@fontsource-variable/oswald/files/oswald-latin-wght-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Archivo'; font-style: normal; font-weight: 100 900; font-display: swap; src: url('@fontsource-variable/archivo/files/archivo-latin-wght-normal.woff2') format('woff2'); }
 
 @font-face { font-family: 'Manrope'; font-style: normal; font-weight: 200 800; font-display: swap; src: url('@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2') format('woff2'); }
 @font-face { font-family: 'DM Sans'; font-style: normal; font-weight: 100 1000; font-display: swap; src: url('@fontsource-variable/dm-sans/files/dm-sans-latin-wght-normal.woff2') format('woff2'); }
