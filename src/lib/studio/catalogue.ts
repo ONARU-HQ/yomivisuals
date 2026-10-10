@@ -36,14 +36,14 @@ export function contrastInk(color:string){return luminance(color)>.4?'#111111':'
 function luminance(color:string){const c=color.replace('#','');if(!/^[\da-f]{6}$/i.test(c))return 0;const rgb=[0,2,4].map(i=>parseInt(c.slice(i,i+2),16)/255).map(v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4);return .2126*rgb[0]+.7152*rgb[1]+.0722*rgb[2];}
 export function contactValue(info:BrandInformation,key:string){const value=info[key as keyof BrandInformation]??'';return ['instagram','tiktok'].includes(key)&&value?`@${value.replace(/^@/,'')}`:value;}
 export function buildStarter(starter:Starter,brand:string,kit:Kit,info:BrandInformation={},width?:number,height?:number,headline='[Your headline]',support='[Approved supporting information]',contacts:string[]=[],logoId?:string):StudioDocument {
- const w=width??(starter.category==='Print'?2480:starter.category==='Web'?1920:starter.category==='Email'?1280:1080);
- const h=height??(starter.category==='Print'?3508:starter.category==='Web'?800:starter.category==='Email'?640:1080);
+ const w=width??(starter.name==='Business card'?1063:starter.name==='Presentation cover'?1920:starter.category==='Print'?2480:starter.name==='Open Graph'?1200:starter.category==='Web'?1920:starter.category==='Email'?1280:1080);
+ const h=height??(starter.name==='Business card'?650:starter.name==='Presentation cover'?1080:starter.category==='Print'?3508:starter.name==='Open Graph'?630:starter.category==='Web'?800:starter.category==='Email'?640:1080);
  const k=styledKit(kit,starter.family);const accent=k.colors[2]??k.colors[1];const m=w*.075;const count=starter.category==='Carousel'?5:1;
  const doc:StudioDocument={version:1,width:w,height:h,scenes:[],audio:[]};
  for(let page=0;page<count;page++){
   const scene=emptyScene(k.colors[0]);scene.name=count>1?['Introduction','The challenge','The approach','[Approved evidence]','Next step'][page]:starter.name;
   const objects:Layer[]=[];
-  const text=(value:string,x:number,y:number,tw:number,size:number,role:string)=>{const l=textLayer(value,x,y,tw,size,k);l.role=role;l.fontWeight=role==='support'?400:600;objects.push(l);return l;};
+  const text=(value:string,x:number,y:number,tw:number,size:number,role:string)=>{const l=textLayer(value,x,y,tw,size,k);l.role=role;l.fontWeight=role==='support'?400:600;if(role==='headline'){const lines=Math.max(1,Math.ceil(value.length*size*.55/tw));l.fontSize=Math.min(size,h*.26/lines/1.16);}objects.push(l);return l;};
   const shape=(label:string,x:number,y:number,sw:number,sh:number,fill:string)=>objects.push({id:uid(),label,type:'Rect',originX:'left',originY:'top',left:x,top:y,width:sw,height:sh,fill,opacity:1});
   const heading=page===0?headline:page===4?'[Call to action]':`${String(page+1).padStart(2,'0')} / ${scene.name}`;
   if(starter.composition===0){
