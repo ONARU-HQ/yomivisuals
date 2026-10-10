@@ -7,6 +7,7 @@ import { collectionByKey, emptyRecord, slugify, type FieldDef } from "@/lib/admi
 import { Button, Field, inputClass } from "@/components/site/ui";
 
 export const Route = createFileRoute("/_authenticated/admin/collections/$collection")({
+  head: () => ({ meta: [{ title: "Collection Editor — Yomi Visuals" }, { name: "description", content: "Edit Yomi Visuals website collections and content." }, { property: "og:title", content: "Collection Editor — Yomi Visuals" }, { property: "og:description", content: "Edit Yomi Visuals website collections and content." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }, { name: "robots", content: "noindex" }] }),
   component: CollectionEditor,
 });
 

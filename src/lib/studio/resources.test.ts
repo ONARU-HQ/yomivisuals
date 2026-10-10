@@ -6,3 +6,5 @@ test('native recipe retains editable text and shape layers without reference JPE
 test('carousel recommendation uses relevant brief',()=>assert.equal(recommendRecipes('TRYSA','make a carousel')[0].key,'partner-carousel'));
 test('logo palette ignores transparent pixels',()=>assert.deepEqual(paletteFromPixels([255,0,0,0,0,0,0,255]),['#000000']));
 test('keyword replacement preserves source and verified brand/footer',()=>{const d=buildRecipe('editorial-keyword','Yomi Visuals',kit,{website:'yomivisuals.com'});const copy=replaceKeyword(d,'Yomi','Other');assert.deepEqual(copy,d);const next=replaceKeyword(d,'Keyword','Future');assert.ok(next.scenes[0].canvas.objects.some(l=>l.text==='[Future]'));assert.ok(d.scenes[0].canvas.objects.some(l=>l.text==='[Keyword]'));});
+
+test("all ten businesses have at least five curated starters",()=>{for(const name of ["Yomi Visuals","YV Studios Africa","YV Experience","Shop 1401","Folak Catering","NUWA Africa","TRYSA","YOFA","TRYSA Community","ONARU"])assert.ok(recipesForBrand(name).length>=5,name);});

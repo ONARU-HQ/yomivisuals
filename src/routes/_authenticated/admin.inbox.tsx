@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button, Field, inputClass } from "@/components/site/ui";
 
 export const Route = createFileRoute("/_authenticated/admin/inbox")({
+  head: () => ({ meta: [{ title: "Enquiry Inbox — Yomi Visuals" }, { name: "description", content: "Review Yomi Visuals bookings, enquiries and subscribers." }, { property: "og:title", content: "Enquiry Inbox — Yomi Visuals" }, { property: "og:description", content: "Review Yomi Visuals bookings, enquiries and subscribers." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }, { name: "robots", content: "noindex" }] }),
   component: AdminInbox,
 });
 
