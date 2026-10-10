@@ -33,8 +33,9 @@ export function referenceDocument(family:string,brand:string,kit:Kit,info:BrandI
  const dots=(x:number,y:number,cols=5,rows=10)=>{for(let r=0;r<rows;r++)for(let c=0;c<cols;c++)circle('Dot grid',x+c*14,y+r*14,1.8,accent);};
  const footer=(ink:Fill=light?t.ink:t.white)=>{const website=contactValue(info,'website');const handle=contactValue(info,'instagram');if(website)text(website,80,1250,920,22,'Plus Jakarta Sans',500,ink,'contact');if(handle)text(handle,80,1210,920,20,'Plus Jakarta Sans',400,ink,'contact');};
  const branding=(ink:Fill=light?t.ink:t.white)=>{if(logoId)objects.push(base('Approved brand logo','Image',820,60,{width:160,height:80,assetId:logoId,role:'logo'}));else text(brand.toUpperCase(),650,65,350,22,'Space Grotesk',700,ink,'brand',{textAlign:'right'});};
- const phone=(x:number,y:number,w:number,h:number,angle=12)=>{const start=objects.length;rect('Phone shell',x,y,w,h,linear(w,h,['#626975','#08090B','#D6DADF']),32,{shadow,angle});rect('Phone screen',x+9,y+11,w-18,h-22,t.light,24,{angle});rect('Phone speaker',x+w*.36,y+24,w*.28,5,t.ink,3,{angle});text('[APPROVED\nSCREENSHOT]',x+26,y+h*.43,w-44,17,'Plus Jakarta Sans',600,t.muted,'placeholder',{angle});objects[start].role='mockup';};
- const laptop=(x:number,y:number,w:number,angle=-17)=>{rect('Laptop display',x,y,w,w*.65,linear(w,w*.65,['#D8DCE3','#7D848D']),12,{angle,shadow});rect('Laptop screen slot',x+12,y+12,w-24,w*.65-26,t.ink,4,{angle});text('[YOUR SCREEN]',x+32,y+w*.25,w-65,18,'Space Grotesk',500,t.white,'placeholder',{angle});path('Laptop base',x-30,y+w*.65,[['M',0,0],['L',w+60,0],['L',w+85,40],['L',-25,40],['Z']],t.silver,2,linear(w,40,['#F3F4F5','#7D848D']));};
+ const rotateNew=(start:number,x:number,y:number,angle:number)=>{const a=angle*Math.PI/180;for(const l of objects.slice(start)){const dx=l.left-x,dy=l.top-y;l.left=x+dx*Math.cos(a)-dy*Math.sin(a);l.top=y+dx*Math.sin(a)+dy*Math.cos(a);l.angle=angle;}};
+ const phone=(x:number,y:number,w:number,h:number,angle=12)=>{const start=objects.length;rect('Phone shell',x,y,w,h,linear(w,h,['#626975','#08090B','#D6DADF']),32,{shadow});rect('Phone screen',x+9,y+11,w-18,h-22,t.light,24);rect('Phone speaker',x+w*.36,y+24,w*.28,5,t.ink,3);text('[SCREEN]',x+22,y+h*.48,w-44,14,'Plus Jakarta Sans',600,t.muted,'placeholder',{textAlign:'center'});objects[start].role='mockup';rotateNew(start,x,y,angle);};
+ const laptop=(x:number,y:number,w:number,angle=-17)=>{const start=objects.length;rect('Laptop display',x,y,w,w*.65,linear(w,w*.65,['#D8DCE3','#7D848D']),12,{shadow});rect('Laptop screen slot',x+12,y+12,w-24,w*.65-26,t.ink,4);text('[SCREEN]',x+24,y+w*.25,w-48,14,'Space Grotesk',500,t.white,'placeholder',{textAlign:'center'});path('Laptop base',x-30,y+w*.65,[['M',0,0],['L',w+60,0],['L',w+85,40],['L',-25,40],['Z']],t.silver,2,linear(w,40,['#F3F4F5','#7D848D']));rotateNew(start,x,y,angle);};
  const frame=(x:number,y:number,w:number,h:number)=>{rect('Image placement frame',x,y,w,h,linear(w,h,['#E5E6E2','#C8CBC8']),18);text('[ADD APPROVED IMAGE]',x+24,y+h*.46,w-48,22,'Plus Jakarta Sans',600,t.muted,'placeholder',{textAlign:'center'});};
  const builders:Record<string,()=>void>={
  services:()=>{
@@ -46,8 +47,8 @@ export function referenceDocument(family:string,brand:string,kit:Kit,info:BrandI
  },
  trust:()=>{
   vignette();text('IDEAS.\nCRAFT.\nIMPACT.',235,300,730,148,'Plus Jakarta Sans',800,t.white,'headline',{textAlign:'center',lineHeight:.96});
-  laptop(78,355,245,-21);phone(805,800,170,290,17);
-  text(`[Approved statement about ${sector.noun}]`,110,1000,860,36,'Plus Jakarta Sans',400,t.white,'support',{textAlign:'center'});
+  laptop(85,290,200,-21);phone(875,800,145,225,17);
+  text(`[Approved statement about ${sector.noun}]`,110,1070,860,29,'Plus Jakarta Sans',400,t.white,'support',{textAlign:'center'});
   text(sector.services.slice(0,3).join('  /  '),85,1160,910,21,'Plus Jakarta Sans',500,t.white,'service',{textAlign:'center'});
  },
  curiosity:()=>{
@@ -61,14 +62,14 @@ export function referenceDocument(family:string,brand:string,kit:Kit,info:BrandI
   for(let row=0;row<20;row++)for(let c=0;c<17;c++)path('Micro mesh',c*68-10,row*56-5,[['M',17,0],['L',51,0],['L',68,28],['L',51,56],['L',17,56],['L',0,28],['Z']],'#25282C',1);
   circle('Stopwatch loop',433,183,95,'transparent',{stroke:linear(180,180,[accent,t.white,accent]),strokeWidth:13});rect('Crown',487,294,104,57,linear(100,57,[accent,t.white,accent]),8);rect('Crown neck',522,340,37,47,t.silver,4);
   circle('Metal bezel',255,366,285,linear(550,550,[accent,'#FFFFFF',accent,'#282A2F']),{shadow});circle('Inner bevel',275,386,265,linear(520,520,['#727780','#F4F4F1','#7D828A']));circle('Clock face',291,402,249,t.light);
-  for(let i=0;i<60;i++){const a=i*Math.PI/30;const x=540+Math.sin(a)*223,y=651-Math.cos(a)*223;rect('Dial tick',x,y,i%5===0?4:2,i%5===0?20:9,t.ink,0,{angle:i*6});}
-  for(let i=1;i<=12;i++){const a=i*Math.PI/6;text(String(i),514+Math.sin(a)*191,625-Math.cos(a)*191,52,28,'Space Grotesk',600,t.ink,'dial',{textAlign:'center'});}
+  for(let i=0;i<60;i++){const a=i*Math.PI/30;const x=540+Math.sin(a)*223,y=651-Math.cos(a)*223;rect('Dial tick',x,y,i%5===0?4:2,i%5===0?16:7,t.ink,0,{angle:i*6,originX:'center',originY:'center'});}
+  for(let i=1;i<=12;i++){const a=i*Math.PI/6;text(String(i),514+Math.sin(a)*177,630-Math.cos(a)*177,52,28,'Space Grotesk',600,t.ink,'dial',{textAlign:'center'});}
   path('Minute hand',537,453,[['M',0,0],['L',0,200]],t.ink,7);path('Hour hand',540,650,[['M',0,0],['L',108,55]],t.ink,9);circle('Centre pivot',527,638,12,accent);
   text('YOUR NEXT',95,966,890,63,'Plus Jakarta Sans',800,t.white,'headline',{textAlign:'center'});text('MOMENT STARTS HERE',65,1040,950,51,'Plus Jakarta Sans',800,accent,'keyword',{textAlign:'center'});pill('[YOUR CTA]',370,1140,340,accent);
  },
  monoline:()=>{
-  path('Fluid monoline',238,242,[['M',0,405],['C',130,110,580,330,485,535],['C',400,710,170,475,345,360],['C',490,270,790,230,640,0]],accent,4);
-  circle('Monoline endpoint',873,235,5,accent);text('YOUR',80,742,900,105,'Syne',800,t.white,'headline');text(sector.noun.toUpperCase(),80,857,930,99,'Syne',800,t.white,'support');text('NEXT CHAPTER.',80,970,920,97,'Syne',800,accent,'keyword');text('[APPROVED BRAND ETHOS]',80,1100,910,26,'Space Grotesk',500,t.white,'ethos',{charSpacing:120});
+  path('Fluid monoline',238,242,[['M',0,350],['C',130,110,580,260,485,410],['C',400,565,170,420,345,315],['C',490,235,790,230,640,0]],accent,4);
+  circle('Monoline endpoint',873,235,5,accent);text('YOUR',80,730,900,92,'Syne',800,t.white,'headline');text(sector.noun.toUpperCase(),80,847,930,65,'Syne',800,t.white,'support');text('NEXT CHAPTER.',80,982,920,58,'Syne',800,accent,'keyword');text('[APPROVED BRAND ETHOS]',80,1100,910,26,'Space Grotesk',500,t.white,'ethos',{charSpacing:120});
  },
  launch:()=>{
   rect('Launch colour field',0,0,W,H,linear(W,H,[accent,'#F3EADB',accent]));text('MEET YOUR\nNEXT '+sector.noun.toUpperCase()+'.',490,245,540,102,'Bebas Neue',400,t.ink,'headline',{lineHeight:1});text('[Approved launch message]',490,590,470,35,'Plus Jakarta Sans',500,t.ink);phone(135,435,276,503,-12);
@@ -89,6 +90,6 @@ export function referenceDocument(family:string,brand:string,kit:Kit,info:BrandI
   path('Metadata speech tip',754,799,[['M',0,0],['L',55,28],['L',0,28],['Z']],'transparent',0,t.ink);rect('Metadata bubble',699,821,301,119,t.ink,18);text('[TIME]',725,843,255,52,'Bebas Neue',400,t.light,'support');text('[DATE]\n[LOCATION]',709,986,290,28,'Plus Jakarta Sans',700,t.ink,'support');
  },
  };
- const build=builders[family];if(!build)throw new Error('Unknown reference family');build();branding();footer();scene.canvas.objects=objects;scene.name=family;
+ const build=builders[family];if(!build)throw new Error('Unknown reference family');build();branding(family==='launch'?t.ink:undefined);footer(family==='launch'?t.ink:undefined);scene.canvas.objects=objects;scene.name=family;
  return {version:1,width:W,height:H,scenes:[scene],audio:[]};
 }
