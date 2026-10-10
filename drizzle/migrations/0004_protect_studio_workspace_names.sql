@@ -1,0 +1,3 @@
+CREATE UNIQUE INDEX IF NOT EXISTS studio_brand_name_case_insensitive ON public.studio_brands(lower(trim(name)));
+CREATE OR REPLACE FUNCTION public.validate_studio_brand_name() RETURNS trigger LANGUAGE plpgsql SET search_path=public AS $$ BEGIN IF lower(trim(NEW.name))='playbaaq' THEN RAISE EXCEPTION 'PLAYBAAQ is excluded from this studio'; END IF; RETURN NEW; END; $$;
+CREATE TRIGGER studio_brand_exclusion BEFORE INSERT OR UPDATE OF name ON public.studio_brands FOR EACH ROW EXECUTE FUNCTION public.validate_studio_brand_name();

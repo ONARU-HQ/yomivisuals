@@ -1099,6 +1099,7 @@ export type Database = {
         Row: {
           created_at: string
           id: string
+          information: Json
           kit: Json
           kit_version: number
           logo_asset_id: string | null
@@ -1108,6 +1109,7 @@ export type Database = {
         Insert: {
           created_at?: string
           id?: string
+          information?: Json
           kit?: Json
           kit_version?: number
           logo_asset_id?: string | null
@@ -1117,6 +1119,7 @@ export type Database = {
         Update: {
           created_at?: string
           id?: string
+          information?: Json
           kit?: Json
           kit_version?: number
           logo_asset_id?: string | null
@@ -1172,6 +1175,59 @@ export type Database = {
           },
         ]
       }
+      studio_kit_versions: {
+        Row: {
+          brand_id: string
+          created_at: string
+          id: string
+          kit: Json
+          version: number
+        }
+        Insert: {
+          brand_id: string
+          created_at?: string
+          id?: string
+          kit: Json
+          version: number
+        }
+        Update: {
+          brand_id?: string
+          created_at?: string
+          id?: string
+          kit?: Json
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "studio_kit_versions_brand_id_fkey"
+            columns: ["brand_id"]
+            isOneToOne: false
+            referencedRelation: "studio_brands"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      studio_preferences: {
+        Row: {
+          favourites: string[]
+          recent_templates: string[]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          favourites?: string[]
+          recent_templates?: string[]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          favourites?: string[]
+          recent_templates?: string[]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       studio_projects: {
         Row: {
           archived: boolean
@@ -1184,7 +1240,9 @@ export type Database = {
           kind: string
           kit_snapshot: Json
           kit_version: number
+          metadata: Json
           revision: number
+          source_project_id: string | null
           title: string
           updated_at: string
         }
@@ -1199,7 +1257,9 @@ export type Database = {
           kind?: string
           kit_snapshot?: Json
           kit_version?: number
+          metadata?: Json
           revision?: number
+          source_project_id?: string | null
           title?: string
           updated_at?: string
         }
@@ -1214,7 +1274,9 @@ export type Database = {
           kind?: string
           kit_snapshot?: Json
           kit_version?: number
+          metadata?: Json
           revision?: number
+          source_project_id?: string | null
           title?: string
           updated_at?: string
         }
@@ -1224,6 +1286,13 @@ export type Database = {
             columns: ["brand_id"]
             isOneToOne: false
             referencedRelation: "studio_brands"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "studio_projects_source_project_id_fkey"
+            columns: ["source_project_id"]
+            isOneToOne: false
+            referencedRelation: "studio_projects"
             referencedColumns: ["id"]
           },
         ]

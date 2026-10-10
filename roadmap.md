@@ -1,10 +1,11 @@
 # Creative Studio
-- [x] Ten brand workspaces, uploaded logos, approval and linked staff-only assets; PLAYBAAQ excluded.
-- [x] Editable graphics, templates, pages, autosave, versions and real PNG/JPEG exports.
-- [x] Scene timeline, independent animation presets and licensed-audio track controls.
-- [x] AI identity/storyboard proposal, campaign/explainer composition, save/reopen.
-- [x] Authenticated browser checks: uploads/cutouts, identity, editable text, pages, undo/redo, templates, saved scenes/revisions, JPEG/PNG storage and AI storyboard application.
-- [x] Mobile overflow and public homepage/work/service regression checks.
-- [ ] MP4 end-to-end: WebCodecs renderer implemented, but test browser has no H.264 encoder; honest failed job/no download verified.
-- [ ] Hosted async renderer, uploaded-footage composition, advanced masks/blur, audio end-to-end and five-minute render capacity.
-- [ ] Full batch variant/export automation and deeper template catalogue.
+- [x] Central verified brand records, editable contact fields and kit revision history.
+- [x] 300 editable draft starter templates: five compositions per six core categories for ten existing brands; search/filter/favourites/archive.
+- [x] Expanded configurable formats, independent saved resizing variants and current-contact footer updates.
+- [x] Guided AI text draft creation, review checks, editable persistent source projects and carousel add/duplicate/reorder.
+- [x] Actual stored PNG/JPEG foundation, multipage PDF, HTML email, ordered images and ZIP exports.
+- [x] Authenticated save/reopen, six-page PDF and six-image ZIP checks, AI draft, HTML export, saved variant checks, mobile overflow and public-route regression checks.
+- [ ] Hosted asynchronous renderer / reliable MP4: requires external rendering service; browser rendering remains explicitly disclosed.
+- [ ] Full brand-specific art direction: kit approvals and approved photography/product/screenshots are required; current templates remain draft compositions.
+- [ ] Automatic CMYK / true extended-artwork bleed: requires print conversion capability; current PDF is RGB raster with optional outer margins and trim marks.
+- [ ] Advanced segmentation background removal: dedicated segmentation service not connected; solid-colour removal is functional.

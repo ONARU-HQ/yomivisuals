@@ -1,4 +1,4 @@
-export type Kit = { colors: string[]; font: string; tone: string; approved: boolean };
+export type Kit = { colors: string[]; font: string; tone: string; approved: boolean; bodyFont?: string; logoMinWidth?: number; layoutRules?: string };
 export type Motion = { preset: string; start: number; duration: number; delay: number; easing: string; direction: string; intensity: number; endOpacity: number; exit: boolean };
 export type Layer = Record<string, any> & { id: string; label: string; assetId?: string; motion?: Motion };
 export type Scene = { id: string; name: string; duration: number; transition: string; purpose?: string; cue?: string; canvas: { objects: Layer[]; background?: string; version?: string } };
