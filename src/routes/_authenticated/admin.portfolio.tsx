@@ -371,7 +371,7 @@ function EditPanel({
       <Field label="Title">
         <input className={inputClass} value={form.title} onChange={(e) => set("title", e.target.value)} />
       </Field>
-      <Field label="Project type"><select className={inputClass} value={form.project_type} onChange={e => set("project_type", e.target.value)}>{IMAGE_PROJECT_TYPES.map(type => <option key={type}>{type}</option>)}</select></Field>
+      <Field label="Project type"><select aria-label="Project type" className={inputClass} value={form.project_type} onChange={e => set("project_type", e.target.value)}>{IMAGE_PROJECT_TYPES.map(type => <option key={type}>{type}</option>)}</select></Field>
       <fieldset className="space-y-3"><legend className="mb-3 text-sm">Marketing uses</legend>{MARKETING_USES.map(use => <label key={use} className="flex items-center gap-3 text-sm"><input type="checkbox" checked={form.marketing_uses.includes(use)} onChange={e => set("marketing_uses", e.target.checked ? [...form.marketing_uses, use] : form.marketing_uses.filter(u => u !== use))} />{use}</label>)}<p className="text-xs text-muted-foreground">Usage assignments do not confirm licensing or model releases.</p></fieldset>
       <Field label="Category">
         <select className={inputClass} value={form.category} onChange={(e) => set("category", e.target.value)}>
