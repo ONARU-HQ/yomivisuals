@@ -5,9 +5,10 @@ import { sceneAt, totalDuration, validateDocument, type StudioDocument, type Sce
 export async function loadScene(canvas:StaticCanvas,scene:Scene,resolve:(id:string)=>Promise<string>){
  const json=structuredClone(scene.canvas);
  async function hydrate(objects:Layer[]){for(const obj of objects){if(obj.assetId)obj.src=await resolve(obj.assetId);if(obj.objects)await hydrate(obj.objects);}}
- await hydrate(json.objects);await canvas.loadFromJSON(json);canvas.renderAll();
+ const viewport=[...canvas.viewportTransform] as typeof canvas.viewportTransform;
+ await hydrate(json.objects);await canvas.loadFromJSON(json);canvas.setViewportTransform(viewport);canvas.renderAll();
 }
-export function applyFrame(canvas:StaticCanvas,scene:Scene,time:number){const objects=canvas.getObjects();scene.canvas.objects.forEach((layer,i)=>{const object=objects[i];if(!object)return;const frame=animatedLayer(layer,time,scene.duration);object.set(frame);});canvas.renderAll();}
+export function applyFrame(canvas:StaticCanvas,scene:Scene,time:number){const objects=canvas.getObjects();scene.canvas.objects.forEach((layer,i)=>{const object=objects[i];if(!object)return;const frame=animatedLayer(layer,time,scene.duration);const props:Record<string,unknown>={};for(const key of ['left','top','scaleX','scaleY','angle','opacity','text','charSpacing','textBackgroundColor'])if(frame[key]!==undefined)props[key]=frame[key];object.set(props);});canvas.renderAll();}
 export async function makeImage(doc:StudioDocument,scene:Scene,resolve:(id:string)=>Promise<string>,format:'png'|'jpeg',quality:number,jpegBackground:string){
  validateDocument(doc);await document.fonts.ready;const el=document.createElement('canvas');const canvas=new StaticCanvas(el,{width:doc.width,height:doc.height,enableRetinaScaling:false});
  try{await loadScene(canvas,scene,resolve);if(format==='jpeg')canvas.backgroundColor=jpegBackground;canvas.renderAll();const blob=await new Promise<Blob|null>(r=>el.toBlob(r,`image/${format}`,quality));if(!blob)throw new Error('Image export failed.');return blob;}finally{await canvas.dispose();}
@@ -31,4 +32,4 @@ export async function makeVideo(doc:StudioDocument,resolve:(id:string)=>Promise<
   video.close();await output.finalize();if(!target.buffer)throw new Error('The video encoder produced no file.');progress(100);return new Blob([target.buffer],{type:'video/mp4'});
  }catch(e){await output.cancel();throw e;}finally{await canvas.dispose();}
 }
-export async function addImage(canvas:StaticCanvas,url:string,width:number,height:number,assetId:string){const image=await FabricImage.fromURL(url,{crossOrigin:'anonymous'});image.scaleToWidth(width*.55);image.set({left:width*.2,top:height*.2});Object.assign(image,{id:crypto.randomUUID(),label:'Image',assetId});canvas.add(image);canvas.requestRenderAll();return image;}
+export async function addImage(canvas:StaticCanvas,url:string,width:number,height:number,assetId:string){const image=await FabricImage.fromURL(url,{crossOrigin:'anonymous'});image.scaleToWidth(width*.55);image.set({left:width*.2,top:height*.2,originX:'left',originY:'top'});Object.assign(image,{id:crypto.randomUUID(),label:'Image',assetId});canvas.add(image);canvas.requestRenderAll();return image;}
