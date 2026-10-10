@@ -1,4 +1,5 @@
 # Multi-brand studio upgrade
+- [ ] Brand-bound template refresh: shared identity and illustration primitives, editable ratecards, approved image slots/device mockups and reviewed cross-brand portfolio reuse; keep secure admin authentication.
 - [x] Reference-led redesign: eight editable SaaS families, selected fonts and 80 brand-prefixed favourite masters saved across ten brands; earlier Trending recipes preserved under Legacy. Saved/reopened 1080×1350 design and stored PNG verified; 26 tests pass and 320–430px library checks pass.
 - [x] Audit existing libraries and agree phased implementation plan.
 - [x] Central font registry, loaded open-license matches, grouped existing resources, logo-colour draft sampling.
