@@ -36,6 +36,13 @@
       "when": 1791668920209,
       "tag": "0004_protect_studio_workspace_names",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1791669549992,
+      "tag": "0005_team_profile_usernames",
+      "breakpoints": true
     }
   ]
 }
