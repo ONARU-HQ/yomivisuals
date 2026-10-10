@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { ArrowDown, ArrowUp, Eye, EyeOff, Star, Trash2, Plus } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button, Field, inputClass } from "@/components/site/ui";
+import { IMAGE_PROJECT_TYPES, MARKETING_USES, imageProjectType } from "@/lib/image-library";
 import {
   PORTFOLIO_CATEGORIES,
   PRIORITIES,
@@ -14,7 +15,7 @@ import {
 } from "@/lib/portfolio";
 
 export const Route = createFileRoute("/_authenticated/admin/portfolio")({
-  head: () => ({ meta: [{ title: "Portfolio library — Yomi Visuals" }, { name: "robots", content: "noindex" }] }),
+  head: () => ({ meta: [{ title: "Image Library Management — Yomi Visuals" }, { name: "description", content: "Manage project-type groups and marketing-use assignments in the Yomi Visuals image library." }, { property: "og:title", content: "Image Library Management — Yomi Visuals" }, { property: "og:description", content: "Manage image groups and marketing assignments." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }, { name: "robots", content: "noindex" }] }),
   component: AdminPortfolio,
 });
 
@@ -72,7 +73,7 @@ function AdminPortfolio() {
   });
 
   const visible = useMemo(
-    () => (category === "All" ? images : images.filter((i) => i.category === category)),
+    () => (category === "All" ? images : images.filter((i) => imageProjectType(i) === category)),
     [images, category],
   );
 
@@ -105,7 +106,7 @@ function AdminPortfolio() {
       <header className="flex flex-col gap-4 border-b border-border pb-6 sm:flex-row sm:items-end sm:justify-between">
         <div className="min-w-0">
           <p className="text-eyebrow">Media</p>
-          <h1 className="text-display mt-2 text-3xl">Portfolio library</h1>
+          <h1 className="text-display mt-2 text-3xl">Image library</h1>
           <p className="mt-2 text-[13px] text-muted-foreground">
             {stats.total} images · {stats.hero} in hero · {stats.featured} featured · {stats.hidden} hidden
           </p>
@@ -116,7 +117,7 @@ function AdminPortfolio() {
       </header>
 
       <div className="mt-6 flex flex-wrap gap-2">
-        {["All", ...PORTFOLIO_CATEGORIES].map((c) => (
+        {["All", ...IMAGE_PROJECT_TYPES].map((c) => (
           <button
             key={c}
             onClick={() => setCategory(c)}
@@ -135,13 +136,18 @@ function AdminPortfolio() {
           <select
             className="rounded-full border border-border bg-background px-3 py-1.5"
             defaultValue=""
-            onChange={(e) => e.target.value && bulk({ category: e.target.value })}
+            onChange={(e) => e.target.value && bulk({ project_type: e.target.value })}
           >
-            <option value="">Set category…</option>
-            {PORTFOLIO_CATEGORIES.map((c) => (
+            <option value="">Set project type…</option>
+            {IMAGE_PROJECT_TYPES.map((c) => (
               <option key={c}>{c}</option>
             ))}
           </select>
+          <select aria-label="Assign marketing use" className={inputClass + " max-w-56"} defaultValue="" onChange={e => {
+            if (!e.target.value) return;
+            const use = e.target.value;
+            for (const image of images.filter(i => selected.includes(i.id))) update.mutate({ ids: [image.id], patch: { marketing_uses: Array.from(new Set([...(image.marketing_uses ?? []), use])) } });
+          }}><option value="">Add marketing use…</option>{MARKETING_USES.map(use => <option key={use}>{use}</option>)}</select>
           <select
             className="rounded-full border border-border bg-background px-3 py-1.5"
             defaultValue=""
@@ -210,9 +216,9 @@ function AdminPortfolio() {
                   {isSel ? <span className="absolute inset-0 ring-2 ring-inset ring-foreground" /> : null}
                 </button>
                 <div className="p-3">
-                  <p className="truncate text-[12.5px] font-medium tracking-tight">{img.title}</p>
+                  <p className="truncate text-[12.5px] font-medium tracking-tight">{imageProjectType(img)} · {images.indexOf(img) + 1}</p>
                   <p className="mt-0.5 truncate text-[11px] text-muted-foreground">
-                    {img.category} · {img.orientation}
+                    {img.orientation} · {(img.marketing_uses ?? []).join(", ") || "No marketing use assigned"}
                   </p>
                   <div className="mt-2.5 flex flex-wrap items-center gap-1">
                     <IconBtn label="Move up" onClick={() => move(img, -1)}>
@@ -339,6 +345,8 @@ function EditPanel({
   const [form, setForm] = useState({
     title: img.title,
     category: img.category,
+    project_type: imageProjectType(img),
+    marketing_uses: img.marketing_uses ?? [],
     tags: img.tags.join(", "),
     priority: img.priority,
     hero: img.hero,
@@ -363,6 +371,8 @@ function EditPanel({
       <Field label="Title">
         <input className={inputClass} value={form.title} onChange={(e) => set("title", e.target.value)} />
       </Field>
+      <Field label="Project type"><select className={inputClass} value={form.project_type} onChange={e => set("project_type", e.target.value)}>{IMAGE_PROJECT_TYPES.map(type => <option key={type}>{type}</option>)}</select></Field>
+      <fieldset className="space-y-3"><legend className="mb-3 text-sm">Marketing uses</legend>{MARKETING_USES.map(use => <label key={use} className="flex items-center gap-3 text-sm"><input type="checkbox" checked={form.marketing_uses.includes(use)} onChange={e => set("marketing_uses", e.target.checked ? [...form.marketing_uses, use] : form.marketing_uses.filter(u => u !== use))} />{use}</label>)}<p className="text-xs text-muted-foreground">Usage assignments do not confirm licensing or model releases.</p></fieldset>
       <Field label="Category">
         <select className={inputClass} value={form.category} onChange={(e) => set("category", e.target.value)}>
           {PORTFOLIO_CATEGORIES.map((c) => (
@@ -417,7 +427,7 @@ function EditPanel({
           [
             ["hero", "Use in homepage hero"],
             ["homepage", "Show on homepage grid"],
-            ["in_portfolio", "Show in portfolio archive"],
+            ["in_portfolio", "Show in image library"],
             ["active", "Visible on site"],
           ] as const
         ).map(([key, label]) => (
@@ -452,10 +462,11 @@ function EditPanel({
 }
 
 function AddPanel({ onClose, onSave }: { onClose: () => void; onSave: (row: Record<string, unknown>) => void }) {
-  const [form, setForm] = useState({ url: "", title: "", category: "Portraits", tags: "" });
+  const [form, setForm] = useState({ url: "", title: "", category: "Portraits", project_type: "Portraits", tags: "" });
   const set = (k: string, v: string) => setForm((f) => ({ ...f, [k]: v }));
   return (
     <Panel title="Add image" onClose={onClose}>
+      <Field label="Project type"><select className={inputClass} value={form.project_type} onChange={e => set("project_type", e.target.value)}>{IMAGE_PROJECT_TYPES.map(type => <option key={type}>{type}</option>)}</select></Field>
       <p className="text-[12.5px] text-muted-foreground">
         Paste the URL of an image you've uploaded to your media host. It will appear in the archive immediately.
       </p>

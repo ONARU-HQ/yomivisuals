@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as VisualDirectionRouteImport } from './routes/visual-direction'
 import { Route as TestimonialsRouteImport } from './routes/testimonials'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as StudioRouteImport } from './routes/studio'
@@ -16,6 +17,7 @@ import { Route as StartAProjectRouteImport } from './routes/start-a-project'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
+import { Route as ImageLibraryRouteImport } from './routes/image-library'
 import { Route as HowWeWorkRouteImport } from './routes/how-we-work'
 import { Route as ForAgenciesRouteImport } from './routes/for-agencies'
 import { Route as FaqsRouteImport } from './routes/faqs'
@@ -57,6 +59,11 @@ import { Route as AuthenticatedAdminCommunicationsRouteImport } from './routes/_
 import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
 import { Route as AuthenticatedAdminCollectionsCollectionRouteImport } from './routes/_authenticated/admin.collections.$collection'
 
+const VisualDirectionRoute = VisualDirectionRouteImport.update({
+  id: '/visual-direction',
+  path: '/visual-direction',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TestimonialsRoute = TestimonialsRouteImport.update({
   id: '/testimonials',
   path: '/testimonials',
@@ -90,6 +97,11 @@ const PrivacyRoute = PrivacyRouteImport.update({
 const PortfolioRoute = PortfolioRouteImport.update({
   id: '/portfolio',
   path: '/portfolio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ImageLibraryRoute = ImageLibraryRouteImport.update({
+  id: '/image-library',
+  path: '/image-library',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HowWeWorkRoute = HowWeWorkRouteImport.update({
@@ -313,6 +325,7 @@ export interface FileRoutesByFullPath {
   '/faqs': typeof FaqsRoute
   '/for-agencies': typeof ForAgenciesRoute
   '/how-we-work': typeof HowWeWorkRoute
+  '/image-library': typeof ImageLibraryRoute
   '/portfolio': typeof PortfolioRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -320,6 +333,7 @@ export interface FileRoutesByFullPath {
   '/studio': typeof StudioRoute
   '/terms': typeof TermsRoute
   '/testimonials': typeof TestimonialsRoute
+  '/visual-direction': typeof VisualDirectionRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/portal': typeof AuthenticatedPortalRouteWithChildren
   '/about/founder': typeof AboutFounderRoute
@@ -361,6 +375,7 @@ export interface FileRoutesByTo {
   '/faqs': typeof FaqsRoute
   '/for-agencies': typeof ForAgenciesRoute
   '/how-we-work': typeof HowWeWorkRoute
+  '/image-library': typeof ImageLibraryRoute
   '/portfolio': typeof PortfolioRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -368,6 +383,7 @@ export interface FileRoutesByTo {
   '/studio': typeof StudioRoute
   '/terms': typeof TermsRoute
   '/testimonials': typeof TestimonialsRoute
+  '/visual-direction': typeof VisualDirectionRoute
   '/about/founder': typeof AboutFounderRoute
   '/articles/$slug': typeof ArticlesSlugRoute
   '/ecosystem/$slug': typeof EcosystemSlugRoute
@@ -409,6 +425,7 @@ export interface FileRoutesById {
   '/faqs': typeof FaqsRoute
   '/for-agencies': typeof ForAgenciesRoute
   '/how-we-work': typeof HowWeWorkRoute
+  '/image-library': typeof ImageLibraryRoute
   '/portfolio': typeof PortfolioRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -416,6 +433,7 @@ export interface FileRoutesById {
   '/studio': typeof StudioRoute
   '/terms': typeof TermsRoute
   '/testimonials': typeof TestimonialsRoute
+  '/visual-direction': typeof VisualDirectionRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/_authenticated/portal': typeof AuthenticatedPortalRouteWithChildren
   '/about/founder': typeof AboutFounderRoute
@@ -459,6 +477,7 @@ export interface FileRouteTypes {
     | '/faqs'
     | '/for-agencies'
     | '/how-we-work'
+    | '/image-library'
     | '/portfolio'
     | '/privacy'
     | '/sitemap.xml'
@@ -466,6 +485,7 @@ export interface FileRouteTypes {
     | '/studio'
     | '/terms'
     | '/testimonials'
+    | '/visual-direction'
     | '/admin'
     | '/portal'
     | '/about/founder'
@@ -507,6 +527,7 @@ export interface FileRouteTypes {
     | '/faqs'
     | '/for-agencies'
     | '/how-we-work'
+    | '/image-library'
     | '/portfolio'
     | '/privacy'
     | '/sitemap.xml'
@@ -514,6 +535,7 @@ export interface FileRouteTypes {
     | '/studio'
     | '/terms'
     | '/testimonials'
+    | '/visual-direction'
     | '/about/founder'
     | '/articles/$slug'
     | '/ecosystem/$slug'
@@ -554,6 +576,7 @@ export interface FileRouteTypes {
     | '/faqs'
     | '/for-agencies'
     | '/how-we-work'
+    | '/image-library'
     | '/portfolio'
     | '/privacy'
     | '/sitemap.xml'
@@ -561,6 +584,7 @@ export interface FileRouteTypes {
     | '/studio'
     | '/terms'
     | '/testimonials'
+    | '/visual-direction'
     | '/_authenticated/admin'
     | '/_authenticated/portal'
     | '/about/founder'
@@ -604,6 +628,7 @@ export interface RootRouteChildren {
   FaqsRoute: typeof FaqsRoute
   ForAgenciesRoute: typeof ForAgenciesRoute
   HowWeWorkRoute: typeof HowWeWorkRoute
+  ImageLibraryRoute: typeof ImageLibraryRoute
   PortfolioRoute: typeof PortfolioRoute
   PrivacyRoute: typeof PrivacyRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -611,6 +636,7 @@ export interface RootRouteChildren {
   StudioRoute: typeof StudioRoute
   TermsRoute: typeof TermsRoute
   TestimonialsRoute: typeof TestimonialsRoute
+  VisualDirectionRoute: typeof VisualDirectionRoute
   AboutFounderRoute: typeof AboutFounderRoute
   ArticlesSlugRoute: typeof ArticlesSlugRoute
   EcosystemSlugRoute: typeof EcosystemSlugRoute
@@ -630,6 +656,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/visual-direction': {
+      id: '/visual-direction'
+      path: '/visual-direction'
+      fullPath: '/visual-direction'
+      preLoaderRoute: typeof VisualDirectionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/testimonials': {
       id: '/testimonials'
       path: '/testimonials'
@@ -677,6 +710,13 @@ declare module '@tanstack/react-router' {
       path: '/portfolio'
       fullPath: '/portfolio'
       preLoaderRoute: typeof PortfolioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/image-library': {
+      id: '/image-library'
+      path: '/image-library'
+      fullPath: '/image-library'
+      preLoaderRoute: typeof ImageLibraryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/how-we-work': {
@@ -1030,6 +1070,7 @@ const rootRouteChildren: RootRouteChildren = {
   FaqsRoute: FaqsRoute,
   ForAgenciesRoute: ForAgenciesRoute,
   HowWeWorkRoute: HowWeWorkRoute,
+  ImageLibraryRoute: ImageLibraryRoute,
   PortfolioRoute: PortfolioRoute,
   PrivacyRoute: PrivacyRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
@@ -1037,6 +1078,7 @@ const rootRouteChildren: RootRouteChildren = {
   StudioRoute: StudioRoute,
   TermsRoute: TermsRoute,
   TestimonialsRoute: TestimonialsRoute,
+  VisualDirectionRoute: VisualDirectionRoute,
   AboutFounderRoute: AboutFounderRoute,
   ArticlesSlugRoute: ArticlesSlugRoute,
   EcosystemSlugRoute: EcosystemSlugRoute,
