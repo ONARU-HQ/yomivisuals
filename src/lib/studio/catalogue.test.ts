@@ -1,0 +1,9 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { STARTERS, CATEGORIES, buildStarter, resizeDocument, contactValue, exportFilename } from './catalogue';
+const kit={colors:['#111111','#FFFFFF','#48A090'],font:'Inter',tone:'',approved:true};
+test('five distinct starter compositions in each of six core categories',()=>{for(const c of CATEGORIES){const entries=STARTERS.filter(s=>s.category===c);assert.equal(entries.length,5);assert.equal(new Set(entries.map(s=>s.composition)).size,5);const docs=entries.map(s=>JSON.stringify(buildStarter(s,'TRYSA',kit).scenes[0].canvas.objects.map(l=>[l.type,l.left,l.top,l.width])));assert.equal(new Set(docs).size,5);}});
+test('carousel starts with five independent editable slides',()=>{const d=buildStarter(STARTERS.find(s=>s.category==='Carousel')??STARTERS[0],'TRYSA',kit);assert.equal(d.scenes.length,5);assert.equal(new Set(d.scenes.map(s=>s.id)).size,5);d.scenes[0].canvas.objects[0].fill='#123456';assert.notEqual(d.scenes[1].canvas.objects[0].fill,'#123456');});
+test('resizing preserves the original source and reflows text into safe width',()=>{const d=buildStarter(STARTERS[0],'TRYSA',kit);const before=JSON.stringify(d);const variant=resizeDocument(d,1080,1920,150);assert.equal(JSON.stringify(d),before);assert.equal(variant.height,1920);const text=variant.scenes[0].canvas.objects.find(l=>l.role==='headline');assert.ok(text);assert.ok(text.left>=150);assert.ok(text.left+text.width<=930);});
+test('missing contact values stay empty',()=>{assert.equal(contactValue({},'email'),'');assert.equal(contactValue({instagram:'yomi.visuals'},'instagram'),'@yomi.visuals');});
+test('download names include brand, channel, page and version',()=>{assert.equal(exportFilename('TRYSA','Feature Launch','Instagram Post',0,1,'png'),'TRYSA_Feature-Launch_Instagram-Post_01_v01.png');});
