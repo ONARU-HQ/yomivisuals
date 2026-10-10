@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { formatMoney, stageLabels, stageOrder } from "@/lib/billing";
 
 export const Route = createFileRoute("/_authenticated/portal/")({
+  head: () => ({ meta: [{ title: "My Bookings — Yomi Visuals" }, { name: "description", content: "Review your Yomi Visuals bookings and production progress." }, { property: "og:title", content: "My Bookings — Yomi Visuals" }, { property: "og:description", content: "Review your Yomi Visuals bookings and production progress." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }, { name: "robots", content: "noindex" }] }),
   component: PortalBookings,
 });
 

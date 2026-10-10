@@ -4,6 +4,7 @@ import { Download } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/_authenticated/portal/deliverables")({
+  head: () => ({ meta: [{ title: "My Deliverables — Yomi Visuals" }, { name: "description", content: "Access released Yomi Visuals project files and delivery links." }, { property: "og:title", content: "My Deliverables — Yomi Visuals" }, { property: "og:description", content: "Access released Yomi Visuals project files and delivery links." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }, { name: "robots", content: "noindex" }] }),
   component: PortalDeliverables,
 });
 

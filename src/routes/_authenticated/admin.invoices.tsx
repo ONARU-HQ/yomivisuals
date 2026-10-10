@@ -7,6 +7,7 @@ import { Button, Field, inputClass } from "@/components/site/ui";
 import { formatMoney, downloadReceipt } from "@/lib/billing";
 
 export const Route = createFileRoute("/_authenticated/admin/invoices")({
+  head: () => ({ meta: [{ title: "Invoice Management — Yomi Visuals" }, { name: "description", content: "Manage Yomi Visuals client invoices and receipts." }, { property: "og:title", content: "Invoice Management — Yomi Visuals" }, { property: "og:description", content: "Manage Yomi Visuals client invoices and receipts." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }, { name: "robots", content: "noindex" }] }),
   component: AdminInvoices,
 });
 

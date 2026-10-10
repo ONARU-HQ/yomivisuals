@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { formatMoney, downloadReceipt } from "@/lib/billing";
 
 export const Route = createFileRoute("/_authenticated/portal/invoices")({
+  head: () => ({ meta: [{ title: "My Invoices — Yomi Visuals" }, { name: "description", content: "Review your Yomi Visuals invoices and download receipts." }, { property: "og:title", content: "My Invoices — Yomi Visuals" }, { property: "og:description", content: "Review your Yomi Visuals invoices and download receipts." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }, { name: "robots", content: "noindex" }] }),
   component: PortalInvoices,
 });
 

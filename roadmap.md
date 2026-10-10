@@ -1,9 +1,16 @@
 # Multi-brand studio upgrade
-- [ ] Audit existing libraries and produce phased implementation plan before application changes.
-- [ ] Consolidate resource discovery around existing brand, asset and editable-template records; add licensed font matches and curated Trending recipes.
-- [ ] Deliver and verify inspiration → original editable template → brand design → saved/reopened graphic → real export.
-- [ ] Extend recommendations, copy replacement, relevant brand categories and platform variants.
-- [ ] Extend persistent campaign review/calendar and integrated motion; hosted MP4 requires an external renderer.
+- [x] Audit existing libraries and agree phased implementation plan.
+- [x] Central font registry, loaded open-license matches, grouped existing resources, logo-colour draft sampling.
+- [x] 62 original brand-assigned Trending templates saved across ten workspaces; approved brand fonts preserved.
+- [x] Manual inspiration links/uploads with provenance and status; original native-layout conversion, saved/reopened design and stored 1080×1080 PNG verified.
+- [x] Brief recommendations, objective/category/style/aspect filters, keyword preview/apply/undo and character-limit warnings.
+- [x] Reviewed campaign proposals, selected draft persistence and internal calendar date readback verified.
+- [x] Canvas disposal/reload race corrected; 24 studio tests pass, fonts load, mobile library widths 320–430 checked.
+- [ ] Expand to five original designs in every applicable category; current curated collection is 5–7 total designs per brand, not full category coverage.
+- [ ] Automatic inspiration visual analysis: manual characteristics and original recipe selection currently work; not automatic artwork reconstruction.
+- [ ] Advanced responsive text fitting and scene/audio/caption controls require further implementation and verification.
+- [ ] Hosted MP4 completion and retry requires an external rendering service and credentials; browser fallback is not a hosted job.
+- [ ] Human brand palette/font/logo, photography and final copy approvals remain required before publish-ready assets.
 
 # One-tap Studio
 - [x] Five primary actions and deterministic Choose → Customise → Export flow.

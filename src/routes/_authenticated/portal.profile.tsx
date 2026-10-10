@@ -5,6 +5,7 @@ import { useAuth } from "@/lib/auth";
 import { Button, Field, inputClass } from "@/components/site/ui";
 
 export const Route = createFileRoute("/_authenticated/portal/profile")({
+  head: () => ({ meta: [{ title: "My Profile — Yomi Visuals" }, { name: "description", content: "Manage your Yomi Visuals account profile." }, { property: "og:title", content: "My Profile — Yomi Visuals" }, { property: "og:description", content: "Manage your Yomi Visuals account profile." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }, { name: "robots", content: "noindex" }] }),
   component: PortalProfile,
 });
 

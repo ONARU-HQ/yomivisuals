@@ -1,0 +1,3 @@
+ALTER TABLE public.studio_assets ADD COLUMN IF NOT EXISTS metadata jsonb NOT NULL DEFAULT '{}'::jsonb;
+COMMENT ON COLUMN public.studio_assets.metadata IS 'Resource classification and inspiration provenance, review status, notes and tags. Reference-only links are never render assets.';
+CREATE INDEX IF NOT EXISTS studio_template_recipe_key ON public.studio_projects (brand_id, ((metadata->>'recipeKey'))) WHERE is_template AND metadata ? 'recipeKey';
