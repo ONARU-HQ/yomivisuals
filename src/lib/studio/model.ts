@@ -5,7 +5,7 @@ export type Scene = { id: string; name: string; duration: number; transition: st
 export type AudioTrack = { id: string; assetId: string; name: string; start: number; trimStart: number; trimEnd: number; volume: number; fadeIn: number; fadeOut: number; muted: boolean; narration: boolean };
 export type StudioDocument = { version: 1; width: number; height: number; scenes: Scene[]; audio: AudioTrack[] };
 export const FORMATS = [{ name: 'Social post', width: 1080, height: 1080 }, { name: 'Story / Reels cover', width: 1080, height: 1920 }, { name: 'Landscape / presentation', width: 1920, height: 1080 }, { name: 'Portrait post', width: 1080, height: 1350 }, { name: 'Banner', width: 1920, height: 640 }, { name: 'Poster / menu / letterhead', width: 1240, height: 1754 }, { name: 'Business card', width: 1050, height: 600 }, { name: 'ID card', width: 638, height: 1011 }];
-export const PRESETS = ['None','Fade','Slide','Scale & settle','Typewriter','Word reveal','Character reveal','Mask reveal','Blur to focus','Stagger','Tracking reveal','Kinetic typography','Highlight reveal','Cinematic zoom','Pan & drift','Float','Parallax'];
+export const PRESETS = ['None','Fade','Slide','Scale & settle','Typewriter','Word reveal','Character reveal','Stagger','Tracking reveal','Kinetic typography','Cinematic zoom','Pan & drift','Float','Parallax'];
 export const DEFAULT_MOTION: Motion = { preset: 'Fade', start: 0, duration: 0.8, delay: 0, easing: 'ease-out', direction: 'up', intensity: 1, endOpacity: 1, exit: true };
 export const uid = () => crypto.randomUUID();
 export function emptyScene(background = '#080808'): Scene { return { id: uid(), name: 'Scene 1', duration: 5, transition: 'Fade', canvas: { objects: [], background } }; }
