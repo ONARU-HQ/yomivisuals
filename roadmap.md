@@ -1,15 +1,16 @@
 # One-tap Studio
-- [ ] Five primary actions and deterministic Choose → Customise → Export flow.
-- [ ] Contextual editor with optional Advanced controls.
-- [ ] 1–20 carousel slides and compatible exports.
-- [ ] Team account management using existing auth/roles.
-- [ ] Username sign-in: preserve secure authentication; four-digit PIN is not acceptable.
-- [ ] Hosted video rendering: external service required; implement honest integration boundary.
-- [ ] Browser persistence, export, mobile and public-page regression checks.
+- [x] Five primary actions and deterministic Choose → Customise → Export flow.
+- [x] Contextual editor with optional Advanced controls.
+- [x] 1–20 carousel slides and compatible exports; actual three-image ZIP and PDF downloads verified.
+- [x] Team account management using existing auth/roles; team page and self-demotion protection verified. Invitation delivery and recipient onboarding still need end-to-end verification.
+- [x] Server-side username sign-in added without changing passwords or creating a four-digit PIN; credential login and email recovery delivery still need end-to-end verification.
+- [x] Authenticated asynchronous video integration boundary with an explicit unconfigured state; hosted service remains required.
+- [x] Browser save/reopen, PNG export, carousel export, mobile overflow and public Work regression checks; no browser page errors in final flow.
+- [x] 20 tests passed across studio, image-library and visual-brief suites.
 
 # Creative Studio
 - [x] Central verified brand records, editable contact fields and kit revision history.
-- [x] 300 editable draft starter templates: five compositions per six core categories for ten existing brands; search/filter/favourites/archive.
+- [x] 600 editable draft starter templates: five compositions per 12 categories for ten existing brands; 60 per brand verified, with five Motion templates visible for the selected brand.
 - [x] Expanded configurable formats, independent saved resizing variants and current-contact footer updates.
 - [x] Guided AI text draft creation, review checks, editable persistent source projects and carousel add/duplicate/reorder.
 - [x] Actual stored PNG/JPEG foundation, multipage PDF, HTML email, ordered images and ZIP exports.
