@@ -11,3 +11,7 @@
 
 - Keep image project types and marketing-use assignments independent of case-study brand attribution, so imagery can be reused without implying client identity or rights clearance.
 - Serve visitor image analysis through a streaming public server route with validated uploads; keep prompts, model configuration and provider access state server-only.
+
+- Keep studio sources and master templates in the existing studio_projects table with explicit is_template metadata; clone sources into independent projects and link format variants through source_project_id so edits never mutate their originals.
+- Store studio business information in studio_brands.information and user preferences in staff-only own-row studio_preferences; preserve kit revisions through studio_kit_versions so identity changes remain auditable.
+- Render studio graphics and PDF/ZIP bundles in the browser from structured Fabric scenes; store completed binaries in private studio storage and report browser-renderer/RGB limitations rather than claiming hosted jobs or CMYK output.
