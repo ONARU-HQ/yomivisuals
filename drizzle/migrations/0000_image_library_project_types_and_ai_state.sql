@@ -1,0 +1,6 @@
+ALTER TABLE public.portfolio_images ADD COLUMN project_type text NOT NULL DEFAULT 'Portraits', ADD COLUMN marketing_uses text[] NOT NULL DEFAULT '{}';
+UPDATE public.portfolio_images SET project_type = CASE WHEN category = 'Fashion' THEN 'Fashion & Editorial' WHEN category = 'Corporate' THEN 'Corporate & Headshots' WHEN category = 'Brand Photography' AND title ~* 'christmas|celebrating' THEN 'Portraits' WHEN category = 'Hospitality' AND title ~* 'family|forty' THEN 'Portraits' WHEN category = 'Commercial' AND title ~* 'monochrome|tropical' THEN 'Fashion & Editorial' WHEN category = 'Commercial' THEN 'Commercial Content' ELSE 'Portraits' END;
+CREATE TABLE public.visual_brief_service_state (id text PRIMARY KEY, blocked boolean NOT NULL DEFAULT false, status integer NOT NULL DEFAULT 403, message text NOT NULL DEFAULT '', updated_at timestamptz NOT NULL DEFAULT now());
+GRANT ALL ON public.visual_brief_service_state TO service_role;
+ALTER TABLE public.visual_brief_service_state ENABLE ROW LEVEL SECURITY;
+COMMENT ON TABLE public.visual_brief_service_state IS 'Server-only persistent terminal AI provider access state. Clear only after access is restored.';
