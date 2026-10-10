@@ -1,0 +1,16 @@
+ALTER TABLE public.studio_brands ADD COLUMN IF NOT EXISTS information jsonb NOT NULL DEFAULT '{}'::jsonb;
+ALTER TABLE public.studio_projects ADD COLUMN IF NOT EXISTS metadata jsonb NOT NULL DEFAULT '{}'::jsonb;
+ALTER TABLE public.studio_projects ADD COLUMN IF NOT EXISTS source_project_id uuid REFERENCES public.studio_projects(id);
+CREATE TABLE public.studio_preferences (user_id uuid PRIMARY KEY, favourites text[] NOT NULL DEFAULT '{}', recent_templates text[] NOT NULL DEFAULT '{}', updated_at timestamptz NOT NULL DEFAULT now());
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.studio_preferences TO authenticated;
+GRANT ALL ON public.studio_preferences TO service_role;
+ALTER TABLE public.studio_preferences ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Staff own studio preferences" ON public.studio_preferences FOR ALL TO authenticated USING (user_id=auth.uid() AND public.is_staff(auth.uid())) WITH CHECK (user_id=auth.uid() AND public.is_staff(auth.uid()));
+CREATE TABLE public.studio_kit_versions (id uuid PRIMARY KEY DEFAULT gen_random_uuid(), brand_id uuid NOT NULL REFERENCES public.studio_brands(id), kit jsonb NOT NULL, version integer NOT NULL, created_at timestamptz NOT NULL DEFAULT now());
+GRANT SELECT, INSERT ON public.studio_kit_versions TO authenticated;
+GRANT ALL ON public.studio_kit_versions TO service_role;
+ALTER TABLE public.studio_kit_versions ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Staff read kit versions" ON public.studio_kit_versions FOR SELECT TO authenticated USING(public.is_staff(auth.uid()));
+CREATE POLICY "Staff add kit versions" ON public.studio_kit_versions FOR INSERT TO authenticated WITH CHECK(public.is_staff(auth.uid()));
+CREATE OR REPLACE FUNCTION public.record_studio_kit_version() RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path=public AS $$ BEGIN IF OLD.kit IS DISTINCT FROM NEW.kit THEN INSERT INTO public.studio_kit_versions(brand_id,kit,version) VALUES(OLD.id,OLD.kit,OLD.kit_version); END IF; RETURN NEW; END; $$;
+CREATE TRIGGER studio_kit_history BEFORE UPDATE ON public.studio_brands FOR EACH ROW EXECUTE FUNCTION public.record_studio_kit_version();
