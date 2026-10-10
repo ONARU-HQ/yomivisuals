@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowUpRight, Search, X } from "lucide-react";
-import { Container, PageHero, Reveal, Eyebrow } from "@/components/site/ui";
+import { Container, PageHero, Reveal, Eyebrow, ButtonLink } from "@/components/site/ui";
 import { SwapFade } from "@/components/motion";
 import { ProgressiveImage } from "@/components/work/MediaCanvas";
 import { STAGGER } from "@/lib/motion";
@@ -109,7 +109,7 @@ function WorkArchive() {
         eyebrow="The Archive"
         title="Selected work."
         body="A selection of campaigns, films, photography and visual productions created by Yomi Visuals."
-      />
+      ><div className="flex flex-wrap gap-3"><ButtonLink to="/image-library" variant="outline">Image library</ButtonLink><ButtonLink to="/visual-direction" variant="outline">Create a visual brief</ButtonLink></div></PageHero>
 
       <Container className="pb-6">
         <div className="sticky top-[60px] z-30 -mx-5 space-y-2 border-b border-border bg-background/95 px-5 py-3 backdrop-blur md:top-[72px] md:-mx-10 md:px-10">
