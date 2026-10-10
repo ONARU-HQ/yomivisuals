@@ -76,7 +76,7 @@ export const Route = createFileRoute("/work/$slug")({
   component: CaseStudy,
 });
 
-function ProjectUnavailable() {
+export function ProjectUnavailable() {
   return (
     <Container className="grid min-h-[70svh] place-items-center py-20 text-center">
       <div>
@@ -93,7 +93,7 @@ function ProjectUnavailable() {
   );
 }
 
-function CaseStudy() {
+export function CaseStudy() {
   const { slug } = Route.useParams();
   const { data: project } = useSuspenseQuery(workProjectQuery(slug));
   const { data: all } = useSuspenseQuery(workQuery);

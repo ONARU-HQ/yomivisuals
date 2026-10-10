@@ -16,7 +16,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { Toaster } from "@/components/ui/sonner";
 import { PageTransition, RouteProgress, CursorLayer } from "@/components/motion";
 
-function NotFoundComponent() {
+export function NotFoundComponent() {
   return (
     <div className="flex min-h-[85svh] flex-col justify-center px-5 py-24 md:px-10">
       <div className="mx-auto w-full max-w-[1440px]">
@@ -47,7 +47,7 @@ function NotFoundComponent() {
 }
 
 
-function ErrorComponent({ error: caughtError, reset }: { error: unknown; reset: () => void }) {
+export function ErrorComponent({ error: caughtError, reset }: { error: unknown; reset: () => void }) {
   const error = caughtError instanceof Error ? caughtError : new Error(String(caughtError));
   console.error(error);
   const router = useRouter();
@@ -128,7 +128,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   errorComponent: ErrorComponent,
 });
 
-function RootShell({ children }: { children: ReactNode }) {
+export function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <head>
@@ -142,7 +142,7 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
-function RootComponent() {
+export function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   return (
