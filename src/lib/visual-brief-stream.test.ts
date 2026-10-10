@@ -1,4 +1,5 @@
-import { test, expect } from "bun:test";
+import { test } from "node:test";
+import { strict as assert } from "node:assert";
 import { readBriefStream } from "./visual-brief-stream";
 test("split frames and thinking before text do not strand the reader", async () => {
   const encoder = new TextEncoder();
@@ -8,5 +9,5 @@ test("split frames and thinking before text do not strand the reader", async () 
     c.close();
   } });
   await readBriefStream(stream, e => events.push(e.type));
-  expect(events).toEqual(["thinking", "text", "done"]);
+  assert.deepEqual(events, ["thinking", "text", "done"]);
 });

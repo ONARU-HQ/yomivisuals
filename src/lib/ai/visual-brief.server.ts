@@ -65,7 +65,7 @@ export async function handleVisualBrief(request: Request) {
         send(hasText ? { type: "done" } : { type: "error", message: "No visual brief was returned. This request has ended." });
         controller.close();
       } catch (error) { if (!request.signal.aborted) send({ type: "error", message: safeError(error).message }); controller.close(); }
-    }, cancel: () => iterator.return?.() });
+    }, async cancel() { await iterator.return?.(); } });
     upstreamHeaders.set("Content-Type", "application/x-ndjson");
     upstreamHeaders.set("Cache-Control", "no-store, no-transform");
     return new Response(body, { headers: upstreamHeaders });
