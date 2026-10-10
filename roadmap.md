@@ -1,3 +1,12 @@
+# One-tap Studio
+- [ ] Five primary actions and deterministic Choose → Customise → Export flow.
+- [ ] Contextual editor with optional Advanced controls.
+- [ ] 1–20 carousel slides and compatible exports.
+- [ ] Team account management using existing auth/roles.
+- [ ] Username sign-in: preserve secure authentication; four-digit PIN is not acceptable.
+- [ ] Hosted video rendering: external service required; implement honest integration boundary.
+- [ ] Browser persistence, export, mobile and public-page regression checks.
+
 # Creative Studio
 - [x] Central verified brand records, editable contact fields and kit revision history.
 - [x] 300 editable draft starter templates: five compositions per six core categories for ten existing brands; search/filter/favourites/archive.
