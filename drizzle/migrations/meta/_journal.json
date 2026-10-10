@@ -29,6 +29,13 @@
       "when": 1791668473541,
       "tag": "0003_studio_brand_contacts_template_metadata",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1791668920209,
+      "tag": "0004_protect_studio_workspace_names",
+      "breakpoints": true
     }
   ]
 }
