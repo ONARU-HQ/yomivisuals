@@ -1,4 +1,6 @@
 import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
+import { usernameSignIn } from "@/lib/team.functions";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
@@ -19,13 +21,14 @@ export const Route = createFileRoute("/auth")({
       },
       { property: "og:title", content: "Sign In — Yomi Visuals Client Portal" },
       { property: "og:description", content: "Access your Yomi Visuals bookings, invoices and deliverables." },
-      { name: "robots", content: "noindex" },
+      { property:"og:type",content:"website" },{ name:"twitter:card",content:"summary" },{ name: "robots", content: "noindex" },
     ],
   }),
   component: AuthPage,
 });
 
 function AuthPage() {
+  const loginWithUsername=useServerFn(usernameSignIn);
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -65,9 +68,7 @@ function AuthPage() {
       if (!data.session) setNotice("Check your inbox to confirm your email, then sign in.");
       return;
     }
-    const { error: err } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
-    setBusy(false);
-    if (err) setError(err.message);
+    try {if(email.includes('@')){const {error:err}=await supabase.auth.signInWithPassword({email:email.trim(),password});if(err)throw err;}else{const session=await loginWithUsername({data:{username:email.trim(),password}});const {error:err}=await supabase.auth.setSession(session);if(err)throw err;}}catch(e){setError(e instanceof Error?e.message:'Sign-in failed.');}finally{setBusy(false);}
   }
 
   return (
@@ -89,14 +90,14 @@ function AuthPage() {
               <input value={name} onChange={(e) => setName(e.target.value)} className={inputClass} placeholder="Ada Obi" />
             </Field>
           ) : null}
-          <Field label="Email">
+          <Field label={mode==='signin'?"Username or email":"Email"}>
             <input
-              type="email"
+              type={mode==='signin'?"text":"email"}
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className={inputClass}
-              placeholder="you@company.com"
+              placeholder={mode==='signin'?"Username or email":"you@company.com"}
             />
           </Field>
           <Field label="Password">
@@ -118,7 +119,7 @@ function AuthPage() {
             {busy ? "Please wait…" : mode === "signin" ? "Sign in" : "Create account"}
           </Button>
 
-          <button
+          <Button variant="ghost"
             type="button"
             onClick={() => {
               setMode(mode === "signin" ? "signup" : "signin");
@@ -128,7 +129,8 @@ function AuthPage() {
             className="w-full text-center text-[12.5px] text-muted-foreground transition-colors hover:text-foreground"
           >
             {mode === "signin" ? "No account yet? Create one" : "Already have an account? Sign in"}
-          </button>
+          </Button>
+          {mode==='signin'?<Button variant="ghost" type="button" onClick={async()=>{if(!email.includes('@')){setError('Enter your account email for password recovery.');return;}const {error}=await supabase.auth.resetPasswordForEmail(email.trim(),{redirectTo:window.location.origin+'/reset-password'});if(error)setError(error.message);else setNotice('If this account exists, a recovery email has been sent.');}}>Forgot password?</Button>:null}
         </form>
       </div>
     </Container>

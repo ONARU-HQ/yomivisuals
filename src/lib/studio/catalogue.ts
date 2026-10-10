@@ -1,9 +1,15 @@
 import { emptyScene, textLayer, uid, type Kit, type Layer, type StudioDocument } from './model';
 export type BrandInformation = Partial<Record<'website'|'instagram'|'tiktok'|'whatsapp'|'phone'|'email'|'address'|'tagline'|'cta'|'bookingUrl'|'qrUrl'|'parentBrand'|'legalName',string>>;
 export const CONTACT_FIELDS = ['website','instagram','tiktok','whatsapp','phone','email','address','tagline','cta','bookingUrl','qrUrl','parentBrand','legalName'] as const;
-export const CATEGORIES = ['Social','Carousel','Web','Email','Print','Advertising'] as const;
+export const CATEGORIES = ['Social','Carousel','Web','Email','Print','Advertising','Stories','Web tiles','Stationery','Flyers','Menus','Motion'] as const;
 export const FAMILIES = ['Light minimal','Dark premium','Brand editorial','Image-led','Bold typography'] as const;
 export const USE_CASES:Record<string,string[]> = {
+ Stories:['Vertical announcement','Story spotlight','Reel cover','Vertical promotion','Story call to action'],
+ 'Web tiles':['Product tile','Promotional tile','Service tile','Feature tile','Article tile'],
+ Stationery:['Letterhead','Business stationery','Document cover','Company profile cover','Thank-you card'],
+ Flyers:['Event flyer','Service poster','Brand poster','Launch flyer','Information poster'],
+ Menus:['Menu layout','Service list','Rate card','Product catalogue','Price list'],
+ Motion:['Opening title','Logo reveal','Campaign titles','Explainer title','Closing call to action'],
  Social:['Announcement','Service spotlight','Educational tip','Launch announcement','Call to action'],
  Carousel:['Educational series','Problem to solution','Service explainer','Step-by-step','FAQ'],
  Web:['Website hero','Section banner','Blog cover','Feature graphic','Open Graph'],
@@ -36,8 +42,8 @@ export function contrastInk(color:string){return luminance(color)>.4?'#111111':'
 function luminance(color:string){const c=color.replace('#','');if(!/^[\da-f]{6}$/i.test(c))return 0;const rgb=[0,2,4].map(i=>parseInt(c.slice(i,i+2),16)/255).map(v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4);return .2126*rgb[0]+.7152*rgb[1]+.0722*rgb[2];}
 export function contactValue(info:BrandInformation,key:string){const value=info[key as keyof BrandInformation]??'';return ['instagram','tiktok'].includes(key)&&value?`@${value.replace(/^@/,'')}`:value;}
 export function buildStarter(starter:Starter,brand:string,kit:Kit,info:BrandInformation={},width?:number,height?:number,headline='[Your headline]',support='[Approved supporting information]',contacts:string[]=[],logoId?:string):StudioDocument {
- const w=width??(starter.name==='Business card'?1063:starter.name==='Presentation cover'?1920:starter.category==='Print'?2480:starter.name==='Open Graph'?1200:starter.category==='Web'?1920:starter.category==='Email'?1280:1080);
- const h=height??(starter.name==='Business card'?650:starter.name==='Presentation cover'?1080:starter.category==='Print'?3508:starter.name==='Open Graph'?630:starter.category==='Web'?800:starter.category==='Email'?640:1080);
+ const w=width??(starter.name==='Business card'?1063:starter.name==='Presentation cover'?1920:['Print','Stationery','Flyers','Menus'].includes(starter.category)?2480:starter.name==='Open Graph'?1200:starter.category==='Web'?1920:starter.category==='Email'?1280:1080);
+ const h=height??(starter.name==='Business card'?650:starter.name==='Presentation cover'?1080:['Print','Stationery','Flyers','Menus'].includes(starter.category)?3508:starter.name==='Open Graph'?630:starter.category==='Web'?800:starter.category==='Email'?640:starter.category==='Stories'?1920:1080);
  const k=styledKit(kit,starter.family);const accent=k.colors[2]??k.colors[1];const m=w*.075;const count=starter.category==='Carousel'?5:1;
  const doc:StudioDocument={version:1,width:w,height:h,scenes:[],audio:[]};
  for(let page=0;page<count;page++){

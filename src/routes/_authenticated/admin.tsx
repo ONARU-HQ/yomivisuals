@@ -1,6 +1,6 @@
 import { createFileRoute, Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
-import { LayoutDashboard, Inbox, FileText, Receipt, LogOut, Layers, Images, GitBranch, Mail } from "lucide-react";
+import { LayoutDashboard, Inbox, FileText, Receipt, LogOut, Layers, Images, GitBranch, Mail, Users } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { collections } from "@/lib/admin-config";
@@ -50,11 +50,12 @@ function AdminLayout() {
     { to: "/admin", label: "Overview", icon: LayoutDashboard, exact: true },
     { to: "/admin/pipeline", label: "Pipeline", icon: GitBranch },
     { to: "/admin/design-studio", label: "Design Studio", icon: Layers },
+    { to: "/admin/team", label: "Team", icon: Users },
     { to: "/admin/inbox", label: "Inbox", icon: Inbox },
     { to: "/admin/invoices", label: "Invoices", icon: Receipt },
     { to: "/admin/work", label: "Work", icon: Layers },
     { to: "/admin/portfolio", label: "Media library", icon: Images },
-    { to: "/admin/communications", label: "Comms", icon: Mail },
+    { to: "/admin/communications", label: "Comms", icon: Mail, Users },
   ];
 
 

@@ -660,6 +660,7 @@ export type Database = {
           email: string | null
           full_name: string | null
           id: string
+          username: string | null
         }
         Insert: {
           avatar_url?: string | null
@@ -667,6 +668,7 @@ export type Database = {
           email?: string | null
           full_name?: string | null
           id: string
+          username?: string | null
         }
         Update: {
           avatar_url?: string | null
@@ -674,6 +676,7 @@ export type Database = {
           email?: string | null
           full_name?: string | null
           id?: string
+          username?: string | null
         }
         Relationships: []
       }
@@ -1515,6 +1518,13 @@ export type Database = {
           slug: string
           title: string
         }[]
+      }
+      set_team_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: undefined
       }
       submit_project_brief: { Args: { payload: Json }; Returns: string }
     }

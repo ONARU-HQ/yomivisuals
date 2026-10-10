@@ -15,3 +15,9 @@
 - Keep studio sources and master templates in the existing studio_projects table with explicit is_template metadata; clone sources into independent projects and link format variants through source_project_id so edits never mutate their originals.
 - Store studio business information in studio_brands.information and user preferences in staff-only own-row studio_preferences; preserve kit revisions through studio_kit_versions so identity changes remain auditable.
 - Render studio graphics and PDF/ZIP bundles in the browser from structured Fabric scenes; store completed binaries in private studio storage and report browser-renderer/RGB limitations rather than claiming hosted jobs or CMYK output.
+
+- Keep studio creation deterministic and hide technical controls behind Advanced; preserve a simple first-time workflow without AI dependencies.
+- Handle username credential verification server-side and return a session only after Auth verifies the password; never expose username-to-email mappings publicly.
+- Manage team permissions through an administrator-checked RPC that prevents self-demotion and owner modification; retain real emails for recovery.
+- Reuse studio_exports for external render jobs; keep render credentials server-only, validate brand-owned approved assets and store an actual MP4 before marking complete.
+- Paginate studio project reads so expanding master-template catalogues never hide later brand records at the API row limit.

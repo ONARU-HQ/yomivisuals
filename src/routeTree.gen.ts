@@ -15,6 +15,7 @@ import { Route as TermsRouteImport } from './routes/terms'
 import { Route as StudioRouteImport } from './routes/studio'
 import { Route as StartAProjectRouteImport } from './routes/start-a-project'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
 import { Route as ImageLibraryRouteImport } from './routes/image-library'
@@ -52,6 +53,7 @@ import { Route as AuthenticatedPortalProfileRouteImport } from './routes/_authen
 import { Route as AuthenticatedPortalInvoicesRouteImport } from './routes/_authenticated/portal.invoices'
 import { Route as AuthenticatedPortalDeliverablesRouteImport } from './routes/_authenticated/portal.deliverables'
 import { Route as AuthenticatedAdminWorkRouteImport } from './routes/_authenticated/admin.work'
+import { Route as AuthenticatedAdminTeamRouteImport } from './routes/_authenticated/admin.team'
 import { Route as AuthenticatedAdminPortfolioRouteImport } from './routes/_authenticated/admin.portfolio'
 import { Route as AuthenticatedAdminPipelineRouteImport } from './routes/_authenticated/admin.pipeline'
 import { Route as AuthenticatedAdminInvoicesRouteImport } from './routes/_authenticated/admin.invoices'
@@ -90,6 +92,11 @@ const StartAProjectRoute = StartAProjectRouteImport.update({
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyRoute = PrivacyRouteImport.update({
@@ -280,6 +287,11 @@ const AuthenticatedAdminWorkRoute = AuthenticatedAdminWorkRouteImport.update({
   path: '/work',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAdminTeamRoute = AuthenticatedAdminTeamRouteImport.update({
+  id: '/team',
+  path: '/team',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
 const AuthenticatedAdminPortfolioRoute =
   AuthenticatedAdminPortfolioRouteImport.update({
     id: '/portfolio',
@@ -348,6 +360,7 @@ export interface FileRoutesByFullPath {
   '/image-library': typeof ImageLibraryRoute
   '/portfolio': typeof PortfolioRoute
   '/privacy': typeof PrivacyRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/start-a-project': typeof StartAProjectRoute
   '/studio': typeof StudioRoute
@@ -373,6 +386,7 @@ export interface FileRoutesByFullPath {
   '/admin/invoices': typeof AuthenticatedAdminInvoicesRoute
   '/admin/pipeline': typeof AuthenticatedAdminPipelineRoute
   '/admin/portfolio': typeof AuthenticatedAdminPortfolioRoute
+  '/admin/team': typeof AuthenticatedAdminTeamRoute
   '/admin/work': typeof AuthenticatedAdminWorkRoute
   '/portal/deliverables': typeof AuthenticatedPortalDeliverablesRoute
   '/portal/invoices': typeof AuthenticatedPortalInvoicesRoute
@@ -401,6 +415,7 @@ export interface FileRoutesByTo {
   '/image-library': typeof ImageLibraryRoute
   '/portfolio': typeof PortfolioRoute
   '/privacy': typeof PrivacyRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/start-a-project': typeof StartAProjectRoute
   '/studio': typeof StudioRoute
@@ -424,6 +439,7 @@ export interface FileRoutesByTo {
   '/admin/invoices': typeof AuthenticatedAdminInvoicesRoute
   '/admin/pipeline': typeof AuthenticatedAdminPipelineRoute
   '/admin/portfolio': typeof AuthenticatedAdminPortfolioRoute
+  '/admin/team': typeof AuthenticatedAdminTeamRoute
   '/admin/work': typeof AuthenticatedAdminWorkRoute
   '/portal/deliverables': typeof AuthenticatedPortalDeliverablesRoute
   '/portal/invoices': typeof AuthenticatedPortalInvoicesRoute
@@ -454,6 +470,7 @@ export interface FileRoutesById {
   '/image-library': typeof ImageLibraryRoute
   '/portfolio': typeof PortfolioRoute
   '/privacy': typeof PrivacyRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/start-a-project': typeof StartAProjectRoute
   '/studio': typeof StudioRoute
@@ -479,6 +496,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/invoices': typeof AuthenticatedAdminInvoicesRoute
   '/_authenticated/admin/pipeline': typeof AuthenticatedAdminPipelineRoute
   '/_authenticated/admin/portfolio': typeof AuthenticatedAdminPortfolioRoute
+  '/_authenticated/admin/team': typeof AuthenticatedAdminTeamRoute
   '/_authenticated/admin/work': typeof AuthenticatedAdminWorkRoute
   '/_authenticated/portal/deliverables': typeof AuthenticatedPortalDeliverablesRoute
   '/_authenticated/portal/invoices': typeof AuthenticatedPortalInvoicesRoute
@@ -509,6 +527,7 @@ export interface FileRouteTypes {
     | '/image-library'
     | '/portfolio'
     | '/privacy'
+    | '/reset-password'
     | '/sitemap.xml'
     | '/start-a-project'
     | '/studio'
@@ -534,6 +553,7 @@ export interface FileRouteTypes {
     | '/admin/invoices'
     | '/admin/pipeline'
     | '/admin/portfolio'
+    | '/admin/team'
     | '/admin/work'
     | '/portal/deliverables'
     | '/portal/invoices'
@@ -562,6 +582,7 @@ export interface FileRouteTypes {
     | '/image-library'
     | '/portfolio'
     | '/privacy'
+    | '/reset-password'
     | '/sitemap.xml'
     | '/start-a-project'
     | '/studio'
@@ -585,6 +606,7 @@ export interface FileRouteTypes {
     | '/admin/invoices'
     | '/admin/pipeline'
     | '/admin/portfolio'
+    | '/admin/team'
     | '/admin/work'
     | '/portal/deliverables'
     | '/portal/invoices'
@@ -614,6 +636,7 @@ export interface FileRouteTypes {
     | '/image-library'
     | '/portfolio'
     | '/privacy'
+    | '/reset-password'
     | '/sitemap.xml'
     | '/start-a-project'
     | '/studio'
@@ -639,6 +662,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/invoices'
     | '/_authenticated/admin/pipeline'
     | '/_authenticated/admin/portfolio'
+    | '/_authenticated/admin/team'
     | '/_authenticated/admin/work'
     | '/_authenticated/portal/deliverables'
     | '/_authenticated/portal/invoices'
@@ -669,6 +693,7 @@ export interface RootRouteChildren {
   ImageLibraryRoute: typeof ImageLibraryRoute
   PortfolioRoute: typeof PortfolioRoute
   PrivacyRoute: typeof PrivacyRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   StartAProjectRoute: typeof StartAProjectRoute
   StudioRoute: typeof StudioRoute
@@ -735,6 +760,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy': {
@@ -996,6 +1028,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminWorkRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/team': {
+      id: '/_authenticated/admin/team'
+      path: '/team'
+      fullPath: '/admin/team'
+      preLoaderRoute: typeof AuthenticatedAdminTeamRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/portfolio': {
       id: '/_authenticated/admin/portfolio'
       path: '/portfolio'
@@ -1068,6 +1107,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminInvoicesRoute: typeof AuthenticatedAdminInvoicesRoute
   AuthenticatedAdminPipelineRoute: typeof AuthenticatedAdminPipelineRoute
   AuthenticatedAdminPortfolioRoute: typeof AuthenticatedAdminPortfolioRoute
+  AuthenticatedAdminTeamRoute: typeof AuthenticatedAdminTeamRoute
   AuthenticatedAdminWorkRoute: typeof AuthenticatedAdminWorkRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
   AuthenticatedAdminCollectionsCollectionRoute: typeof AuthenticatedAdminCollectionsCollectionRoute
@@ -1081,6 +1121,7 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminInvoicesRoute: AuthenticatedAdminInvoicesRoute,
   AuthenticatedAdminPipelineRoute: AuthenticatedAdminPipelineRoute,
   AuthenticatedAdminPortfolioRoute: AuthenticatedAdminPortfolioRoute,
+  AuthenticatedAdminTeamRoute: AuthenticatedAdminTeamRoute,
   AuthenticatedAdminWorkRoute: AuthenticatedAdminWorkRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
   AuthenticatedAdminCollectionsCollectionRoute:
@@ -1138,6 +1179,7 @@ const rootRouteChildren: RootRouteChildren = {
   ImageLibraryRoute: ImageLibraryRoute,
   PortfolioRoute: PortfolioRoute,
   PrivacyRoute: PrivacyRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   StartAProjectRoute: StartAProjectRoute,
   StudioRoute: StudioRoute,
