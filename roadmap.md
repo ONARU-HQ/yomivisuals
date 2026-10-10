@@ -1,3 +1,10 @@
+# Multi-brand studio upgrade
+- [ ] Audit existing libraries and produce phased implementation plan before application changes.
+- [ ] Consolidate resource discovery around existing brand, asset and editable-template records; add licensed font matches and curated Trending recipes.
+- [ ] Deliver and verify inspiration → original editable template → brand design → saved/reopened graphic → real export.
+- [ ] Extend recommendations, copy replacement, relevant brand categories and platform variants.
+- [ ] Extend persistent campaign review/calendar and integrated motion; hosted MP4 requires an external renderer.
+
 # One-tap Studio
 - [x] Five primary actions and deterministic Choose → Customise → Export flow.
 - [x] Contextual editor with optional Advanced controls.
