@@ -1050,6 +1050,7 @@ export type Database = {
           external_url: string | null
           id: string
           kind: string
+          metadata: Json
           name: string
           original_asset_id: string | null
           rights_note: string
@@ -1063,6 +1064,7 @@ export type Database = {
           external_url?: string | null
           id?: string
           kind?: string
+          metadata?: Json
           name: string
           original_asset_id?: string | null
           rights_note?: string
@@ -1076,6 +1078,7 @@ export type Database = {
           external_url?: string | null
           id?: string
           kind?: string
+          metadata?: Json
           name?: string
           original_asset_id?: string | null
           rights_note?: string
