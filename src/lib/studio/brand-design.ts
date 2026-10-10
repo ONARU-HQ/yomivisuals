@@ -10,7 +10,7 @@ export function applyBrandDesign(source:StudioDocument,brand:Brand,assets:Asset[
  const doc=structuredClone(source),kit=kitOf(brand);
  const approved=assets.filter(a=>productionAsset(a,brand.id));
  const imageFor=(role:string)=>approved.find(a=>a.kind==='image'&&(a.metadata as Record<string,unknown>)?.templateRole===role);
- const logo=approved.find(a=>a.id===brand.logo_asset_id);
+ const logo=assets.find(a=>a.id===brand.logo_asset_id&&productionAsset(a,brand.id));
  const recolour=(value:unknown):unknown=>{if(value==='#101113')return kit.colors[0]??value;if(value==='#FFFFFF')return kit.colors[1]??value;if(value&&typeof value==='object'){const v=structuredClone(value) as Record<string,unknown>;if(Array.isArray(v.colorStops))v.colorStops=v.colorStops.map(s=>({...s,color:recolour(s.color)}));return v;}return value;};
  for(const scene of doc.scenes){if(scene.canvas.background==='#101113')scene.canvas.background=kit.colors[0]??scene.canvas.background;
   scene.canvas.objects=scene.canvas.objects.filter(l=>!(logo&&l.role==='brand'&&l.top<150));
