@@ -1,0 +1,2 @@
+import { createFileRoute } from '@tanstack/react-router';
+export const Route=createFileRoute('/api/public/studio-generate')({server:{handlers:{POST:async({request})=>{const {studioAI}=await import('@/lib/studio/ai.server');return studioAI(request);}}}});

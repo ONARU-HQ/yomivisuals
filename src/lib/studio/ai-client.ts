@@ -1,0 +1,9 @@
+import { supabase } from '@/integrations/supabase/client';
+export type Proposal={font:string;colors:string[];tone:string;scenes:{name:string;purpose:string;duration:number;headline:string;support:string;cta:string;layout:string;motion:string;transition:string;soundCue:string}[]};
+export async function generateProposal(input:{brandId:string;action:string;brief:string;duration:number},signal:AbortSignal,progress:(text:string)=>void):Promise<Proposal>{
+ const {data}=await supabase.auth.getSession();if(!data.session)throw new Error('Sign in to the studio.');
+ const response=await fetch('/api/public/studio-generate',{method:'POST',headers:{'Content-Type':'application/json',Authorization:`Bearer ${data.session.access_token}`},body:JSON.stringify(input),signal});if(!response.ok){const error=await response.json();throw new Error(error.message??'AI request failed.');}if(!response.body)throw new Error('AI returned no response.');
+ const reader=response.body.getReader();const decoder=new TextDecoder();let buffer='';let proposal:Proposal|undefined;
+ function parse(line:string){if(!line.trim())return;const e=JSON.parse(line);if(e.type==='error')throw new Error(e.message);if(e.type==='thinking')progress(e.text);if(e.type==='result')proposal=e.data;}
+ try{while(true){const {value,done}=await reader.read();if(done)break;buffer+=decoder.decode(value,{stream:true});let nl;while((nl=buffer.indexOf('\n'))>=0){parse(buffer.slice(0,nl));buffer=buffer.slice(nl+1);}}buffer+=decoder.decode();parse(buffer);}finally{reader.releaseLock();}if(!proposal)throw new Error('The proposal was incomplete. Your existing work is unchanged.');return proposal;
+}

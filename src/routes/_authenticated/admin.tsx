@@ -49,6 +49,7 @@ function AdminLayout() {
   const nav = [
     { to: "/admin", label: "Overview", icon: LayoutDashboard, exact: true },
     { to: "/admin/pipeline", label: "Pipeline", icon: GitBranch },
+    { to: "/admin/design-studio", label: "Design Studio", icon: Layers },
     { to: "/admin/inbox", label: "Inbox", icon: Inbox },
     { to: "/admin/invoices", label: "Invoices", icon: Receipt },
     { to: "/admin/work", label: "Work", icon: Layers },

@@ -1,0 +1,4 @@
+import { createFileRoute } from '@tanstack/react-router';
+import StudioLibrary from '@/components/studio/StudioLibrary';
+import { brandsQuery,projectsQuery } from '@/lib/studio/data';
+export const Route=createFileRoute('/_authenticated/admin/design-studio/')({loader:({context})=>Promise.all([context.queryClient.ensureQueryData(brandsQuery),context.queryClient.ensureQueryData(projectsQuery)]),head:()=>({meta:[{title:'Creative Studio — Yomi Visuals'},{name:'description',content:'Private multi-brand graphics, motion and creative production studio.'},{property:'og:title',content:'Yomi Visuals Creative Studio'},{property:'og:description',content:'Brand assets and editable creative projects.'},{property:'og:type',content:'website'},{name:'twitter:card',content:'summary'},{name:'robots',content:'noindex'}]}),component:StudioLibrary});
