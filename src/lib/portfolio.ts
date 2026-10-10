@@ -8,6 +8,8 @@ export type PortfolioImage = {
   blur_data: string | null;
   original_filename: string | null;
   title: string;
+  project_type: string;
+  marketing_uses: string[];
   category: string;
   tags: string[];
   orientation: "portrait" | "landscape" | "square";
