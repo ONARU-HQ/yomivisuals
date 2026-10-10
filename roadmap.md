@@ -1,8 +1,11 @@
 # Creative Studio
-- [ ] Central verified brand records, editable contact fields and kit history.
-- [ ] Distinct editable starter templates in six categories for all ten brands; search/filter/favourites.
-- [ ] Expanded formats, independent resizing variants and contact-aware content.
-- [ ] Guided creation, validation, persistent source projects and carousel controls.
-- [ ] Actual PDF, HTML email, ordered images and ZIP exports with saved history.
-- [ ] Authenticated end-to-end checks, mobile and existing-route regressions.
-- [ ] Hosted async renderer / MP4 encoder reliability: external renderer not connected.
+- [x] Central verified brand records, editable contact fields and kit revision history.
+- [x] 300 editable draft starter templates: five compositions per six core categories for ten existing brands; search/filter/favourites/archive.
+- [x] Expanded configurable formats, independent saved resizing variants and current-contact footer updates.
+- [x] Guided AI text draft creation, review checks, editable persistent source projects and carousel add/duplicate/reorder.
+- [x] Actual stored PNG/JPEG foundation, multipage PDF, HTML email, ordered images and ZIP exports.
+- [x] Authenticated save/reopen, six-page PDF and six-image ZIP checks, AI draft, HTML export, saved variant checks, mobile overflow and public-route regression checks.
+- [ ] Hosted asynchronous renderer / reliable MP4: requires external rendering service; browser rendering remains explicitly disclosed.
+- [ ] Full brand-specific art direction: kit approvals and approved photography/product/screenshots are required; current templates remain draft compositions.
+- [ ] Automatic CMYK / true extended-artwork bleed: requires print conversion capability; current PDF is RGB raster with optional outer margins and trim marks.
+- [ ] Advanced segmentation background removal: dedicated segmentation service not connected; solid-colour removal is functional.
