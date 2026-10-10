@@ -118,7 +118,7 @@ function AdminPortfolio() {
 
       <div className="mt-6 flex flex-wrap gap-2">
         {["All", ...IMAGE_PROJECT_TYPES].map((c) => (
-          <button
+          <Button
             key={c}
             onClick={() => setCategory(c)}
             className={`rounded-full border px-3.5 py-1.5 text-[12px] transition-colors ${
@@ -126,7 +126,7 @@ function AdminPortfolio() {
             }`}
           >
             {c}
-          </button>
+          </Button>
         ))}
       </div>
 
@@ -496,6 +496,7 @@ function AddPanel({ onClose, onSave }: { onClose: () => void; onSave: (row: Reco
             thumb_url: form.url,
             title: form.title || "Untitled",
             category: form.category,
+            project_type: form.project_type,
             tags: form.tags
               .split(",")
               .map((t) => t.trim())
