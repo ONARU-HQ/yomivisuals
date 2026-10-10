@@ -2,11 +2,11 @@ import { StaticCanvas, FabricImage } from 'fabric';
 import { Output, Mp4OutputFormat, BufferTarget, CanvasSource, AudioBufferSource, canEncodeVideo, canEncodeAudio } from 'mediabunny';
 import { animatedLayer } from './motion';
 import { sceneAt, totalDuration, validateDocument, type StudioDocument, type Scene, type Layer } from './model';
-export async function loadScene(canvas:StaticCanvas,scene:Scene,resolve:(id:string)=>Promise<string>){
- const json=structuredClone(scene.canvas);
+export async function loadScene(canvas:StaticCanvas,scene:Scene,resolve:(id:string)=>Promise<string>,signal?:AbortSignal){
+ if(canvas.disposed||canvas.destroyed||signal?.aborted)return;const json=structuredClone(scene.canvas);
  async function hydrate(objects:Layer[]){for(const obj of objects){if(obj.assetId)obj.src=await resolve(obj.assetId);if(obj.objects)await hydrate(obj.objects);}}
  const viewport=[...canvas.viewportTransform] as typeof canvas.viewportTransform;
- await hydrate(json.objects);const fonts=json.objects.filter(l=>l.fontFamily).map(l=>`${l.fontWeight??400} 16px \"${l.fontFamily}\"`);await Promise.all(fonts.map(f=>document.fonts.load(f)));await document.fonts.ready;await canvas.loadFromJSON(json);canvas.setViewportTransform(viewport);canvas.renderAll();
+ await hydrate(json.objects);const fonts=json.objects.filter(l=>l.fontFamily).map(l=>`${l.fontWeight??400} 16px \"${l.fontFamily}\"`);await Promise.all(fonts.map(f=>document.fonts.load(f)));await document.fonts.ready;if(canvas.disposed||canvas.destroyed||signal?.aborted)return;await canvas.loadFromJSON(json,undefined,{signal});if(canvas.disposed||canvas.destroyed||signal?.aborted)return;canvas.setViewportTransform(viewport);canvas.renderAll();
 }
 export function applyFrame(canvas:StaticCanvas,scene:Scene,time:number){const objects=canvas.getObjects();scene.canvas.objects.forEach((layer,i)=>{const object=objects[i];if(!object)return;const frame=animatedLayer(layer,time,scene.duration);const props:Record<string,unknown>={};for(const key of ['left','top','scaleX','scaleY','angle','opacity','text','charSpacing','textBackgroundColor'])if(frame[key]!==undefined)props[key]=frame[key];object.set(props);});canvas.renderAll();}
 export async function makeImage(doc:StudioDocument,scene:Scene,resolve:(id:string)=>Promise<string>,format:'png'|'jpeg',quality:number,jpegBackground:string){
