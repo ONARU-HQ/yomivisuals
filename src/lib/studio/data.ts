@@ -6,7 +6,7 @@ export type Brand = Database['public']['Tables']['studio_brands']['Row'];
 export type Asset = Database['public']['Tables']['studio_assets']['Row'];
 export type Project = Database['public']['Tables']['studio_projects']['Row'];
 export const asJson = (value: unknown) => JSON.parse(JSON.stringify(value)) as Json;
-export const brandsQuery=queryOptions({queryKey:['studio','brands'],queryFn:async()=>{const {data,error}=await supabase.from('studio_brands').select('*').order('created_at');if(error)throw error;return data;}});
+export const brandsQuery=queryOptions({queryKey:['studio','brands'],queryFn:async()=>{const {data,error}=await supabase.from('studio_brands').select('*').order('name');if(error)throw error;return data;}});
 export const projectsQuery=queryOptions({queryKey:['studio','projects'],queryFn:async()=>{const {data,error}=await supabase.from('studio_projects').select('*').order('updated_at',{ascending:false});if(error)throw error;return data;}});
 export const assetsQuery=(brandId:string)=>queryOptions({queryKey:['studio','assets',brandId],queryFn:async()=>{const {data,error}=await supabase.from('studio_assets').select('*').eq('brand_id',brandId).order('created_at',{ascending:false});if(error)throw error;return data;}});
 export const projectQuery=(id:string)=>queryOptions({queryKey:['studio','project',id],queryFn:async()=>{const {data,error}=await supabase.from('studio_projects').select('*').eq('id',id).single();if(error)throw error;return data;}});
