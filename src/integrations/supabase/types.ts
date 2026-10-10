@@ -1038,6 +1038,196 @@ export type Database = {
         }
         Relationships: []
       }
+      studio_assets: {
+        Row: {
+          approved: boolean
+          brand_id: string
+          created_at: string
+          created_by: string | null
+          external_url: string | null
+          id: string
+          kind: string
+          name: string
+          original_asset_id: string | null
+          rights_note: string
+          storage_path: string | null
+        }
+        Insert: {
+          approved?: boolean
+          brand_id: string
+          created_at?: string
+          created_by?: string | null
+          external_url?: string | null
+          id?: string
+          kind?: string
+          name: string
+          original_asset_id?: string | null
+          rights_note?: string
+          storage_path?: string | null
+        }
+        Update: {
+          approved?: boolean
+          brand_id?: string
+          created_at?: string
+          created_by?: string | null
+          external_url?: string | null
+          id?: string
+          kind?: string
+          name?: string
+          original_asset_id?: string | null
+          rights_note?: string
+          storage_path?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "studio_assets_brand_id_fkey"
+            columns: ["brand_id"]
+            isOneToOne: false
+            referencedRelation: "studio_brands"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "studio_assets_original_asset_id_fkey"
+            columns: ["original_asset_id"]
+            isOneToOne: false
+            referencedRelation: "studio_assets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      studio_brands: {
+        Row: {
+          created_at: string
+          id: string
+          kit: Json
+          kit_version: number
+          logo_asset_id: string | null
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          kit?: Json
+          kit_version?: number
+          logo_asset_id?: string | null
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          kit?: Json
+          kit_version?: number
+          logo_asset_id?: string | null
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      studio_exports: {
+        Row: {
+          created_at: string
+          error: string | null
+          format: string
+          id: string
+          progress: number
+          project_id: string
+          settings: Json
+          status: string
+          storage_path: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          error?: string | null
+          format: string
+          id?: string
+          progress?: number
+          project_id: string
+          settings?: Json
+          status?: string
+          storage_path?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          error?: string | null
+          format?: string
+          id?: string
+          progress?: number
+          project_id?: string
+          settings?: Json
+          status?: string
+          storage_path?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "studio_exports_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "studio_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      studio_projects: {
+        Row: {
+          archived: boolean
+          brand_id: string
+          created_at: string
+          created_by: string | null
+          document: Json
+          id: string
+          is_template: boolean
+          kind: string
+          kit_snapshot: Json
+          kit_version: number
+          revision: number
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          archived?: boolean
+          brand_id: string
+          created_at?: string
+          created_by?: string | null
+          document?: Json
+          id?: string
+          is_template?: boolean
+          kind?: string
+          kit_snapshot?: Json
+          kit_version?: number
+          revision?: number
+          title?: string
+          updated_at?: string
+        }
+        Update: {
+          archived?: boolean
+          brand_id?: string
+          created_at?: string
+          created_by?: string | null
+          document?: Json
+          id?: string
+          is_template?: boolean
+          kind?: string
+          kit_snapshot?: Json
+          kit_version?: number
+          revision?: number
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "studio_projects_brand_id_fkey"
+            columns: ["brand_id"]
+            isOneToOne: false
+            referencedRelation: "studio_brands"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       studio_spaces: {
         Row: {
           amenities: string[]
@@ -1079,6 +1269,41 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      studio_versions: {
+        Row: {
+          created_at: string
+          document: Json
+          id: string
+          project_id: string
+          revision: number
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          document: Json
+          id?: string
+          project_id: string
+          revision: number
+          title?: string
+        }
+        Update: {
+          created_at?: string
+          document?: Json
+          id?: string
+          project_id?: string
+          revision?: number
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "studio_versions_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "studio_projects"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       subscribers: {
         Row: {
@@ -1201,6 +1426,16 @@ export type Database = {
         Returns: boolean
       }
       is_staff: { Args: { _user_id: string }; Returns: boolean }
+      save_studio_project: {
+        Args: {
+          _document: Json
+          _expected_revision: number
+          _id: string
+          _kind: string
+          _title: string
+        }
+        Returns: number
+      }
       search_site: {
         Args: { q: string }
         Returns: {

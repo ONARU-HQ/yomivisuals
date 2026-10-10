@@ -8,6 +8,13 @@
       "when": 1791666550371,
       "tag": "0000_image_library_project_types_and_ai_state",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1791667176272,
+      "tag": "0001_creative_studio_foundation",
+      "breakpoints": true
     }
   ]
 }
