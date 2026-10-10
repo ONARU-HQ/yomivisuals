@@ -57,6 +57,7 @@ import { Route as AuthenticatedAdminPipelineRouteImport } from './routes/_authen
 import { Route as AuthenticatedAdminInvoicesRouteImport } from './routes/_authenticated/admin.invoices'
 import { Route as AuthenticatedAdminInboxRouteImport } from './routes/_authenticated/admin.inbox'
 import { Route as AuthenticatedAdminCommunicationsRouteImport } from './routes/_authenticated/admin.communications'
+import { Route as AuthenticatedAdminDesignStudioIndexRouteImport } from './routes/_authenticated/admin.design-studio.index'
 import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
 import { Route as AuthenticatedAdminCollectionsCollectionRouteImport } from './routes/_authenticated/admin.collections.$collection'
 
@@ -307,6 +308,12 @@ const AuthenticatedAdminCommunicationsRoute =
     path: '/communications',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminDesignStudioIndexRoute =
+  AuthenticatedAdminDesignStudioIndexRouteImport.update({
+    id: '/design-studio/',
+    path: '/design-studio/',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const LovableEmailTransactionalPreviewRoute =
   LovableEmailTransactionalPreviewRouteImport.update({
     id: '/lovable/email/transactional/preview',
@@ -370,6 +377,7 @@ export interface FileRoutesByFullPath {
   '/portal/': typeof AuthenticatedPortalIndexRoute
   '/admin/collections/$collection': typeof AuthenticatedAdminCollectionsCollectionRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
+  '/admin/design-studio/': typeof AuthenticatedAdminDesignStudioIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -419,6 +427,7 @@ export interface FileRoutesByTo {
   '/portal': typeof AuthenticatedPortalIndexRoute
   '/admin/collections/$collection': typeof AuthenticatedAdminCollectionsCollectionRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
+  '/admin/design-studio': typeof AuthenticatedAdminDesignStudioIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -472,6 +481,7 @@ export interface FileRoutesById {
   '/_authenticated/portal/': typeof AuthenticatedPortalIndexRoute
   '/_authenticated/admin/collections/$collection': typeof AuthenticatedAdminCollectionsCollectionRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
+  '/_authenticated/admin/design-studio/': typeof AuthenticatedAdminDesignStudioIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -525,6 +535,7 @@ export interface FileRouteTypes {
     | '/portal/'
     | '/admin/collections/$collection'
     | '/lovable/email/transactional/preview'
+    | '/admin/design-studio/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -574,6 +585,7 @@ export interface FileRouteTypes {
     | '/portal'
     | '/admin/collections/$collection'
     | '/lovable/email/transactional/preview'
+    | '/admin/design-studio'
   id:
     | '__root__'
     | '/'
@@ -626,6 +638,7 @@ export interface FileRouteTypes {
     | '/_authenticated/portal/'
     | '/_authenticated/admin/collections/$collection'
     | '/lovable/email/transactional/preview'
+    | '/_authenticated/admin/design-studio/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -1005,6 +1018,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminCommunicationsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/design-studio/': {
+      id: '/_authenticated/admin/design-studio/'
+      path: '/design-studio'
+      fullPath: '/admin/design-studio/'
+      preLoaderRoute: typeof AuthenticatedAdminDesignStudioIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/lovable/email/transactional/preview': {
       id: '/lovable/email/transactional/preview'
       path: '/lovable/email/transactional/preview'
@@ -1031,6 +1051,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminWorkRoute: typeof AuthenticatedAdminWorkRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
   AuthenticatedAdminCollectionsCollectionRoute: typeof AuthenticatedAdminCollectionsCollectionRoute
+  AuthenticatedAdminDesignStudioIndexRoute: typeof AuthenticatedAdminDesignStudioIndexRoute
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
@@ -1043,6 +1064,8 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
   AuthenticatedAdminCollectionsCollectionRoute:
     AuthenticatedAdminCollectionsCollectionRoute,
+  AuthenticatedAdminDesignStudioIndexRoute:
+    AuthenticatedAdminDesignStudioIndexRoute,
 }
 
 const AuthenticatedAdminRouteWithChildren =
