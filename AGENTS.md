@@ -24,3 +24,5 @@
 
 - Keep studio fonts, original curated recipes and business applicability in one browser-safe registry; reuse studio_assets metadata for reference provenance and keep references out of production pickers and renders.
 - Store reviewed campaign groups and internal calendar plans in existing studio_projects metadata; preview batches locally and persist only selected drafts after explicit review, never imply external publishing.
+
+- Render template previews through the same Fabric scene renderer as exports and keep generated recipe masters versioned; this preserves primitive fidelity and separates legacy sources without overwriting edits.
