@@ -30,7 +30,7 @@ const LEGACY_RECIPES=[
  {key:'partner-carousel',name:'The partnership story',objective:'Education',category:'Carousel posts',style:'Minimal',font:'DM Sans',brands:ALL},
  {key:'food-discovery',name:'The discovery menu',objective:'Conversion',category:'Product or service showcases',style:'Expressive',font:'Manrope',brands:['YOFA','Folak Catering']},
 ] as const;
-export const RECIPE_VERSION=2;
+export const RECIPE_VERSION=3;
 export const RECIPES=[
  {key:'services-matrix',family:'services',name:'Services Matrix',objective:'Enquiries',category:'Product or service showcases',style:'Premium SaaS',font:'Syne',brands:ALL},
  {key:'trust-stack',family:'trust',name:'Trust Stack',objective:'Awareness',category:'Brand awareness',style:'Dimensional',font:'Plus Jakarta Sans',brands:ALL},
@@ -40,6 +40,8 @@ export const RECIPES=[
  {key:'launch-showcase',family:'launch',name:'Launch Showcase',objective:'Launch',category:'Announcements and launches',style:'Premium SaaS',font:'Bebas Neue',brands:ALL},
  {key:'ecosystem-widgets',family:'widgets',name:'Ecosystem Widgets',objective:'Engagement',category:'Carousel posts',style:'Micro UI',font:'Plus Jakarta Sans',brands:ALL},
  {key:'community-poster',family:'community',name:'Community Poster',objective:'Engagement',category:'Announcements and launches',style:'Newsprint',font:'Anton',brands:ALL},
+ {key:'ratecard',family:'ratecard',name:'Signature Ratecard',objective:'Conversion',category:'Ratecards',style:'Premium SaaS',font:'Plus Jakarta Sans',brands:ALL},
+ {key:'insight-bars',family:'insight',name:'Insight & Bars',objective:'Education',category:'Educational and informative posts',style:'Micro UI',font:'Plus Jakarta Sans',brands:ALL},
 ] as const;
 export function buildRecipe(key:string,brand:string,kit:Kit,info:BrandInformation={},logoId?:string):StudioDocument{
  const recipe=recipesForBrand(brand).find(r=>r.key===key);

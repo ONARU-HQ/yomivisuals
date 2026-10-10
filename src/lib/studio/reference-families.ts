@@ -90,6 +90,6 @@ export function referenceDocument(family:string,brand:string,kit:Kit,info:BrandI
   path('Metadata speech tip',754,799,[['M',0,0],['L',55,28],['L',0,28],['Z']],'transparent',0,t.ink);rect('Metadata bubble',699,821,301,119,t.ink,18);text('[TIME]',725,843,255,52,'Bebas Neue',400,t.light,'support');text('[DATE]\n[LOCATION]',709,986,290,28,'Plus Jakarta Sans',700,t.ink,'support');
  },
  };
- const build=builders[family];if(!build)throw new Error('Unknown reference family');build();branding(family==='launch'?t.ink:undefined);footer(family==='launch'?t.ink:undefined);scene.canvas.objects=objects;scene.name=family;
+ const build=builders[family];if(!build)throw new Error('Unknown reference family');build();branding(family==='launch'?t.ink:undefined);footer(family==='launch'?t.ink:undefined);for(const l of objects){if(['Phone screen','Laptop screen slot'].includes(l.label))l.imageSlot='device';if(['Image placement frame','Floating product card'].includes(l.label))l.imageSlot='feature';if(l.role==='placeholder')l.slotHint=['trust','launch'].includes(family)&&l.text==='[SCREEN]'?'device':'feature';}scene.canvas.objects=objects;scene.name=family;
  return {version:1,width:W,height:H,scenes:[scene],audio:[]};
 }
