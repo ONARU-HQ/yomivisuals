@@ -28,6 +28,8 @@ export const FORMAT_PRESETS = [
  {name:'A4 · 300 dpi',width:2480,height:3508,safe:118,mm:[210,297]}, {name:'A5 · 300 dpi',width:1748,height:2480,safe:118,mm:[148,210]},
  {name:'Business card · 300 dpi',width:1063,height:650,safe:60,mm:[90,55]}, {name:'Flyer · A5',width:1748,height:2480,safe:118,mm:[148,210]},
  {name:'Poster · A4',width:2480,height:3508,safe:118,mm:[210,297]},
+ {name:'X post',width:1600,height:900,safe:64}, {name:'X header',width:1500,height:500,safe:100},
+ {name:'Facebook Story',width:1080,height:1920,safe:150}, {name:'YouTube video',width:1920,height:1080,safe:80},
 ];
 export type Starter = {key:string;category:string;family:string;name:string;composition:number};
 export const STARTERS:Starter[] = CATEGORIES.flatMap(category => FAMILIES.map((family,i)=>({key:`${category.toLowerCase()}-${i}`,category,family,name:USE_CASES[category][i],composition:i})));
