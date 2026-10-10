@@ -570,10 +570,12 @@ export type Database = {
           homepage: boolean
           id: string
           in_portfolio: boolean
+          marketing_uses: string[]
           orientation: string
           original_filename: string | null
           priority: string
           project_id: string | null
+          project_type: string
           quality_score: number
           sort_order: number
           tags: string[]
@@ -597,10 +599,12 @@ export type Database = {
           homepage?: boolean
           id?: string
           in_portfolio?: boolean
+          marketing_uses?: string[]
           orientation?: string
           original_filename?: string | null
           priority?: string
           project_id?: string | null
+          project_type?: string
           quality_score?: number
           sort_order?: number
           tags?: string[]
@@ -624,10 +628,12 @@ export type Database = {
           homepage?: boolean
           id?: string
           in_portfolio?: boolean
+          marketing_uses?: string[]
           orientation?: string
           original_filename?: string | null
           priority?: string
           project_id?: string | null
+          project_type?: string
           quality_score?: number
           sort_order?: number
           tags?: string[]
@@ -1155,6 +1161,30 @@ export type Database = {
           id?: string
           role?: Database["public"]["Enums"]["app_role"]
           user_id?: string
+        }
+        Relationships: []
+      }
+      visual_brief_service_state: {
+        Row: {
+          blocked: boolean
+          id: string
+          message: string
+          status: number
+          updated_at: string
+        }
+        Insert: {
+          blocked?: boolean
+          id: string
+          message?: string
+          status?: number
+          updated_at?: string
+        }
+        Update: {
+          blocked?: boolean
+          id?: string
+          message?: string
+          status?: number
+          updated_at?: string
         }
         Relationships: []
       }

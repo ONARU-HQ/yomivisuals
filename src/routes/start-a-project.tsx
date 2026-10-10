@@ -4,7 +4,7 @@ import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Paperclip, Plus, X } from "
 import { supabase } from "@/integrations/supabase/client";
 import { SwapFade } from "@/components/motion";
 import { ACTION_LABELS, type ActionState } from "@/lib/motion";
-import { Container, PageHero, Field, inputClass, Button, Eyebrow } from "@/components/site/ui";
+import { Container, PageHero, Field, inputClass, Button, ButtonLink, Eyebrow } from "@/components/site/ui";
 import {
   BUDGET_OPTIONS,
   CAPABILITIES,
@@ -320,7 +320,7 @@ function StartProjectPage() {
         eyebrow="Start a Project"
         title="Tell us what you want to make."
         body="Seven questions. We'll come back with a scope, a crew and a timeline — no pricing is sent automatically."
-      />
+      ><ButtonLink to="/visual-direction" variant="outline">Create a reference-image brief</ButtonLink></PageHero>
 
       <Container className="pb-24">
         <div className="mx-auto max-w-3xl">
