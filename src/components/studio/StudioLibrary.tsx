@@ -17,7 +17,7 @@ import { StudioExportHistory } from './StudioExportHistory';
 import type { Project } from '@/lib/studio/data';
 
 export default function StudioLibrary(){
- const {data:brands}=useSuspenseQuery(brandsQuery);const {data:projects}=useSuspenseQuery(projectsQuery);const [brandId,setBrandId]=useState(brands[0]?.id??'');const brand=brands.find(b=>b.id===brandId);const cache=useQueryClient();
+ const {data:brands}=useSuspenseQuery(brandsQuery);const {data:projects}=useSuspenseQuery(projectsQuery);const [brandId,setBrandId]=useState(brands.find(b=>b.name==='Yomi Visuals')?.id??brands[0]?.id??'');const brand=brands.find(b=>b.id===brandId);const cache=useQueryClient();
  const [tab,setTab]=useState('Overview');const [creationType,setCreationType]=useState<CreationType>('Quick Graphic');const [format,setFormat]=useState(0);const [chosenTemplate,setChosenTemplate]=useState<Project|null>(null);const [newBrand,setNewBrand]=useState('');
  async function addBrand(){try{if(!newBrand.trim())return;if(newBrand.trim().toLowerCase()==='playbaaq')throw new Error('PLAYBAAQ is excluded from this studio.');if(brands.some(b=>b.name.toLowerCase()===newBrand.trim().toLowerCase()))throw new Error('This brand workspace already exists.');const {error}=await supabase.from('studio_brands').insert({name:newBrand.trim()});if(error)throw error;setNewBrand('');await cache.invalidateQueries({queryKey:['studio','brands']});toast.success('Brand workspace added.');}catch(e){toast.error(e instanceof Error?e.message:'Could not add brand.');}}
  return <div className="space-y-8">
