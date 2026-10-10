@@ -19,3 +19,5 @@
 - Keep studio creation deterministic and hide technical controls behind Advanced; preserve a simple first-time workflow without AI dependencies.
 - Handle username credential verification server-side and return a session only after Auth verifies the password; never expose username-to-email mappings publicly.
 - Manage team permissions through an administrator-checked RPC that prevents self-demotion and owner modification; retain real emails for recovery.
+- Reuse studio_exports for external render jobs; keep render credentials server-only, validate brand-owned approved assets and store an actual MP4 before marking complete.
+- Paginate studio project reads so expanding master-template catalogues never hide later brand records at the API row limit.
