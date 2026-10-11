@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { settingsQuery } from "@/lib/cms";
 import { Container, inputClass } from "@/components/site/ui";
+import { ContactLinks } from "@/components/ContactLinks";
 
 const columns = [
   {
@@ -116,7 +117,8 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col gap-5 border-t border-border pt-8 md:flex-row md:items-center md:justify-between">
+        <div className="mt-12 border-t border-border pt-8"><ContactLinks /></div>
+        <div className="mt-8 flex flex-col gap-5 border-t border-border pt-8 md:flex-row md:items-center md:justify-between">
           <p className="text-[12px] text-muted-foreground">
             © {new Date().getFullYear()} {company.name ?? "Yomi Visuals"} — {company.address ?? "Lagos, Nigeria"}
           </p>
