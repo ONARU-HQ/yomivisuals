@@ -27,3 +27,4 @@
 
 - Render template previews through the same Fabric scene renderer as exports and keep generated recipe masters versioned; this preserves primitive fidelity and separates legacy sources without overwriting edits.
 - Bind generated masters to the saved brand kit and explicitly assigned approved asset roles; reuse portfolio URLs with provenance in studio_assets so cross-brand marketing review never implies client attribution or duplicates source files.
+- Keep homepage concepts under the existing staff-protected admin layout and use imported portfolio photography with neutral project-type captions; previews must not publish or infer client attribution. Store only the reviewer's selection in their existing own-row studio preferences.

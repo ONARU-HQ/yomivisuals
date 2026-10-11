@@ -7,7 +7,7 @@ import { imageProjectType } from "@/lib/image-library";
 import { portfolioQuery, heroSlides, rotatedFeatured, focalStyle, type PortfolioImage } from "@/lib/portfolio";
 import { HeroFilm } from "@/components/HeroFilm";
 import { track } from "@/lib/analytics";
-import { Container, Section, SectionHeading, TextLink, Eyebrow } from "@/components/site/ui";
+import { Container, Section, SectionHeading, Reveal, TextLink, Eyebrow } from "@/components/site/ui";
 import { ScrollCue, useHeroScroll } from "@/components/motion";
 import { STAGGER } from "@/lib/motion";
 import { PROJECT_TYPES } from "@/lib/project-engine";
