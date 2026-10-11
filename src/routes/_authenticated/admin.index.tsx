@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { collections } from "@/lib/admin-config";
+import { ContactLinks } from "@/components/ContactLinks";
 
 export const Route = createFileRoute("/_authenticated/admin/")({
   component: AdminOverview,
@@ -53,6 +54,7 @@ function AdminOverview() {
     <div>
       <p className="text-eyebrow">Overview</p>
       <h1 className="text-display mt-3 text-[clamp(2rem,5vw,3rem)]">Studio control room.</h1>
+      <div className="mt-6"><ContactLinks /></div>
 
       <div className="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
         <Stat label="New briefs" value={newBriefs.data} to="/admin/pipeline" tone="text-gold" />

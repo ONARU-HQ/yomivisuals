@@ -154,20 +154,20 @@ export function TopNav() {
           >
 
             <a
-              href="https://instagram.com/yomivisuals"
+              href="https://www.instagram.com/yomi.visuals/"
               target="_blank"
               rel="noreferrer"
               tabIndex={open ? 0 : -1}
               className="tap flex items-center justify-between border-t border-border pt-3 transition-colors hover:text-foreground"
             >
-              Instagram <span className="text-gold">@yomivisuals</span>
+              Instagram <span className="text-gold">@yomi.visuals</span>
             </a>
             <a
-              href="mailto:hello@yomivisuals.com"
+              href="mailto:yomivisualshq@gmail.com"
               tabIndex={open ? 0 : -1}
               className="tap flex items-center justify-between border-t border-border pt-3 transition-colors hover:text-foreground"
             >
-              Email <span className="text-gold">hello@yomivisuals.com</span>
+              Email <span className="text-gold">yomivisualshq@gmail.com</span>
             </a>
             <p className="flex items-center justify-between border-t border-border pt-3">
               Location <span className="text-subtle">Lagos, Nigeria</span>
