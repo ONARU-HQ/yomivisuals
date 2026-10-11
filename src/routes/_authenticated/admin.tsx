@@ -50,6 +50,7 @@ function AdminLayout() {
     { to: "/admin", label: "Overview", icon: LayoutDashboard, exact: true },
     { to: "/admin/pipeline", label: "Pipeline", icon: GitBranch },
     { to: "/admin/design-studio", label: "Design Studio", icon: Layers },
+    { to: "/admin/homepage", label: "Homepage concepts", icon: Images },
     { to: "/admin/team", label: "Team", icon: Users },
     { to: "/admin/inbox", label: "Inbox", icon: Inbox },
     { to: "/admin/invoices", label: "Invoices", icon: Receipt },

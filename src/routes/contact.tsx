@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { settingsQuery, servicesQuery } from "@/lib/cms";
 import { ENQUIRY_TYPES } from "@/lib/ecosystem";
 import { Container, PageHero, Field, inputClass, Button } from "@/components/site/ui";
+import { ContactLinks } from "@/components/ContactLinks";
 
 export const Route = createFileRoute("/contact")({
   loader: async ({ context }) => {
@@ -76,6 +77,7 @@ function ContactPage() {
               <p className="mt-2 text-[15px]">{(value as string) ?? "—"}</p>
             </div>
           ))}
+          <ContactLinks />
         </div>
 
         {done ? (
