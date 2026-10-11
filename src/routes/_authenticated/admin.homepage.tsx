@@ -59,8 +59,8 @@ function HomepageConcepts() {
       <Button variant={phone ? "solid" : "outline"} aria-label="Phone preview" onClick={() => setPhone(true)}><Smartphone className="h-4 w-4" /></Button>
     </div>
     {!photos.length ? <p role="status" className="border border-border p-8 text-muted-foreground">No imported photographs available. Add original images in Media library.</p> : compare ?
-      <div className="grid gap-6 xl:grid-cols-2">{HOME_CONCEPTS.filter(c => shortlist.includes(c.id)).map(c => <div key={c.id} className="min-w-0"><p className="mb-3 text-eyebrow">{c.name}</p><div className={`mx-auto border border-border ${phone ? "max-w-[390px]" : "w-full"}`}><HomeConceptPreview concept={c.id} photos={photos} services={services} compact /></div><Button className="mt-4" variant="outline" onClick={() => { setActive(c.id); setCompare(false); }}>Open full concept</Button></div>)}</div> :
-      <div className={`mx-auto border border-border ${phone ? "max-w-[390px]" : "w-full"}`}><HomeConceptPreview key={active} concept={active} photos={photos} services={services} /></div>}
+      <div className="grid gap-6 xl:grid-cols-2">{HOME_CONCEPTS.filter(c => shortlist.includes(c.id)).map(c => <div key={c.id} className="min-w-0"><p className="mb-3 text-eyebrow">{c.name}</p><div className={`mx-auto @container border border-border ${phone ? "max-w-[390px]" : "w-full"}`}><HomeConceptPreview concept={c.id} photos={photos} services={services} compact /></div><Button className="mt-4" variant="outline" onClick={() => { setActive(c.id); setCompare(false); }}>Open full concept</Button></div>)}</div> :
+      <div className={`mx-auto @container border border-border ${phone ? "max-w-[390px]" : "w-full"}`}><HomeConceptPreview key={active} concept={active} photos={photos} services={services} /></div>}
     <section className="mt-10 border-t border-border pt-8">
       <h2 className="text-display text-2xl">Your preferred direction.</h2>
       <div className="mt-5 max-w-xl"><Field label="Review notes"><textarea value={notes} onChange={e => { setNotes(e.target.value); setSaved(false); }} rows={4} className={inputClass} /></Field></div>
