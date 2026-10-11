@@ -7,7 +7,7 @@ import { imageProjectType } from "@/lib/image-library";
 import { portfolioQuery, heroSlides, rotatedFeatured, focalStyle, type PortfolioImage } from "@/lib/portfolio";
 import { HeroFilm } from "@/components/HeroFilm";
 import { track } from "@/lib/analytics";
-import { Container, Section, SectionHeading, Reveal, TextLink, Eyebrow } from "@/components/site/ui";
+import { Container, Section, SectionHeading, TextLink, Eyebrow } from "@/components/site/ui";
 import { ScrollCue, useHeroScroll } from "@/components/motion";
 import { STAGGER } from "@/lib/motion";
 import { PROJECT_TYPES } from "@/lib/project-engine";
@@ -109,13 +109,10 @@ const HOME_FAQS = [
 
 function HomePage() {
   const hero = useHeroScroll();
-  const { data: projects } = useSuspenseQuery(workQuery);
   const { data: services } = useSuspenseQuery(servicesQuery);
   const { data: testimonials } = useSuspenseQuery(testimonialsQuery);
   const { data: photos } = useSuspenseQuery(portfolioQuery);
 
-  const slides = heroSlides(photos);
-  const featuredProjects = curate(projects.filter((p) => p.featured)).slice(0, 8);
   const featuredPhotos = rotatedFeatured(photos, 8);
   const quotes = testimonials.filter((t) => t.featured);
 
@@ -244,40 +241,7 @@ function HomePage() {
           body="A selection of campaigns, commercial productions and visual stories created for brands, people and experiences."
           action={<TextLink to="/work">View all work</TextLink>}
         />
-        {featuredProjects.length ? (
-          <div className="grid gap-5 md:grid-cols-2">
-            {featuredProjects.map((p, i) => (
-              <Reveal key={p.id} delay={(i % 2) * 80} className={i % 4 === 3 ? "md:mt-14" : ""}>
-                <Link
-                  to="/work/$slug"
-                  params={{ slug: p.slug }}
-                  className="image-reveal group block overflow-hidden rounded-sm border border-border bg-elevated"
-                >
-                  <div className="aspect-[4/3] overflow-hidden">
-                    <img
-                      src={workCover(p)}
-                      alt={`${p.title}${p.client ? ` for ${p.client}` : ""} — by Yomi Visuals`}
-                      loading={i < 2 ? "eager" : "lazy"}
-                      decoding="async"
-                      className="h-full w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.03]"
-                    />
-                  </div>
-                  <div className="flex items-start justify-between gap-4 p-5 md:p-6">
-                    <div className="min-w-0">
-                      <p className="truncate text-[12px] text-muted-foreground">
-                        {[p.client, tagsOf(p)[0]].filter(Boolean).join(" · ")}
-                      </p>
-                      <h3 className="mt-1.5 truncate text-[16px] font-medium tracking-tight md:text-[17px]">{p.title}</h3>
-                    </div>
-                    <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                  </div>
-                </Link>
-              </Reveal>
-            ))}
-          </div>
-        ) : (
-          <FallbackShowcase photos={featuredPhotos} />
-        )}
+        <FallbackShowcase photos={featuredPhotos} />
       </Section>
 
       {/* What we do */}
@@ -446,6 +410,7 @@ function HomePage() {
               View Selected Work
             </Link>
           </div>
+          <div className="mt-10 flex justify-center"><ContactLinks /></div>
         </Container>
       </section>
 
@@ -474,7 +439,7 @@ function FallbackShowcase({ photos }: { photos: PortfolioImage[] }) {
           >
             <img
               src={img.thumb_url ?? img.url}
-              alt={`${img.title} — ${img.category} by Yomi Visuals`}
+              alt={`${imageProjectType(img)} photography by Yomi Visuals`}
               loading={i < 2 ? "eager" : "lazy"}
               decoding="async"
               style={focalStyle(img)}
