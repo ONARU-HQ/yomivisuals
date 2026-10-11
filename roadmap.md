@@ -1,4 +1,5 @@
 # Multi-brand studio upgrade
+- [ ] Add verified public/admin contacts, replace homepage client-attributed thumbnails with neutral real-photo presentation, and build five staff-only homepage concepts with comparison and saved review.
 - [x] Brand-bound template generation: shared identity and editable arrows/sparks/charts/bars, ratecards and approved image slots/device mockups; portfolio review picker reuses existing URLs with per-brand rights/provenance. 31 tests and real 1080×1350 PNG renders pass; password-backed login retained. New masters must be saved per workspace; authenticated persistence checks unavailable without a preview session.
 - [x] Reference-led redesign: eight editable SaaS families, selected fonts and 80 brand-prefixed favourite masters saved across ten brands; earlier Trending recipes preserved under Legacy. Saved/reopened 1080×1350 design and stored PNG verified; 26 tests pass and 320–430px library checks pass.
 - [x] Audit existing libraries and agree phased implementation plan.
