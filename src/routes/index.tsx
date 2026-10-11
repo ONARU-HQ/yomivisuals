@@ -2,7 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { ArrowUpRight } from "lucide-react";
 import { servicesQuery, testimonialsQuery } from "@/lib/cms";
-import { workQuery, curate, workCover, tagsOf } from "@/lib/work";
+import { ContactLinks } from "@/components/ContactLinks";
+import { imageProjectType } from "@/lib/image-library";
 import { portfolioQuery, heroSlides, rotatedFeatured, focalStyle, type PortfolioImage } from "@/lib/portfolio";
 import { HeroFilm } from "@/components/HeroFilm";
 import { track } from "@/lib/analytics";
@@ -14,8 +15,7 @@ import { PILLARS, PROCESS_STAGES, DIVISIONS } from "@/lib/ecosystem";
 
 export const Route = createFileRoute("/")({
   loader: async ({ context }) => {
-    const [, , , photos] = await Promise.all([
-      context.queryClient.ensureQueryData(workQuery),
+    const [, , photos] = await Promise.all([
       context.queryClient.ensureQueryData(servicesQuery),
       context.queryClient.ensureQueryData(testimonialsQuery),
       context.queryClient.ensureQueryData(portfolioQuery),
