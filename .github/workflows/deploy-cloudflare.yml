@@ -16,7 +16,8 @@ jobs:
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: 1.4.0
-      - run: bun install --frozen-lockfile
+      # Not frozen: this branch adds gsap/three/@react-three deps; bun regenerates the lock in CI.
+      - run: bun install
       - run: bun run build
       - name: Deploy Worker
         uses: cloudflare/wrangler-action@v3

@@ -1,257 +1,89 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { ArrowUpRight } from "lucide-react";
-import { Container, Eyebrow } from "@/components/site/ui";
-import { MediaCanvas, ProgressiveImage, ProjectVideo } from "@/components/work/MediaCanvas";
-import {
-  CASE_SECTIONS,
-  CATEGORY_TO_PROJECT_TYPE,
-  curate,
-  projectMediaQuery,
-  sectionEnabled,
-  tagsOf,
-  workCover,
-  workProjectQuery,
-  workQuery,
-  workYear,
-  type WorkProject,
-} from "@/lib/work";
+import { useState } from "react";
+import { SETS, assetsInSet, getSet, src } from "@/lib/film/portfolio";
+import { Photo } from "@/components/btf/Photo";
+import { Main } from "@/components/btf/PageHead";
+import { Lightbox } from "@/components/btf/Lightbox";
+import { seo } from "@/lib/film/seo";
 
 export const Route = createFileRoute("/work/$slug")({
-  loader: async ({ context, params }) => {
-    const project = await context.queryClient.ensureQueryData(workProjectQuery(params.slug));
-    if (!project || !project.published || project.visibility === "private") throw notFound();
-    await Promise.all([
-      context.queryClient.ensureQueryData(workQuery),
-      context.queryClient.ensureQueryData(projectMediaQuery(project.id)),
-    ]);
-    return { project };
-  },
-  head: ({ params, loaderData }) => {
-    if (!loaderData) {
-      return { meta: [{ title: "Project unavailable — Yomi Visuals" }, { name: "robots", content: "noindex" }] };
-    }
-    const p = loaderData.project;
-    const title = p.seo_title || `${p.title} — ${p.client ?? "Yomi Visuals"}`;
-    const description =
-      p.seo_description ||
-      p.description ||
-      `A creative production case study by Yomi Visuals for ${p.client ?? "an ambitious brand"}.`;
-    const url = `https://yomivisuals.lovable.app/work/${params.slug}`;
-    const image = p.og_image || p.cover_image || undefined;
-    return {
-      meta: [
-        { title },
-        { name: "description", content: description },
-        { property: "og:title", content: title },
-        { property: "og:description", content: description },
-        { property: "og:type", content: "article" },
-        { property: "og:url", content: url },
-        { name: "twitter:card", content: "summary_large_image" },
-        ...(p.visibility === "unlisted" ? [{ name: "robots", content: "noindex" }] : []),
-        ...(image?.startsWith("https://")
-          ? [
-              { property: "og:image", content: image },
-              { name: "twitter:image", content: image },
-            ]
-          : []),
-      ],
-      links: [{ rel: "canonical", href: url }],
-      scripts: [
-        {
-          type: "application/ld+json",
-          children: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "CreativeWork",
-            name: p.title,
-            description,
-            creator: { "@type": "Organization", name: "Yomi Visuals" },
-          }),
-        },
-      ],
-    };
-  },
-  notFoundComponent: ProjectUnavailable,
-  errorComponent: ProjectUnavailable,
-  component: CaseStudy,
+  loader: ({ params }) => { const set = getSet(params.slug); if (!set) throw notFound(); return set; },
+  head: ({ loaderData: set }) => set
+    ? seo({ title: `${set.name} | Yomi Visuals`, description: `${set.blurb} ${set.count} frames from the Yomi Visuals archive.`, path: `/work/${set.slug}`, image: src(set.cover, 1600) })
+    : {},
+  component: SetPage,
 });
 
-export function ProjectUnavailable() {
-  return (
-    <Container className="grid min-h-[70svh] place-items-center py-20 text-center">
-      <div>
-        <Eyebrow>Work</Eyebrow>
-        <h1 className="text-display mt-4 text-[clamp(1.6rem,6vw,3rem)]">This project is currently unavailable.</h1>
-        <Link
-          to="/work"
-          className="tap mt-8 inline-flex items-center gap-2 border border-border-strong px-6 py-3.5 text-[12px] uppercase tracking-[0.16em]"
-        >
-          Back to work
-        </Link>
-      </div>
-    </Container>
-  );
-}
+const PAGE = 24;
 
-export function CaseStudy() {
-  const { slug } = Route.useParams();
-  const { data: project } = useSuspenseQuery(workProjectQuery(slug));
-  const { data: all } = useSuspenseQuery(workQuery);
-  const { data: media = [] } = useSuspenseQuery(projectMediaQuery(project?.id));
-
-  if (!project) return <ProjectUnavailable />;
-  const p = project as WorkProject;
-
-  const ordered = curate(all.filter((x) => x.slug !== slug));
-  const next = ordered[0];
-  const year = workYear(p);
-
-  const credits: [string, string][] = Object.entries(p.credits ?? {}).filter(([, v]) => Boolean(v)) as [string, string][];
-
-  const chapters = CASE_SECTIONS.map((s) => {
-    const body = (p as any)[s.field] as string | null;
-    return sectionEnabled(p, s.key) && body ? ([s.label, body] as [string, string]) : null;
-  }).filter(Boolean) as [string, string][];
-
-  const engineType = CATEGORY_TO_PROJECT_TYPE[p.category] ?? "not-sure";
+function SetPage() {
+  const set = Route.useLoaderData();
+  const all = assetsInSet(set.slug);
+  const [shown, setShown] = useState(PAGE);
+  const [light, setLight] = useState<number | null>(null);
+  const visible = all.slice(0, shown);
+  const idx = SETS.findIndex((s) => s.slug === set.slug);
+  const next = SETS[(idx + 1) % SETS.length]!;
+  const related = SETS.filter((s) => s.slug !== set.slug && s.slug !== next.slug).slice(0, 2);
 
   return (
-    <article>
-      {/* 01 — Hero */}
-      <header className="relative w-full overflow-hidden">
-        {p.hero_video ? (
-          <div className="bg-black pt-[60px] md:pt-[72px]">
-            <ProjectVideo url={p.hero_video} poster={workCover(p)} title={p.title} />
-          </div>
-        ) : (
-          <div className="relative h-[68svh] min-h-[440px] w-full md:h-[86svh]">
-            <ProgressiveImage src={workCover(p)} alt={`${p.title} — hero image`} eager className="opacity-75" />
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-background/20" />
-          </div>
-        )}
-        <Container className={p.hero_video ? "py-8" : "absolute inset-x-0 bottom-0 pb-12 md:pb-20"}>
-          <Eyebrow>{p.client ?? "Yomi Visuals"}</Eyebrow>
-          <h1 className="text-display mt-4 max-w-4xl text-[clamp(2.1rem,7vw,5rem)]">{p.title}</h1>
-          <p className="mt-3 text-[12.5px] uppercase tracking-[0.16em] text-muted-foreground">
-            {tagsOf(p).join(" / ")}
-            {year ? ` · ${year}` : ""}
-          </p>
-        </Container>
+    <Main>
+      {/* 1. Cinematic hero */}
+      <header className="relative flex min-h-[86svh] items-end overflow-hidden">
+        <Photo id={set.cover} priority sizes="100vw" className="!absolute inset-0 h-full w-full" style={{ aspectRatio: "auto" }} imgClassName="opacity-80" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#090909] via-[#090909]/20 to-[#090909]/55" aria-hidden />
+        <div className="film-pad relative w-full pb-12 md:pb-20">
+          <p className="film-eyebrow film-eyebrow--gold">Set {String(idx + 1).padStart(2, "0")} of {String(SETS.length).padStart(2, "0")}</p>
+          <h1 className="film-title mt-4 text-[clamp(2.6rem,9vw,9rem)]">{set.name}</h1>
+        </div>
       </header>
 
-      {/* 02 — Project information */}
-      <Container className="py-10 md:py-16">
-        <dl className="grid grid-cols-2 gap-8 border-b border-border pb-10 md:grid-cols-4">
-          {[
-            ["Client", p.client ?? "—"],
-            ["Category", tagsOf(p).join(", ") || "Production"],
-            ["Year", year ? String(year) : "—"],
-            ["Location", p.location ?? "Lagos, Nigeria"],
-          ].map(([label, value]) => (
-            <div key={label}>
-              <dt className="text-eyebrow">{label}</dt>
-              <dd className="mt-2.5 text-[15px]">{value}</dd>
-            </div>
-          ))}
+      {/* 2 + 3. Introduction and project information */}
+      <section className="film-pad mx-auto grid max-w-[1500px] gap-10 py-16 md:grid-cols-[2fr_1fr] md:py-24">
+        <p className="font-serif text-[clamp(1.5rem,3vw,2.4rem)] italic leading-snug">{set.blurb}</p>
+        <dl className="space-y-5 text-[14px]">
+          <div><dt className="film-eyebrow">Frames</dt><dd className="mt-1">{set.count}</dd></div>
+          <div><dt className="film-eyebrow">Collection</dt><dd className="mt-1">{set.name} (original Pixieset set)</dd></div>
+          <div><dt className="film-eyebrow">Photography</dt><dd className="mt-1">Yomi Visuals</dd></div>
         </dl>
-
-        {p.services?.length ? (
-          <div className="border-b border-border py-6">
-            <p className="text-eyebrow">Services</p>
-            <p className="mt-2.5 text-[15px]">{p.services.join(" / ")}</p>
-          </div>
-        ) : null}
-
-        {/* 03–08 — Editorial chapters */}
-        <div className="divide-y divide-border">
-          {chapters.map(([label, body]) => (
-            <section key={label} className="grid gap-5 py-10 md:grid-cols-[1fr_1.7fr] md:gap-16 md:py-14">
-              <h2 className="text-eyebrow md:pt-2">{label}</h2>
-              <p className="text-serif text-[clamp(1.05rem,2.6vw,1.5rem)] leading-[1.5] normal-case text-subtle">{body}</p>
-            </section>
-          ))}
-        </div>
-      </Container>
-
-      {/* 07 — The work */}
-      {media.length ? (
-        <section aria-label="The work" className="border-t border-border">
-          <Container className="py-12 md:py-20">
-            <Eyebrow>The Work</Eyebrow>
-            <div className="mt-8">
-              <MediaCanvas items={media} title={p.title} />
-            </div>
-          </Container>
-        </section>
-      ) : null}
-
-      {/* 09 — Credits */}
-      {credits.length ? (
-        <section className="border-t border-border">
-          <Container className="py-12 md:py-20">
-            <Eyebrow>Credits</Eyebrow>
-            <dl className="mt-6 divide-y divide-border md:max-w-2xl">
-              {credits.map(([role, who]) => (
-                <div key={role} className="flex items-baseline justify-between gap-6 py-3">
-                  <dt className="text-[12.5px] uppercase tracking-[0.14em] text-muted-foreground">{role}</dt>
-                  <dd className="text-right text-[13.5px]">{String(who)}</dd>
-                </div>
-              ))}
-            </dl>
-          </Container>
-        </section>
-      ) : null}
-
-      {/* CTA */}
-      <section className="border-t border-border">
-        <Container className="py-14 md:py-20">
-          <Eyebrow>Next step</Eyebrow>
-          <h2 className="text-display mt-4 text-[clamp(1.8rem,6vw,3.4rem)]">Have a project like this?</h2>
-          <p className="mt-3 text-[15px] text-muted-foreground">Let's build it.</p>
-          <Link
-            to="/start-a-project"
-            search={{ type: engineType, source: `work:${p.slug}` }}
-            className="tap press mt-8 inline-flex items-center gap-2 bg-primary px-7 py-4 text-[12px] uppercase tracking-[0.16em] text-primary-foreground"
-          >
-            Start a project <ArrowUpRight className="h-4 w-4" />
-          </Link>
-        </Container>
       </section>
 
-      {/* 10 — Next project */}
-      {next ? (
-        <section className="border-t border-border">
-          <Link to="/work/$slug" params={{ slug: next.slug }} className="image-reveal group block">
-            <div className="relative h-[52svh] min-h-[340px] w-full overflow-hidden">
-              <ProgressiveImage
-                src={workCover(next, 2)}
-                alt={next.title}
-                className="opacity-60 transition-transform duration-700 group-hover:scale-[1.03]"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
-              <Container className="absolute inset-x-0 bottom-0 pb-10 md:pb-14">
-                <Eyebrow>Next Project</Eyebrow>
-                <h2 className="text-display mt-3 flex flex-wrap items-center gap-3 text-[clamp(1.6rem,5vw,3rem)]">
-                  {next.title}
-                  <ArrowUpRight className="h-6 w-6 text-gold" />
-                </h2>
-                <p className="mt-2 text-[12.5px] uppercase tracking-[0.14em] text-muted-foreground">
-                  {next.client ?? "Yomi Visuals"} · {tagsOf(next)[0]}
-                </p>
-              </Container>
-            </div>
-          </Link>
-        </section>
-      ) : null}
+      {/* 4. Curated image sequence: alternating scale, never identical */}
+      <section className="film-pad mx-auto max-w-[1500px] pb-16" aria-label={`${set.name} image sequence`}>
+        <ul className="grid grid-cols-2 gap-3 md:grid-cols-12 md:gap-5">
+          {visible.map((a, i) => {
+            const big = i % 7 === 0;
+            const wide = a.ratio > 1.1;
+            const span = big ? "md:col-span-7" : wide ? "md:col-span-6" : i % 3 === 1 ? "md:col-span-4" : "md:col-span-5";
+            return (
+              <li key={a.id} className={`${big ? "col-span-2" : ""} ${span} ${i % 2 ? "md:mt-16" : ""}`}>
+                <button onClick={() => setLight(i)} className="group block w-full overflow-hidden" aria-label={`View frame ${i + 1} of ${all.length}`}>
+                  <Photo id={a.id} sizes={big ? "(min-width:768px) 58vw, 100vw" : "(min-width:768px) 40vw, 50vw"} className="w-full transition-transform duration-[var(--m-editorial)] group-hover:scale-[1.02]" priority={i < 2} />
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+        {shown < all.length ? <div className="mt-12 text-center"><button className="film-btn film-btn--line" onClick={() => setShown((n) => n + PAGE)}>Show more ({all.length - shown} remaining)</button></div> : null}
+      </section>
 
-      <Container className="flex flex-col gap-4 py-14 sm:flex-row sm:items-center md:py-20">
-        <Link
-          to="/work"
-          className="tap inline-flex items-center justify-center gap-2 border border-border-strong px-6 py-3.5 text-[12px] uppercase tracking-[0.16em]"
-        >
-          View all work
-        </Link>
-      </Container>
-    </article>
+      {/* 7. Related + 8. Next */}
+      <section className="film-pad border-t border-white/10 py-16">
+        <div className="mx-auto grid max-w-[1500px] gap-10 md:grid-cols-[1fr_1fr_1.4fr]">
+          {related.map((s) => (
+            <Link key={s.slug} to="/work/$slug" params={{ slug: s.slug }} className="group block">
+              <p className="film-eyebrow">Related</p>
+              <Photo id={s.cover} sizes="30vw" className="mt-3 w-full max-w-[260px]" />
+              <p className="mt-3 font-serif text-2xl italic group-hover:text-[var(--film-gold)]">{s.name}</p>
+            </Link>
+          ))}
+          <Link to="/work/$slug" params={{ slug: next.slug }} className="group block md:text-right">
+            <p className="film-eyebrow film-eyebrow--gold">Next set</p>
+            <p className="film-title mt-3 text-[clamp(2rem,5vw,4.4rem)] group-hover:text-[var(--film-gold)]">{next.name} →</p>
+          </Link>
+        </div>
+      </section>
+      <Lightbox ids={visible.map((a) => a.id)} index={light} onClose={() => setLight(null)} onIndex={setLight} />
+    </Main>
   );
 }

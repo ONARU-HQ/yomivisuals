@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -11,10 +12,10 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { TopNav } from "@/components/TopNav";
-import { SiteFooter } from "@/components/SiteFooter";
+import { SiteNav } from "@/components/btf/SiteNav";
+import { SiteFooter } from "@/components/btf/SiteFooter";
 import { Toaster } from "@/components/ui/sonner";
-import { PageTransition, RouteProgress, CursorLayer } from "@/components/motion";
+import { RouteProgress } from "@/components/motion";
 
 export function NotFoundComponent() {
   return (
@@ -89,7 +90,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { name: "theme-color", content: "#050505" },
+      { name: "theme-color", content: "#090909" },
       { name: "author", content: "Yomi Visuals" },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "Yomi Visuals" },
@@ -113,9 +114,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "@context": "https://schema.org",
           "@type": "Organization",
           name: "Yomi Visuals",
-          url: "https://yomivisuals.lovable.app",
+          url: "https://yomivisuals.com",
+          founder: { "@type": "Person", name: "Yomi Onalaru" },
           description:
-            "Yomi Visuals is a multidisciplinary creative agency in Lagos building brands through strategy, design, visual storytelling and content production.",
+            "Yomi Visuals is the creative identity of Yomi Onalaru: photography, creative direction and creative technology.",
           address: { "@type": "PostalAddress", addressLocality: "Lagos", addressCountry: "NG" },
           sameAs: ["https://instagram.com/yomi.visuals"],
         }),
@@ -144,19 +146,17 @@ export function RootShell({ children }: { children: ReactNode }) {
 
 export function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const pathname = useRouterState({ select: (r) => r.location.pathname });
 
   return (
     <QueryClientProvider client={queryClient}>
       <RouteProgress />
-      <TopNav />
-      <main>
-        <PageTransition>
-          <Outlet />
-        </PageTransition>
+      <SiteNav />
+      <main id="main" key={pathname} className="route-fade">
+        <Outlet />
       </main>
       <SiteFooter />
       <Toaster />
-      <CursorLayer />
     </QueryClientProvider>
   );
 }

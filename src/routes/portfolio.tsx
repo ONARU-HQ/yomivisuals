@@ -1,8 +1,8 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 
-/** Legacy URL — the archive now lives at /work. */
+/** Retired in the Beyond the Frame redesign. Kept as a redirect so old links still work. */
 export const Route = createFileRoute("/portfolio")({
   beforeLoad: () => {
-    throw redirect({ to: "/work", replace: true });
+    throw redirect({ to: "/work" });
   },
 });

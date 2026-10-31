@@ -2,5 +2,6 @@ User-agent: *
 Allow: /
 Disallow: /admin
 Disallow: /portal
+Disallow: /auth
 
-Sitemap: https://yomivisuals.lovable.app/sitemap.xml
+Sitemap: https://yomivisuals.com/sitemap.xml

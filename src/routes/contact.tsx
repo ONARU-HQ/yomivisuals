@@ -1,119 +1,26 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
-import { settingsQuery, servicesQuery } from "@/lib/cms";
-import { ENQUIRY_TYPES } from "@/lib/ecosystem";
-import { Container, PageHero, Field, inputClass, Button } from "@/components/site/ui";
-import { ContactLinks } from "@/components/ContactLinks";
+import { INSTAGRAM_URL, STUDIO_URL } from "@/content/site";
+import { LeadForm } from "@/components/btf/LeadForm";
+import { PageHead, Main } from "@/components/btf/PageHead";
+import { seo } from "@/lib/film/seo";
 
 export const Route = createFileRoute("/contact")({
-  loader: async ({ context }) => {
-    await Promise.all([
-      context.queryClient.ensureQueryData(settingsQuery),
-      context.queryClient.ensureQueryData(servicesQuery),
-    ]);
-  },
-  head: () => ({
-    meta: [
-      { title: "Contact Yomi Visuals — Creative Agency, Lagos" },
-      { name: "description", content: "Talk to Yomi Visuals about a campaign, brand or production. Lagos-based, working across Nigeria and internationally." },
-      { property: "og:title", content: "Contact Yomi Visuals" },
-      { property: "og:description", content: "Get in touch with the Yomi Visuals studio in Lagos." },
-      { property: "og:url", content: "https://yomivisuals.lovable.app/contact" },
-    ],
-    links: [{ rel: "canonical", href: "https://yomivisuals.lovable.app/contact" }],
-  }),
-  component: ContactPage,
+  head: () => seo({ title: "Contact | Yomi Visuals", description: "Get in touch with Yomi Visuals.", path: "/contact" }),
+  component: Contact,
 });
 
-function ContactPage() {
-  const { data: settings } = useSuspenseQuery(settingsQuery);
-  const { data: services } = useSuspenseQuery(servicesQuery);
-  const company = settings.company ?? {};
-  const [sending, setSending] = useState(false);
-  const [done, setDone] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const fd = new FormData(e.currentTarget);
-    const payload = {
-      name: String(fd.get("name") ?? "").trim(),
-      email: String(fd.get("email") ?? "").trim(),
-      phone: String(fd.get("phone") ?? "").trim() || null,
-      company: String(fd.get("company") ?? "").trim() || null,
-      service: String(fd.get("service") ?? "") || String(fd.get("enquiry") ?? "") || null,
-      message: [`Enquiry type: ${String(fd.get("enquiry") ?? "General enquiry")}`, String(fd.get("message") ?? "").trim()]
-        .filter(Boolean)
-        .join("\n\n") || null,
-      source: "contact",
-    };
-    if (!payload.name || !payload.email.includes("@")) {
-      setError("Please enter your name and a valid email address.");
-      return;
-    }
-    setSending(true);
-    setError(null);
-    const { error: dbError } = await supabase.from("leads").insert(payload);
-    setSending(false);
-    if (dbError) setError("We couldn\u2019t send your message. Your information is still here \u2014 please try again.");
-    else setDone(true);
-  }
-
+function Contact() {
   return (
-    <>
-      <PageHero eyebrow="Contact" title="Start a conversation." body="General, production, studio, creator and partnership enquiries. Ready to brief a project? Start a project instead \u2014 it gets to the right team faster." />
-      <Container className="grid gap-12 py-14 md:grid-cols-2 md:py-20">
-        <div className="space-y-8">
-          {[
-            ["Email", company.email],
-            ["Phone", company.phone],
-            ["Studio", company.address],
-            ["Hours", company.hours],
-          ].map(([label, value]) => (
-            <div key={String(label)}>
-              <p className="text-eyebrow">{label as string}</p>
-              <p className="mt-2 text-[15px]">{(value as string) ?? "—"}</p>
-            </div>
-          ))}
-          <ContactLinks />
+    <Main>
+      <PageHead eyebrow="The connection" title="Say hello.">A short note is enough. You will get a reply by email.</PageHead>
+      <div className="film-pad mx-auto grid max-w-[1400px] gap-16 pb-24 md:grid-cols-[1fr_1.2fr]">
+        <div className="space-y-8 text-[15px]">
+          <div><p className="film-eyebrow">Email</p><a className="mt-2 block text-xl hover:text-[var(--film-gold)]" href="mailto:hello@yomivisuals.com">hello@yomivisuals.com</a></div>
+          <div><p className="film-eyebrow">Instagram</p><a className="mt-2 block text-xl hover:text-[var(--film-gold)]" href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">@yomi.visuals<span className="sr-only"> (opens in a new tab)</span></a></div>
+          <div className="border border-white/15 p-6"><p className="film-eyebrow film-eyebrow--gold">Studio bookings</p><p className="mt-2 text-[14.5px] text-[var(--film-muted)]">Photography, video and studio hire are booked through YV Studios Africa.</p><a href={STUDIO_URL} target="_blank" rel="noopener noreferrer" className="film-btn film-btn--line mt-4">YV Studios ↗<span className="sr-only"> (opens in a new tab)</span></a></div>
         </div>
-
-        {done ? (
-          <div className="panel p-8">
-            <h2 className="text-display text-2xl">Message sent.</h2>
-            <p className="mt-3 text-[14px] text-muted-foreground">We'll be in touch within one working day.</p>
-          </div>
-        ) : (
-          <form onSubmit={onSubmit} className="panel space-y-5 p-6 md:p-8">
-            <div className="grid gap-5 sm:grid-cols-2">
-              <Field label="Full name"><input name="name" required className={inputClass} /></Field>
-              <Field label="Email"><input name="email" type="email" required className={inputClass} /></Field>
-              <Field label="Phone"><input name="phone" className={inputClass} /></Field>
-              <Field label="Company"><input name="company" className={inputClass} /></Field>
-            </div>
-            <Field label="Enquiry type">
-              <select name="enquiry" className={inputClass} defaultValue={ENQUIRY_TYPES[0]}>
-                {ENQUIRY_TYPES.map((t) => <option key={t} value={t}>{t}</option>)}
-              </select>
-            </Field>
-            <Field label="Service" hint="Optional.">
-              <select name="service" className={inputClass} defaultValue="">
-                <option value="">Select a service</option>
-                {services.map((s) => <option key={s.id} value={s.title}>{s.title}</option>)}
-              </select>
-            </Field>
-            <Field label="Message"><textarea name="message" rows={5} className={inputClass} /></Field>
-            {error ? (
-              <p role="alert" className="border border-destructive/40 px-4 py-3 text-[13px] text-destructive">
-                {error}
-              </p>
-            ) : null}
-            <Button type="submit" disabled={sending} className="w-full">{sending ? "Sending…" : "Send message"}</Button>
-          </form>
-        )}
-      </Container>
-    </>
+        <LeadForm source="contact" enquiries={["General", "Collaboration", "Press", "Something else"]} />
+      </div>
+    </Main>
   );
 }

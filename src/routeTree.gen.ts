@@ -9,150 +9,74 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as VisualDirectionRouteImport } from './routes/visual-direction'
-import { Route as TestimonialsRouteImport } from './routes/testimonials'
-import { Route as TermsRouteImport } from './routes/terms'
-import { Route as StudioRouteImport } from './routes/studio'
-import { Route as StartAProjectRouteImport } from './routes/start-a-project'
-import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as ResetPasswordRouteImport } from './routes/reset-password'
-import { Route as PrivacyRouteImport } from './routes/privacy'
-import { Route as PortfolioRouteImport } from './routes/portfolio'
-import { Route as ImageLibraryRouteImport } from './routes/image-library'
-import { Route as HowWeWorkRouteImport } from './routes/how-we-work'
-import { Route as ForAgenciesRouteImport } from './routes/for-agencies'
-import { Route as FaqsRouteImport } from './routes/faqs'
-import { Route as DesignSystemRouteImport } from './routes/design-system'
-import { Route as ContactRouteImport } from './routes/contact'
-import { Route as CareersRouteImport } from './routes/careers'
-import { Route as CapabilitiesRouteImport } from './routes/capabilities'
-import { Route as BookRouteImport } from './routes/book'
-import { Route as AuthRouteImport } from './routes/auth'
-import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as WorkIndexRouteImport } from './routes/work.index'
-import { Route as ServicesIndexRouteImport } from './routes/services.index'
-import { Route as ProjectsIndexRouteImport } from './routes/projects.index'
-import { Route as EcosystemIndexRouteImport } from './routes/ecosystem.index'
-import { Route as ArticlesIndexRouteImport } from './routes/articles.index'
-import { Route as AboutIndexRouteImport } from './routes/about.index'
-import { Route as WorkSlugRouteImport } from './routes/work.$slug'
-import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
-import { Route as ProjectsSlugRouteImport } from './routes/projects.$slug'
-import { Route as EcosystemSlugRouteImport } from './routes/ecosystem.$slug'
-import { Route as ArticlesSlugRouteImport } from './routes/articles.$slug'
-import { Route as AboutFounderRouteImport } from './routes/about.founder'
-import { Route as AuthenticatedPortalRouteImport } from './routes/_authenticated/portal'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as BookRouteImport } from './routes/book'
+import { Route as CapabilitiesRouteImport } from './routes/capabilities'
+import { Route as CareersRouteImport } from './routes/careers'
+import { Route as CollaborateRouteImport } from './routes/collaborate'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as DesignSystemRouteImport } from './routes/design-system'
+import { Route as FaqsRouteImport } from './routes/faqs'
+import { Route as ForAgenciesRouteImport } from './routes/for-agencies'
+import { Route as HowWeWorkRouteImport } from './routes/how-we-work'
+import { Route as ImageLibraryRouteImport } from './routes/image-library'
+import { Route as PortfolioRouteImport } from './routes/portfolio'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as StartAProjectRouteImport } from './routes/start-a-project'
+import { Route as StudioRouteImport } from './routes/studio'
+import { Route as TermsRouteImport } from './routes/terms'
+import { Route as TestimonialsRouteImport } from './routes/testimonials'
+import { Route as VisualDirectionRouteImport } from './routes/visual-direction'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
-import { Route as AuthenticatedPortalIndexRouteImport } from './routes/_authenticated/portal.index'
+import { Route as AuthenticatedPortalRouteImport } from './routes/_authenticated/portal'
+import { Route as AboutIndexRouteImport } from './routes/about.index'
+import { Route as AboutFounderRouteImport } from './routes/about.founder'
+import { Route as ArticlesIndexRouteImport } from './routes/articles.index'
+import { Route as ArticlesSlugRouteImport } from './routes/articles.$slug'
+import { Route as EcosystemIndexRouteImport } from './routes/ecosystem.index'
+import { Route as EcosystemSlugRouteImport } from './routes/ecosystem.$slug'
+import { Route as JournalIndexRouteImport } from './routes/journal.index'
+import { Route as JournalSlugRouteImport } from './routes/journal.$slug'
+import { Route as LabIndexRouteImport } from './routes/lab.index'
+import { Route as LabSlugRouteImport } from './routes/lab.$slug'
+import { Route as ProjectsIndexRouteImport } from './routes/projects.index'
+import { Route as ProjectsSlugRouteImport } from './routes/projects.$slug'
+import { Route as ServicesIndexRouteImport } from './routes/services.index'
+import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
+import { Route as WorkIndexRouteImport } from './routes/work.index'
+import { Route as WorkSlugRouteImport } from './routes/work.$slug'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
-import { Route as ApiPublicVisualBriefRouteImport } from './routes/api/public/visual-brief'
-import { Route as ApiPublicStudioGenerateRouteImport } from './routes/api/public/studio-generate'
-import { Route as ApiDocumentsKindRouteImport } from './routes/api/documents.$kind'
-import { Route as AuthenticatedPortalProfileRouteImport } from './routes/_authenticated/portal.profile'
-import { Route as AuthenticatedPortalInvoicesRouteImport } from './routes/_authenticated/portal.invoices'
-import { Route as AuthenticatedPortalDeliverablesRouteImport } from './routes/_authenticated/portal.deliverables'
-import { Route as AuthenticatedAdminWorkRouteImport } from './routes/_authenticated/admin.work'
-import { Route as AuthenticatedAdminTeamRouteImport } from './routes/_authenticated/admin.team'
-import { Route as AuthenticatedAdminPortfolioRouteImport } from './routes/_authenticated/admin.portfolio'
-import { Route as AuthenticatedAdminPipelineRouteImport } from './routes/_authenticated/admin.pipeline'
-import { Route as AuthenticatedAdminInvoicesRouteImport } from './routes/_authenticated/admin.invoices'
-import { Route as AuthenticatedAdminInboxRouteImport } from './routes/_authenticated/admin.inbox'
-import { Route as AuthenticatedAdminHomepageRouteImport } from './routes/_authenticated/admin.homepage'
 import { Route as AuthenticatedAdminCommunicationsRouteImport } from './routes/_authenticated/admin.communications'
-import { Route as AuthenticatedAdminDesignStudioIndexRouteImport } from './routes/_authenticated/admin.design-studio.index'
-import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
-import { Route as AuthenticatedAdminDesignStudioIdRouteImport } from './routes/_authenticated/admin.design-studio.$id'
+import { Route as AuthenticatedAdminHomepageRouteImport } from './routes/_authenticated/admin.homepage'
+import { Route as AuthenticatedAdminInboxRouteImport } from './routes/_authenticated/admin.inbox'
+import { Route as AuthenticatedAdminInvoicesRouteImport } from './routes/_authenticated/admin.invoices'
+import { Route as AuthenticatedAdminPipelineRouteImport } from './routes/_authenticated/admin.pipeline'
+import { Route as AuthenticatedAdminPortfolioRouteImport } from './routes/_authenticated/admin.portfolio'
+import { Route as AuthenticatedAdminTeamRouteImport } from './routes/_authenticated/admin.team'
+import { Route as AuthenticatedAdminWorkRouteImport } from './routes/_authenticated/admin.work'
+import { Route as AuthenticatedPortalIndexRouteImport } from './routes/_authenticated/portal.index'
+import { Route as AuthenticatedPortalDeliverablesRouteImport } from './routes/_authenticated/portal.deliverables'
+import { Route as AuthenticatedPortalInvoicesRouteImport } from './routes/_authenticated/portal.invoices'
+import { Route as AuthenticatedPortalProfileRouteImport } from './routes/_authenticated/portal.profile'
+import { Route as ApiDocumentsKindRouteImport } from './routes/api/documents.$kind'
+import { Route as ApiPublicStudioGenerateRouteImport } from './routes/api/public/studio-generate'
+import { Route as ApiPublicVisualBriefRouteImport } from './routes/api/public/visual-brief'
 import { Route as AuthenticatedAdminCollectionsCollectionRouteImport } from './routes/_authenticated/admin.collections.$collection'
+import { Route as AuthenticatedAdminDesignStudioIndexRouteImport } from './routes/_authenticated/admin.design-studio.index'
+import { Route as AuthenticatedAdminDesignStudioIdRouteImport } from './routes/_authenticated/admin.design-studio.$id'
+import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
 
-const VisualDirectionRoute = VisualDirectionRouteImport.update({
-  id: '/visual-direction',
-  path: '/visual-direction',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const TestimonialsRoute = TestimonialsRouteImport.update({
-  id: '/testimonials',
-  path: '/testimonials',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const TermsRoute = TermsRouteImport.update({
-  id: '/terms',
-  path: '/terms',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const StudioRoute = StudioRouteImport.update({
-  id: '/studio',
-  path: '/studio',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const StartAProjectRoute = StartAProjectRouteImport.update({
-  id: '/start-a-project',
-  path: '/start-a-project',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
-  id: '/sitemap.xml',
-  path: '/sitemap.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ResetPasswordRoute = ResetPasswordRouteImport.update({
-  id: '/reset-password',
-  path: '/reset-password',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PrivacyRoute = PrivacyRouteImport.update({
-  id: '/privacy',
-  path: '/privacy',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PortfolioRoute = PortfolioRouteImport.update({
-  id: '/portfolio',
-  path: '/portfolio',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ImageLibraryRoute = ImageLibraryRouteImport.update({
-  id: '/image-library',
-  path: '/image-library',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const HowWeWorkRoute = HowWeWorkRouteImport.update({
-  id: '/how-we-work',
-  path: '/how-we-work',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ForAgenciesRoute = ForAgenciesRouteImport.update({
-  id: '/for-agencies',
-  path: '/for-agencies',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FaqsRoute = FaqsRouteImport.update({
-  id: '/faqs',
-  path: '/faqs',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DesignSystemRoute = DesignSystemRouteImport.update({
-  id: '/design-system',
-  path: '/design-system',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ContactRoute = ContactRouteImport.update({
-  id: '/contact',
-  path: '/contact',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CareersRoute = CareersRouteImport.update({
-  id: '/careers',
-  path: '/careers',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CapabilitiesRoute = CapabilitiesRouteImport.update({
-  id: '/capabilities',
-  path: '/capabilities',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BookRoute = BookRouteImport.update({
-  id: '/book',
-  path: '/book',
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -160,68 +84,114 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
-  id: '/_authenticated',
+const BookRoute = BookRouteImport.update({
+  id: '/book',
+  path: '/book',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const CapabilitiesRoute = CapabilitiesRouteImport.update({
+  id: '/capabilities',
+  path: '/capabilities',
   getParentRoute: () => rootRouteImport,
 } as any)
-const WorkIndexRoute = WorkIndexRouteImport.update({
-  id: '/work/',
-  path: '/work/',
+const CareersRoute = CareersRouteImport.update({
+  id: '/careers',
+  path: '/careers',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ServicesIndexRoute = ServicesIndexRouteImport.update({
-  id: '/services/',
-  path: '/services/',
+const CollaborateRoute = CollaborateRouteImport.update({
+  id: '/collaborate',
+  path: '/collaborate',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProjectsIndexRoute = ProjectsIndexRouteImport.update({
-  id: '/projects/',
-  path: '/projects/',
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
-const EcosystemIndexRoute = EcosystemIndexRouteImport.update({
-  id: '/ecosystem/',
-  path: '/ecosystem/',
+const DesignSystemRoute = DesignSystemRouteImport.update({
+  id: '/design-system',
+  path: '/design-system',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ArticlesIndexRoute = ArticlesIndexRouteImport.update({
-  id: '/articles/',
-  path: '/articles/',
+const FaqsRoute = FaqsRouteImport.update({
+  id: '/faqs',
+  path: '/faqs',
   getParentRoute: () => rootRouteImport,
+} as any)
+const ForAgenciesRoute = ForAgenciesRouteImport.update({
+  id: '/for-agencies',
+  path: '/for-agencies',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HowWeWorkRoute = HowWeWorkRouteImport.update({
+  id: '/how-we-work',
+  path: '/how-we-work',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ImageLibraryRoute = ImageLibraryRouteImport.update({
+  id: '/image-library',
+  path: '/image-library',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortfolioRoute = PortfolioRouteImport.update({
+  id: '/portfolio',
+  path: '/portfolio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StartAProjectRoute = StartAProjectRouteImport.update({
+  id: '/start-a-project',
+  path: '/start-a-project',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudioRoute = StudioRouteImport.update({
+  id: '/studio',
+  path: '/studio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TestimonialsRoute = TestimonialsRouteImport.update({
+  id: '/testimonials',
+  path: '/testimonials',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VisualDirectionRoute = VisualDirectionRouteImport.update({
+  id: '/visual-direction',
+  path: '/visual-direction',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedPortalRoute = AuthenticatedPortalRouteImport.update({
+  id: '/portal',
+  path: '/portal',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AboutIndexRoute = AboutIndexRouteImport.update({
   id: '/about/',
   path: '/about/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const WorkSlugRoute = WorkSlugRouteImport.update({
-  id: '/work/$slug',
-  path: '/work/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ServicesSlugRoute = ServicesSlugRouteImport.update({
-  id: '/services/$slug',
-  path: '/services/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ProjectsSlugRoute = ProjectsSlugRouteImport.update({
-  id: '/projects/$slug',
-  path: '/projects/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const EcosystemSlugRoute = EcosystemSlugRouteImport.update({
-  id: '/ecosystem/$slug',
-  path: '/ecosystem/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ArticlesSlugRoute = ArticlesSlugRouteImport.update({
-  id: '/articles/$slug',
-  path: '/articles/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutFounderRoute = AboutFounderRouteImport.update({
@@ -229,74 +199,102 @@ const AboutFounderRoute = AboutFounderRouteImport.update({
   path: '/about/founder',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedPortalRoute = AuthenticatedPortalRouteImport.update({
-  id: '/portal',
-  path: '/portal',
-  getParentRoute: () => AuthenticatedRouteRoute,
+const ArticlesIndexRoute = ArticlesIndexRouteImport.update({
+  id: '/articles/',
+  path: '/articles/',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
-  getParentRoute: () => AuthenticatedRouteRoute,
+const ArticlesSlugRoute = ArticlesSlugRouteImport.update({
+  id: '/articles/$slug',
+  path: '/articles/$slug',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedPortalIndexRoute =
-  AuthenticatedPortalIndexRouteImport.update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => AuthenticatedPortalRoute,
-  } as any)
+const EcosystemIndexRoute = EcosystemIndexRouteImport.update({
+  id: '/ecosystem/',
+  path: '/ecosystem/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EcosystemSlugRoute = EcosystemSlugRouteImport.update({
+  id: '/ecosystem/$slug',
+  path: '/ecosystem/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JournalIndexRoute = JournalIndexRouteImport.update({
+  id: '/journal/',
+  path: '/journal/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JournalSlugRoute = JournalSlugRouteImport.update({
+  id: '/journal/$slug',
+  path: '/journal/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LabIndexRoute = LabIndexRouteImport.update({
+  id: '/lab/',
+  path: '/lab/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LabSlugRoute = LabSlugRouteImport.update({
+  id: '/lab/$slug',
+  path: '/lab/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectsIndexRoute = ProjectsIndexRouteImport.update({
+  id: '/projects/',
+  path: '/projects/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectsSlugRoute = ProjectsSlugRouteImport.update({
+  id: '/projects/$slug',
+  path: '/projects/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesIndexRoute = ServicesIndexRouteImport.update({
+  id: '/services/',
+  path: '/services/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesSlugRoute = ServicesSlugRouteImport.update({
+  id: '/services/$slug',
+  path: '/services/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WorkIndexRoute = WorkIndexRouteImport.update({
+  id: '/work/',
+  path: '/work/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WorkSlugRoute = WorkSlugRouteImport.update({
+  id: '/work/$slug',
+  path: '/work/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
-const ApiPublicVisualBriefRoute = ApiPublicVisualBriefRouteImport.update({
-  id: '/api/public/visual-brief',
-  path: '/api/public/visual-brief',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiPublicStudioGenerateRoute = ApiPublicStudioGenerateRouteImport.update({
-  id: '/api/public/studio-generate',
-  path: '/api/public/studio-generate',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiDocumentsKindRoute = ApiDocumentsKindRouteImport.update({
-  id: '/api/documents/$kind',
-  path: '/api/documents/$kind',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthenticatedPortalProfileRoute =
-  AuthenticatedPortalProfileRouteImport.update({
-    id: '/profile',
-    path: '/profile',
-    getParentRoute: () => AuthenticatedPortalRoute,
+const AuthenticatedAdminCommunicationsRoute =
+  AuthenticatedAdminCommunicationsRouteImport.update({
+    id: '/communications',
+    path: '/communications',
+    getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
-const AuthenticatedPortalInvoicesRoute =
-  AuthenticatedPortalInvoicesRouteImport.update({
+const AuthenticatedAdminHomepageRoute =
+  AuthenticatedAdminHomepageRouteImport.update({
+    id: '/homepage',
+    path: '/homepage',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminInboxRoute = AuthenticatedAdminInboxRouteImport.update({
+  id: '/inbox',
+  path: '/inbox',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
+const AuthenticatedAdminInvoicesRoute =
+  AuthenticatedAdminInvoicesRouteImport.update({
     id: '/invoices',
     path: '/invoices',
-    getParentRoute: () => AuthenticatedPortalRoute,
-  } as any)
-const AuthenticatedPortalDeliverablesRoute =
-  AuthenticatedPortalDeliverablesRouteImport.update({
-    id: '/deliverables',
-    path: '/deliverables',
-    getParentRoute: () => AuthenticatedPortalRoute,
-  } as any)
-const AuthenticatedAdminWorkRoute = AuthenticatedAdminWorkRouteImport.update({
-  id: '/work',
-  path: '/work',
-  getParentRoute: () => AuthenticatedAdminRoute,
-} as any)
-const AuthenticatedAdminTeamRoute = AuthenticatedAdminTeamRouteImport.update({
-  id: '/team',
-  path: '/team',
-  getParentRoute: () => AuthenticatedAdminRoute,
-} as any)
-const AuthenticatedAdminPortfolioRoute =
-  AuthenticatedAdminPortfolioRouteImport.update({
-    id: '/portfolio',
-    path: '/portfolio',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
 const AuthenticatedAdminPipelineRoute =
@@ -305,27 +303,65 @@ const AuthenticatedAdminPipelineRoute =
     path: '/pipeline',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
-const AuthenticatedAdminInvoicesRoute =
-  AuthenticatedAdminInvoicesRouteImport.update({
-    id: '/invoices',
-    path: '/invoices',
+const AuthenticatedAdminPortfolioRoute =
+  AuthenticatedAdminPortfolioRouteImport.update({
+    id: '/portfolio',
+    path: '/portfolio',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
-const AuthenticatedAdminInboxRoute = AuthenticatedAdminInboxRouteImport.update({
-  id: '/inbox',
-  path: '/inbox',
+const AuthenticatedAdminTeamRoute = AuthenticatedAdminTeamRouteImport.update({
+  id: '/team',
+  path: '/team',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
-const AuthenticatedAdminHomepageRoute =
-  AuthenticatedAdminHomepageRouteImport.update({
-    id: '/homepage',
-    path: '/homepage',
-    getParentRoute: () => AuthenticatedAdminRoute,
+const AuthenticatedAdminWorkRoute = AuthenticatedAdminWorkRouteImport.update({
+  id: '/work',
+  path: '/work',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
+const AuthenticatedPortalIndexRoute =
+  AuthenticatedPortalIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedPortalRoute,
   } as any)
-const AuthenticatedAdminCommunicationsRoute =
-  AuthenticatedAdminCommunicationsRouteImport.update({
-    id: '/communications',
-    path: '/communications',
+const AuthenticatedPortalDeliverablesRoute =
+  AuthenticatedPortalDeliverablesRouteImport.update({
+    id: '/deliverables',
+    path: '/deliverables',
+    getParentRoute: () => AuthenticatedPortalRoute,
+  } as any)
+const AuthenticatedPortalInvoicesRoute =
+  AuthenticatedPortalInvoicesRouteImport.update({
+    id: '/invoices',
+    path: '/invoices',
+    getParentRoute: () => AuthenticatedPortalRoute,
+  } as any)
+const AuthenticatedPortalProfileRoute =
+  AuthenticatedPortalProfileRouteImport.update({
+    id: '/profile',
+    path: '/profile',
+    getParentRoute: () => AuthenticatedPortalRoute,
+  } as any)
+const ApiDocumentsKindRoute = ApiDocumentsKindRouteImport.update({
+  id: '/api/documents/$kind',
+  path: '/api/documents/$kind',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicStudioGenerateRoute = ApiPublicStudioGenerateRouteImport.update({
+  id: '/api/public/studio-generate',
+  path: '/api/public/studio-generate',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicVisualBriefRoute = ApiPublicVisualBriefRouteImport.update({
+  id: '/api/public/visual-brief',
+  path: '/api/public/visual-brief',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAdminCollectionsCollectionRoute =
+  AuthenticatedAdminCollectionsCollectionRouteImport.update({
+    id: '/collections/$collection',
+    path: '/collections/$collection',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
 const AuthenticatedAdminDesignStudioIndexRoute =
@@ -334,23 +370,17 @@ const AuthenticatedAdminDesignStudioIndexRoute =
     path: '/design-studio/',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
-const LovableEmailTransactionalPreviewRoute =
-  LovableEmailTransactionalPreviewRouteImport.update({
-    id: '/lovable/email/transactional/preview',
-    path: '/lovable/email/transactional/preview',
-    getParentRoute: () => rootRouteImport,
-  } as any)
 const AuthenticatedAdminDesignStudioIdRoute =
   AuthenticatedAdminDesignStudioIdRouteImport.update({
     id: '/design-studio/$id',
     path: '/design-studio/$id',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
-const AuthenticatedAdminCollectionsCollectionRoute =
-  AuthenticatedAdminCollectionsCollectionRouteImport.update({
-    id: '/collections/$collection',
-    path: '/collections/$collection',
-    getParentRoute: () => AuthenticatedAdminRoute,
+const LovableEmailTransactionalPreviewRoute =
+  LovableEmailTransactionalPreviewRouteImport.update({
+    id: '/lovable/email/transactional/preview',
+    path: '/lovable/email/transactional/preview',
+    getParentRoute: () => rootRouteImport,
   } as any)
 
 export interface FileRoutesByFullPath {
@@ -359,6 +389,7 @@ export interface FileRoutesByFullPath {
   '/book': typeof BookRoute
   '/capabilities': typeof CapabilitiesRoute
   '/careers': typeof CareersRoute
+  '/collaborate': typeof CollaborateRoute
   '/contact': typeof ContactRoute
   '/design-system': typeof DesignSystemRoute
   '/faqs': typeof FaqsRoute
@@ -379,12 +410,16 @@ export interface FileRoutesByFullPath {
   '/about/founder': typeof AboutFounderRoute
   '/articles/$slug': typeof ArticlesSlugRoute
   '/ecosystem/$slug': typeof EcosystemSlugRoute
+  '/journal/$slug': typeof JournalSlugRoute
+  '/lab/$slug': typeof LabSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/work/$slug': typeof WorkSlugRoute
   '/about/': typeof AboutIndexRoute
   '/articles/': typeof ArticlesIndexRoute
   '/ecosystem/': typeof EcosystemIndexRoute
+  '/journal/': typeof JournalIndexRoute
+  '/lab/': typeof LabIndexRoute
   '/projects/': typeof ProjectsIndexRoute
   '/services/': typeof ServicesIndexRoute
   '/work/': typeof WorkIndexRoute
@@ -415,6 +450,7 @@ export interface FileRoutesByTo {
   '/book': typeof BookRoute
   '/capabilities': typeof CapabilitiesRoute
   '/careers': typeof CareersRoute
+  '/collaborate': typeof CollaborateRoute
   '/contact': typeof ContactRoute
   '/design-system': typeof DesignSystemRoute
   '/faqs': typeof FaqsRoute
@@ -433,12 +469,16 @@ export interface FileRoutesByTo {
   '/about/founder': typeof AboutFounderRoute
   '/articles/$slug': typeof ArticlesSlugRoute
   '/ecosystem/$slug': typeof EcosystemSlugRoute
+  '/journal/$slug': typeof JournalSlugRoute
+  '/lab/$slug': typeof LabSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/work/$slug': typeof WorkSlugRoute
   '/about': typeof AboutIndexRoute
   '/articles': typeof ArticlesIndexRoute
   '/ecosystem': typeof EcosystemIndexRoute
+  '/journal': typeof JournalIndexRoute
+  '/lab': typeof LabIndexRoute
   '/projects': typeof ProjectsIndexRoute
   '/services': typeof ServicesIndexRoute
   '/work': typeof WorkIndexRoute
@@ -471,6 +511,7 @@ export interface FileRoutesById {
   '/book': typeof BookRoute
   '/capabilities': typeof CapabilitiesRoute
   '/careers': typeof CareersRoute
+  '/collaborate': typeof CollaborateRoute
   '/contact': typeof ContactRoute
   '/design-system': typeof DesignSystemRoute
   '/faqs': typeof FaqsRoute
@@ -491,12 +532,16 @@ export interface FileRoutesById {
   '/about/founder': typeof AboutFounderRoute
   '/articles/$slug': typeof ArticlesSlugRoute
   '/ecosystem/$slug': typeof EcosystemSlugRoute
+  '/journal/$slug': typeof JournalSlugRoute
+  '/lab/$slug': typeof LabSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/work/$slug': typeof WorkSlugRoute
   '/about/': typeof AboutIndexRoute
   '/articles/': typeof ArticlesIndexRoute
   '/ecosystem/': typeof EcosystemIndexRoute
+  '/journal/': typeof JournalIndexRoute
+  '/lab/': typeof LabIndexRoute
   '/projects/': typeof ProjectsIndexRoute
   '/services/': typeof ServicesIndexRoute
   '/work/': typeof WorkIndexRoute
@@ -529,6 +574,7 @@ export interface FileRouteTypes {
     | '/book'
     | '/capabilities'
     | '/careers'
+    | '/collaborate'
     | '/contact'
     | '/design-system'
     | '/faqs'
@@ -549,12 +595,16 @@ export interface FileRouteTypes {
     | '/about/founder'
     | '/articles/$slug'
     | '/ecosystem/$slug'
+    | '/journal/$slug'
+    | '/lab/$slug'
     | '/projects/$slug'
     | '/services/$slug'
     | '/work/$slug'
     | '/about/'
     | '/articles/'
     | '/ecosystem/'
+    | '/journal/'
+    | '/lab/'
     | '/projects/'
     | '/services/'
     | '/work/'
@@ -585,6 +635,7 @@ export interface FileRouteTypes {
     | '/book'
     | '/capabilities'
     | '/careers'
+    | '/collaborate'
     | '/contact'
     | '/design-system'
     | '/faqs'
@@ -603,12 +654,16 @@ export interface FileRouteTypes {
     | '/about/founder'
     | '/articles/$slug'
     | '/ecosystem/$slug'
+    | '/journal/$slug'
+    | '/lab/$slug'
     | '/projects/$slug'
     | '/services/$slug'
     | '/work/$slug'
     | '/about'
     | '/articles'
     | '/ecosystem'
+    | '/journal'
+    | '/lab'
     | '/projects'
     | '/services'
     | '/work'
@@ -640,6 +695,7 @@ export interface FileRouteTypes {
     | '/book'
     | '/capabilities'
     | '/careers'
+    | '/collaborate'
     | '/contact'
     | '/design-system'
     | '/faqs'
@@ -660,12 +716,16 @@ export interface FileRouteTypes {
     | '/about/founder'
     | '/articles/$slug'
     | '/ecosystem/$slug'
+    | '/journal/$slug'
+    | '/lab/$slug'
     | '/projects/$slug'
     | '/services/$slug'
     | '/work/$slug'
     | '/about/'
     | '/articles/'
     | '/ecosystem/'
+    | '/journal/'
+    | '/lab/'
     | '/projects/'
     | '/services/'
     | '/work/'
@@ -698,6 +758,7 @@ export interface RootRouteChildren {
   BookRoute: typeof BookRoute
   CapabilitiesRoute: typeof CapabilitiesRoute
   CareersRoute: typeof CareersRoute
+  CollaborateRoute: typeof CollaborateRoute
   ContactRoute: typeof ContactRoute
   DesignSystemRoute: typeof DesignSystemRoute
   FaqsRoute: typeof FaqsRoute
@@ -716,12 +777,16 @@ export interface RootRouteChildren {
   AboutFounderRoute: typeof AboutFounderRoute
   ArticlesSlugRoute: typeof ArticlesSlugRoute
   EcosystemSlugRoute: typeof EcosystemSlugRoute
+  JournalSlugRoute: typeof JournalSlugRoute
+  LabSlugRoute: typeof LabSlugRoute
   ProjectsSlugRoute: typeof ProjectsSlugRoute
   ServicesSlugRoute: typeof ServicesSlugRoute
   WorkSlugRoute: typeof WorkSlugRoute
   AboutIndexRoute: typeof AboutIndexRoute
   ArticlesIndexRoute: typeof ArticlesIndexRoute
   EcosystemIndexRoute: typeof EcosystemIndexRoute
+  JournalIndexRoute: typeof JournalIndexRoute
+  LabIndexRoute: typeof LabIndexRoute
   ProjectsIndexRoute: typeof ProjectsIndexRoute
   ServicesIndexRoute: typeof ServicesIndexRoute
   WorkIndexRoute: typeof WorkIndexRoute
@@ -733,137 +798,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/visual-direction': {
-      id: '/visual-direction'
-      path: '/visual-direction'
-      fullPath: '/visual-direction'
-      preLoaderRoute: typeof VisualDirectionRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/testimonials': {
-      id: '/testimonials'
-      path: '/testimonials'
-      fullPath: '/testimonials'
-      preLoaderRoute: typeof TestimonialsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/terms': {
-      id: '/terms'
-      path: '/terms'
-      fullPath: '/terms'
-      preLoaderRoute: typeof TermsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/studio': {
-      id: '/studio'
-      path: '/studio'
-      fullPath: '/studio'
-      preLoaderRoute: typeof StudioRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/start-a-project': {
-      id: '/start-a-project'
-      path: '/start-a-project'
-      fullPath: '/start-a-project'
-      preLoaderRoute: typeof StartAProjectRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sitemap.xml': {
-      id: '/sitemap.xml'
-      path: '/sitemap.xml'
-      fullPath: '/sitemap.xml'
-      preLoaderRoute: typeof SitemapDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/reset-password': {
-      id: '/reset-password'
-      path: '/reset-password'
-      fullPath: '/reset-password'
-      preLoaderRoute: typeof ResetPasswordRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/privacy': {
-      id: '/privacy'
-      path: '/privacy'
-      fullPath: '/privacy'
-      preLoaderRoute: typeof PrivacyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/portfolio': {
-      id: '/portfolio'
-      path: '/portfolio'
-      fullPath: '/portfolio'
-      preLoaderRoute: typeof PortfolioRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/image-library': {
-      id: '/image-library'
-      path: '/image-library'
-      fullPath: '/image-library'
-      preLoaderRoute: typeof ImageLibraryRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/how-we-work': {
-      id: '/how-we-work'
-      path: '/how-we-work'
-      fullPath: '/how-we-work'
-      preLoaderRoute: typeof HowWeWorkRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/for-agencies': {
-      id: '/for-agencies'
-      path: '/for-agencies'
-      fullPath: '/for-agencies'
-      preLoaderRoute: typeof ForAgenciesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/faqs': {
-      id: '/faqs'
-      path: '/faqs'
-      fullPath: '/faqs'
-      preLoaderRoute: typeof FaqsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/design-system': {
-      id: '/design-system'
-      path: '/design-system'
-      fullPath: '/design-system'
-      preLoaderRoute: typeof DesignSystemRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/contact': {
-      id: '/contact'
-      path: '/contact'
-      fullPath: '/contact'
-      preLoaderRoute: typeof ContactRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/careers': {
-      id: '/careers'
-      path: '/careers'
-      fullPath: '/careers'
-      preLoaderRoute: typeof CareersRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/capabilities': {
-      id: '/capabilities'
-      path: '/capabilities'
-      fullPath: '/capabilities'
-      preLoaderRoute: typeof CapabilitiesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/book': {
-      id: '/book'
-      path: '/book'
-      fullPath: '/book'
-      preLoaderRoute: typeof BookRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth': {
-      id: '/auth'
-      path: '/auth'
-      fullPath: '/auth'
-      preLoaderRoute: typeof AuthRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated': {
@@ -873,88 +812,165 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/work/': {
-      id: '/work/'
-      path: '/work'
-      fullPath: '/work/'
-      preLoaderRoute: typeof WorkIndexRouteImport
+    '/book': {
+      id: '/book'
+      path: '/book'
+      fullPath: '/book'
+      preLoaderRoute: typeof BookRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/services/': {
-      id: '/services/'
-      path: '/services'
-      fullPath: '/services/'
-      preLoaderRoute: typeof ServicesIndexRouteImport
+    '/capabilities': {
+      id: '/capabilities'
+      path: '/capabilities'
+      fullPath: '/capabilities'
+      preLoaderRoute: typeof CapabilitiesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/projects/': {
-      id: '/projects/'
-      path: '/projects'
-      fullPath: '/projects/'
-      preLoaderRoute: typeof ProjectsIndexRouteImport
+    '/careers': {
+      id: '/careers'
+      path: '/careers'
+      fullPath: '/careers'
+      preLoaderRoute: typeof CareersRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/ecosystem/': {
-      id: '/ecosystem/'
-      path: '/ecosystem'
-      fullPath: '/ecosystem/'
-      preLoaderRoute: typeof EcosystemIndexRouteImport
+    '/collaborate': {
+      id: '/collaborate'
+      path: '/collaborate'
+      fullPath: '/collaborate'
+      preLoaderRoute: typeof CollaborateRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/articles/': {
-      id: '/articles/'
-      path: '/articles'
-      fullPath: '/articles/'
-      preLoaderRoute: typeof ArticlesIndexRouteImport
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/design-system': {
+      id: '/design-system'
+      path: '/design-system'
+      fullPath: '/design-system'
+      preLoaderRoute: typeof DesignSystemRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/faqs': {
+      id: '/faqs'
+      path: '/faqs'
+      fullPath: '/faqs'
+      preLoaderRoute: typeof FaqsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/for-agencies': {
+      id: '/for-agencies'
+      path: '/for-agencies'
+      fullPath: '/for-agencies'
+      preLoaderRoute: typeof ForAgenciesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/how-we-work': {
+      id: '/how-we-work'
+      path: '/how-we-work'
+      fullPath: '/how-we-work'
+      preLoaderRoute: typeof HowWeWorkRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/image-library': {
+      id: '/image-library'
+      path: '/image-library'
+      fullPath: '/image-library'
+      preLoaderRoute: typeof ImageLibraryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portfolio': {
+      id: '/portfolio'
+      path: '/portfolio'
+      fullPath: '/portfolio'
+      preLoaderRoute: typeof PortfolioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/start-a-project': {
+      id: '/start-a-project'
+      path: '/start-a-project'
+      fullPath: '/start-a-project'
+      preLoaderRoute: typeof StartAProjectRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/studio': {
+      id: '/studio'
+      path: '/studio'
+      fullPath: '/studio'
+      preLoaderRoute: typeof StudioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/testimonials': {
+      id: '/testimonials'
+      path: '/testimonials'
+      fullPath: '/testimonials'
+      preLoaderRoute: typeof TestimonialsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/visual-direction': {
+      id: '/visual-direction'
+      path: '/visual-direction'
+      fullPath: '/visual-direction'
+      preLoaderRoute: typeof VisualDirectionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/portal': {
+      id: '/_authenticated/portal'
+      path: '/portal'
+      fullPath: '/portal'
+      preLoaderRoute: typeof AuthenticatedPortalRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/about/': {
       id: '/about/'
       path: '/about'
       fullPath: '/about/'
       preLoaderRoute: typeof AboutIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/work/$slug': {
-      id: '/work/$slug'
-      path: '/work/$slug'
-      fullPath: '/work/$slug'
-      preLoaderRoute: typeof WorkSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/services/$slug': {
-      id: '/services/$slug'
-      path: '/services/$slug'
-      fullPath: '/services/$slug'
-      preLoaderRoute: typeof ServicesSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/projects/$slug': {
-      id: '/projects/$slug'
-      path: '/projects/$slug'
-      fullPath: '/projects/$slug'
-      preLoaderRoute: typeof ProjectsSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/ecosystem/$slug': {
-      id: '/ecosystem/$slug'
-      path: '/ecosystem/$slug'
-      fullPath: '/ecosystem/$slug'
-      preLoaderRoute: typeof EcosystemSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/articles/$slug': {
-      id: '/articles/$slug'
-      path: '/articles/$slug'
-      fullPath: '/articles/$slug'
-      preLoaderRoute: typeof ArticlesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about/founder': {
@@ -964,123 +980,109 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutFounderRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/portal': {
-      id: '/_authenticated/portal'
-      path: '/portal'
-      fullPath: '/portal'
-      preLoaderRoute: typeof AuthenticatedPortalRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+    '/articles/': {
+      id: '/articles/'
+      path: '/articles'
+      fullPath: '/articles/'
+      preLoaderRoute: typeof ArticlesIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/admin': {
-      id: '/_authenticated/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AuthenticatedAdminRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+    '/articles/$slug': {
+      id: '/articles/$slug'
+      path: '/articles/$slug'
+      fullPath: '/articles/$slug'
+      preLoaderRoute: typeof ArticlesSlugRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/portal/': {
-      id: '/_authenticated/portal/'
-      path: '/'
-      fullPath: '/portal/'
-      preLoaderRoute: typeof AuthenticatedPortalIndexRouteImport
-      parentRoute: typeof AuthenticatedPortalRoute
+    '/ecosystem/': {
+      id: '/ecosystem/'
+      path: '/ecosystem'
+      fullPath: '/ecosystem/'
+      preLoaderRoute: typeof EcosystemIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ecosystem/$slug': {
+      id: '/ecosystem/$slug'
+      path: '/ecosystem/$slug'
+      fullPath: '/ecosystem/$slug'
+      preLoaderRoute: typeof EcosystemSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/journal/': {
+      id: '/journal/'
+      path: '/journal'
+      fullPath: '/journal/'
+      preLoaderRoute: typeof JournalIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/journal/$slug': {
+      id: '/journal/$slug'
+      path: '/journal/$slug'
+      fullPath: '/journal/$slug'
+      preLoaderRoute: typeof JournalSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lab/': {
+      id: '/lab/'
+      path: '/lab'
+      fullPath: '/lab/'
+      preLoaderRoute: typeof LabIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lab/$slug': {
+      id: '/lab/$slug'
+      path: '/lab/$slug'
+      fullPath: '/lab/$slug'
+      preLoaderRoute: typeof LabSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/projects/': {
+      id: '/projects/'
+      path: '/projects'
+      fullPath: '/projects/'
+      preLoaderRoute: typeof ProjectsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/projects/$slug': {
+      id: '/projects/$slug'
+      path: '/projects/$slug'
+      fullPath: '/projects/$slug'
+      preLoaderRoute: typeof ProjectsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/': {
+      id: '/services/'
+      path: '/services'
+      fullPath: '/services/'
+      preLoaderRoute: typeof ServicesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/$slug': {
+      id: '/services/$slug'
+      path: '/services/$slug'
+      fullPath: '/services/$slug'
+      preLoaderRoute: typeof ServicesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/work/': {
+      id: '/work/'
+      path: '/work'
+      fullPath: '/work/'
+      preLoaderRoute: typeof WorkIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/work/$slug': {
+      id: '/work/$slug'
+      path: '/work/$slug'
+      fullPath: '/work/$slug'
+      preLoaderRoute: typeof WorkSlugRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_authenticated/admin/': {
       id: '/_authenticated/admin/'
       path: '/'
       fullPath: '/admin/'
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/api/public/visual-brief': {
-      id: '/api/public/visual-brief'
-      path: '/api/public/visual-brief'
-      fullPath: '/api/public/visual-brief'
-      preLoaderRoute: typeof ApiPublicVisualBriefRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/public/studio-generate': {
-      id: '/api/public/studio-generate'
-      path: '/api/public/studio-generate'
-      fullPath: '/api/public/studio-generate'
-      preLoaderRoute: typeof ApiPublicStudioGenerateRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/documents/$kind': {
-      id: '/api/documents/$kind'
-      path: '/api/documents/$kind'
-      fullPath: '/api/documents/$kind'
-      preLoaderRoute: typeof ApiDocumentsKindRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/portal/profile': {
-      id: '/_authenticated/portal/profile'
-      path: '/profile'
-      fullPath: '/portal/profile'
-      preLoaderRoute: typeof AuthenticatedPortalProfileRouteImport
-      parentRoute: typeof AuthenticatedPortalRoute
-    }
-    '/_authenticated/portal/invoices': {
-      id: '/_authenticated/portal/invoices'
-      path: '/invoices'
-      fullPath: '/portal/invoices'
-      preLoaderRoute: typeof AuthenticatedPortalInvoicesRouteImport
-      parentRoute: typeof AuthenticatedPortalRoute
-    }
-    '/_authenticated/portal/deliverables': {
-      id: '/_authenticated/portal/deliverables'
-      path: '/deliverables'
-      fullPath: '/portal/deliverables'
-      preLoaderRoute: typeof AuthenticatedPortalDeliverablesRouteImport
-      parentRoute: typeof AuthenticatedPortalRoute
-    }
-    '/_authenticated/admin/work': {
-      id: '/_authenticated/admin/work'
-      path: '/work'
-      fullPath: '/admin/work'
-      preLoaderRoute: typeof AuthenticatedAdminWorkRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/_authenticated/admin/team': {
-      id: '/_authenticated/admin/team'
-      path: '/team'
-      fullPath: '/admin/team'
-      preLoaderRoute: typeof AuthenticatedAdminTeamRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/_authenticated/admin/portfolio': {
-      id: '/_authenticated/admin/portfolio'
-      path: '/portfolio'
-      fullPath: '/admin/portfolio'
-      preLoaderRoute: typeof AuthenticatedAdminPortfolioRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/_authenticated/admin/pipeline': {
-      id: '/_authenticated/admin/pipeline'
-      path: '/pipeline'
-      fullPath: '/admin/pipeline'
-      preLoaderRoute: typeof AuthenticatedAdminPipelineRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/_authenticated/admin/invoices': {
-      id: '/_authenticated/admin/invoices'
-      path: '/invoices'
-      fullPath: '/admin/invoices'
-      preLoaderRoute: typeof AuthenticatedAdminInvoicesRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/_authenticated/admin/inbox': {
-      id: '/_authenticated/admin/inbox'
-      path: '/inbox'
-      fullPath: '/admin/inbox'
-      preLoaderRoute: typeof AuthenticatedAdminInboxRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/_authenticated/admin/homepage': {
-      id: '/_authenticated/admin/homepage'
-      path: '/homepage'
-      fullPath: '/admin/homepage'
-      preLoaderRoute: typeof AuthenticatedAdminHomepageRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
     '/_authenticated/admin/communications': {
@@ -1090,19 +1092,117 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminCommunicationsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/homepage': {
+      id: '/_authenticated/admin/homepage'
+      path: '/homepage'
+      fullPath: '/admin/homepage'
+      preLoaderRoute: typeof AuthenticatedAdminHomepageRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/inbox': {
+      id: '/_authenticated/admin/inbox'
+      path: '/inbox'
+      fullPath: '/admin/inbox'
+      preLoaderRoute: typeof AuthenticatedAdminInboxRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/invoices': {
+      id: '/_authenticated/admin/invoices'
+      path: '/invoices'
+      fullPath: '/admin/invoices'
+      preLoaderRoute: typeof AuthenticatedAdminInvoicesRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/pipeline': {
+      id: '/_authenticated/admin/pipeline'
+      path: '/pipeline'
+      fullPath: '/admin/pipeline'
+      preLoaderRoute: typeof AuthenticatedAdminPipelineRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/portfolio': {
+      id: '/_authenticated/admin/portfolio'
+      path: '/portfolio'
+      fullPath: '/admin/portfolio'
+      preLoaderRoute: typeof AuthenticatedAdminPortfolioRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/team': {
+      id: '/_authenticated/admin/team'
+      path: '/team'
+      fullPath: '/admin/team'
+      preLoaderRoute: typeof AuthenticatedAdminTeamRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/work': {
+      id: '/_authenticated/admin/work'
+      path: '/work'
+      fullPath: '/admin/work'
+      preLoaderRoute: typeof AuthenticatedAdminWorkRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/portal/': {
+      id: '/_authenticated/portal/'
+      path: '/'
+      fullPath: '/portal/'
+      preLoaderRoute: typeof AuthenticatedPortalIndexRouteImport
+      parentRoute: typeof AuthenticatedPortalRoute
+    }
+    '/_authenticated/portal/deliverables': {
+      id: '/_authenticated/portal/deliverables'
+      path: '/deliverables'
+      fullPath: '/portal/deliverables'
+      preLoaderRoute: typeof AuthenticatedPortalDeliverablesRouteImport
+      parentRoute: typeof AuthenticatedPortalRoute
+    }
+    '/_authenticated/portal/invoices': {
+      id: '/_authenticated/portal/invoices'
+      path: '/invoices'
+      fullPath: '/portal/invoices'
+      preLoaderRoute: typeof AuthenticatedPortalInvoicesRouteImport
+      parentRoute: typeof AuthenticatedPortalRoute
+    }
+    '/_authenticated/portal/profile': {
+      id: '/_authenticated/portal/profile'
+      path: '/profile'
+      fullPath: '/portal/profile'
+      preLoaderRoute: typeof AuthenticatedPortalProfileRouteImport
+      parentRoute: typeof AuthenticatedPortalRoute
+    }
+    '/api/documents/$kind': {
+      id: '/api/documents/$kind'
+      path: '/api/documents/$kind'
+      fullPath: '/api/documents/$kind'
+      preLoaderRoute: typeof ApiDocumentsKindRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/studio-generate': {
+      id: '/api/public/studio-generate'
+      path: '/api/public/studio-generate'
+      fullPath: '/api/public/studio-generate'
+      preLoaderRoute: typeof ApiPublicStudioGenerateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/visual-brief': {
+      id: '/api/public/visual-brief'
+      path: '/api/public/visual-brief'
+      fullPath: '/api/public/visual-brief'
+      preLoaderRoute: typeof ApiPublicVisualBriefRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/admin/collections/$collection': {
+      id: '/_authenticated/admin/collections/$collection'
+      path: '/collections/$collection'
+      fullPath: '/admin/collections/$collection'
+      preLoaderRoute: typeof AuthenticatedAdminCollectionsCollectionRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/design-studio/': {
       id: '/_authenticated/admin/design-studio/'
       path: '/design-studio'
       fullPath: '/admin/design-studio/'
       preLoaderRoute: typeof AuthenticatedAdminDesignStudioIndexRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/lovable/email/transactional/preview': {
-      id: '/lovable/email/transactional/preview'
-      path: '/lovable/email/transactional/preview'
-      fullPath: '/lovable/email/transactional/preview'
-      preLoaderRoute: typeof LovableEmailTransactionalPreviewRouteImport
-      parentRoute: typeof rootRouteImport
     }
     '/_authenticated/admin/design-studio/$id': {
       id: '/_authenticated/admin/design-studio/$id'
@@ -1111,12 +1211,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminDesignStudioIdRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
-    '/_authenticated/admin/collections/$collection': {
-      id: '/_authenticated/admin/collections/$collection'
-      path: '/collections/$collection'
-      fullPath: '/admin/collections/$collection'
-      preLoaderRoute: typeof AuthenticatedAdminCollectionsCollectionRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
+    '/lovable/email/transactional/preview': {
+      id: '/lovable/email/transactional/preview'
+      path: '/lovable/email/transactional/preview'
+      fullPath: '/lovable/email/transactional/preview'
+      preLoaderRoute: typeof LovableEmailTransactionalPreviewRouteImport
+      parentRoute: typeof rootRouteImport
     }
   }
 }
@@ -1193,6 +1293,7 @@ const rootRouteChildren: RootRouteChildren = {
   BookRoute: BookRoute,
   CapabilitiesRoute: CapabilitiesRoute,
   CareersRoute: CareersRoute,
+  CollaborateRoute: CollaborateRoute,
   ContactRoute: ContactRoute,
   DesignSystemRoute: DesignSystemRoute,
   FaqsRoute: FaqsRoute,
@@ -1211,12 +1312,16 @@ const rootRouteChildren: RootRouteChildren = {
   AboutFounderRoute: AboutFounderRoute,
   ArticlesSlugRoute: ArticlesSlugRoute,
   EcosystemSlugRoute: EcosystemSlugRoute,
+  JournalSlugRoute: JournalSlugRoute,
+  LabSlugRoute: LabSlugRoute,
   ProjectsSlugRoute: ProjectsSlugRoute,
   ServicesSlugRoute: ServicesSlugRoute,
   WorkSlugRoute: WorkSlugRoute,
   AboutIndexRoute: AboutIndexRoute,
   ArticlesIndexRoute: ArticlesIndexRoute,
   EcosystemIndexRoute: EcosystemIndexRoute,
+  JournalIndexRoute: JournalIndexRoute,
+  LabIndexRoute: LabIndexRoute,
   ProjectsIndexRoute: ProjectsIndexRoute,
   ServicesIndexRoute: ServicesIndexRoute,
   WorkIndexRoute: WorkIndexRoute,

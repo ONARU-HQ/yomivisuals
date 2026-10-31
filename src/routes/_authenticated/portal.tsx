@@ -1,9 +1,9 @@
-import { createFileRoute, Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
+import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
-import { Container } from "@/components/site/ui";
+import { AppShell } from "@/components/btf/AppShell";
 
 export const Route = createFileRoute("/_authenticated/portal")({
   head: () => ({
@@ -27,7 +27,6 @@ function PortalLayout() {
   const { user, isStaff } = useAuth();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const pathname = useRouterState({ select: (r) => r.location.pathname });
 
   // Attach any guest bookings placed with this email to the account.
   useEffect(() => {
@@ -48,46 +47,14 @@ function PortalLayout() {
   }
 
   return (
-    <Container className="pt-32 pb-24 md:pt-40">
-      <div className="flex flex-wrap items-end justify-between gap-6">
-        <div>
-          <p className="text-eyebrow">Client portal</p>
-          <h1 className="text-display mt-3 text-[clamp(2rem,5vw,3rem)]">
-            {user?.user_metadata?.["full_name"] ?? user?.email?.split("@")[0] ?? "Welcome"}
-          </h1>
-        </div>
-        <div className="flex items-center gap-4">
-          {isStaff ? (
-            <Link to="/admin" className="text-[13px] link-underline">
-              Studio CMS
-            </Link>
-          ) : null}
-          <button onClick={signOut} className="text-[13px] text-muted-foreground hover:text-foreground">
-            Sign out
-          </button>
-        </div>
-      </div>
-
-      <nav className="mt-10 flex gap-1 overflow-x-auto border-b border-border">
-        {tabs.map((t) => {
-          const active = t.exact ? pathname === t.to : pathname.startsWith(t.to);
-          return (
-            <Link
-              key={t.to}
-              to={t.to}
-              className={`shrink-0 border-b-2 px-4 py-3 text-[13px] transition-colors ${
-                active ? "border-foreground text-foreground" : "border-transparent text-subtle hover:text-foreground"
-              }`}
-            >
-              {t.label}
-            </Link>
-          );
-        })}
-      </nav>
-
-      <div className="mt-10">
-        <Outlet />
-      </div>
-    </Container>
+    <AppShell
+      area="Client portal"
+      title={user?.user_metadata?.["full_name"] ?? user?.email?.split("@")[0] ?? "Welcome"}
+      items={tabs}
+      switchTo={isStaff ? { to: "/admin", label: "Studio CMS" } : undefined}
+      onSignOut={signOut}
+    >
+      <Outlet />
+    </AppShell>
   );
 }

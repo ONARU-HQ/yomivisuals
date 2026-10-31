@@ -8,9 +8,9 @@ export const Route = createFileRoute("/privacy")({
       { name: "description", content: "How Yomi Visuals collects, uses and protects the information you share through this website." },
       { property: "og:title", content: "Privacy Policy — Yomi Visuals" },
       { property: "og:description", content: "Our approach to data, enquiries and marketing consent." },
-      { property: "og:url", content: "https://yomivisuals.lovable.app/privacy" },
+      { property: "og:url", content: "https://yomivisuals.com/privacy" },
     ],
-    links: [{ rel: "canonical", href: "https://yomivisuals.lovable.app/privacy" }],
+    links: [{ rel: "canonical", href: "https://yomivisuals.com/privacy" }],
   }),
   component: () => (
     <>
