@@ -32,3 +32,7 @@ Each act is a tall section with a sticky stage (`.film-track` + `.film-stage` in
 1. Change the Act I headline and see it update.
 2. Swap one `PICKS.gallery` id for another photo.
 3. Add a fifth layer ("Texture") to `LayerLab.tsx`: one entry in `LAYERS`, one overlay div, one CSS rule.
+
+
+## Update: Mondragon-style redesign
+The scroll-film, GSAP and 3D gallery were removed. The site now follows a light editorial system: `#f4f4f4` page, white cards, Space Mono capitals for headlines and Inter for body copy. The home page is built from sections in `src/components/mx/Home.tsx` (hero ribbon, about, sets, featured work, numbers, four layers, journal, start a project). Inner pages inherit the same tokens through the `--film-*` variables in `src/styles.css`.

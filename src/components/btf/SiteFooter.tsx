@@ -6,40 +6,33 @@ export function SiteFooter() {
   const pathname = useRouterState({ select: (r) => r.location.pathname });
   if (isAppPath(pathname)) return null;
   return (
-    <footer className="border-t border-white/10 bg-[var(--film-ink)] text-[var(--film-paper)]">
-      <div className="film-pad mx-auto grid max-w-[1600px] gap-12 py-16 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+    <footer className="bg-[#1a1a1a] text-white">
+      <div className="mx-wrap mx-auto grid max-w-[1600px] gap-14 pb-10 pt-20 md:grid-cols-[1.4fr_1fr]">
         <div>
-          <p className="font-serif text-3xl italic">Yomi Visuals</p>
-          <p className="mt-4 max-w-xs text-[14px] leading-relaxed text-[var(--film-muted)]">Art. Code. Imagination.</p>
-          <p className="mt-6 text-[12px] text-[var(--film-muted)]">The creative identity of Yomi Onalaru.</p>
+          <p className="mx-mono text-[12px] text-white/60">Creative studio · Lagos / Accra</p>
+          <p className="mx-h1 mt-4 text-[clamp(2.6rem,7vw,6rem)]">Yomi Visuals</p>
+          <p className="mx-mono mt-6 text-[13px] text-white/60">Art. Code. Imagination.</p>
         </div>
-        <nav aria-label="Site">
-          <p className="film-eyebrow">Explore</p>
-          <ul className="mt-4 space-y-2.5 text-[14px]">
-            {NAV.map((n) => (
-              <li key={n.to}><Link to={n.to} className="hover:text-[var(--film-gold)]">{n.label}</Link></li>
-            ))}
-          </ul>
-        </nav>
-        <nav aria-label="Connect">
-          <p className="film-eyebrow">Connect</p>
-          <ul className="mt-4 space-y-2.5 text-[14px]">
-            <li><Link to="/contact" className="hover:text-[var(--film-gold)]">Contact</Link></li>
-            <li><a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" className="hover:text-[var(--film-gold)]">Instagram<span className="sr-only"> (opens in a new tab)</span></a></li>
-            <li><a href={STUDIO_URL} target="_blank" rel="noopener noreferrer" className="hover:text-[var(--film-gold)]">YV Studios Africa ↗<span className="sr-only"> (opens in a new tab)</span></a></li>
-          </ul>
-        </nav>
-        <nav aria-label="Account and legal">
-          <p className="film-eyebrow">Account</p>
-          <ul className="mt-4 space-y-2.5 text-[14px]">
-            <li><Link to="/portal" className="hover:text-[var(--film-gold)]">Client portal</Link></li>
-            <li><Link to="/privacy" className="hover:text-[var(--film-gold)]">Privacy</Link></li>
-          </ul>
-        </nav>
+        <div className="grid grid-cols-2 gap-10 md:justify-items-end">
+          <nav aria-label="Site">
+            <ul className="mx-mono space-y-2 text-[clamp(1.1rem,2vw,1.6rem)]">
+              {NAV.map((n) => (<li key={n.to}><Link to={n.to} className="hover:opacity-60">{n.label}</Link></li>))}
+            </ul>
+          </nav>
+          <nav aria-label="Connect">
+            <ul className="mx-mono space-y-2 text-[15px]">
+              <li><Link to="/contact" className="hover:opacity-60">Contact</Link></li>
+              <li><a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" className="hover:opacity-60">Instagram ↗<span className="sr-only"> (opens in a new tab)</span></a></li>
+              <li><a href={STUDIO_URL} target="_blank" rel="noopener noreferrer" className="hover:opacity-60">YV Studios ↗<span className="sr-only"> (opens in a new tab)</span></a></li>
+              <li><Link to="/portal" className="hover:opacity-60">Client portal</Link></li>
+              <li><Link to="/privacy" className="hover:opacity-60">Privacy</Link></li>
+            </ul>
+          </nav>
+        </div>
       </div>
-      <div className="film-pad mx-auto flex max-w-[1600px] flex-wrap justify-between gap-3 border-t border-white/10 py-6 text-[12px] text-[var(--film-muted)]">
+      <div className="mx-wrap mx-auto flex max-w-[1600px] flex-wrap justify-between gap-3 border-t border-white/15 py-6 text-[12px] text-white/55">
         <span>© {new Date().getFullYear()} Yomi Visuals. All photography © Yomi Visuals.</span>
-        <span>Innovation · Excellence · Integrity · Creativity · Impact</span>
+        <span className="mx-mono">Innovation · Excellence · Integrity · Creativity · Impact</span>
       </div>
     </footer>
   );

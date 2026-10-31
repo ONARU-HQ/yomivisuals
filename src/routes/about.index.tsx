@@ -25,7 +25,7 @@ function About() {
         Five chapters. Facts only: nothing here is dressed up.
       </PageHead>
       {CHAPTERS.map((c, i) => (
-        <section key={c.n} className="film-pad border-t border-white/10 py-16 md:py-28" aria-labelledby={`ch-${c.n}`}>
+        <section key={c.n} className="film-pad border-t border-black/10 py-16 md:py-28" aria-labelledby={`ch-${c.n}`}>
           <div className={`mx-auto grid max-w-[1400px] items-center gap-10 md:grid-cols-2 md:gap-20 ${i % 2 ? "md:[&>*:first-child]:order-2" : ""}`}>
             <Photo id={c.img} sizes="(min-width:768px) 40vw, 90vw" className="mx-auto w-full max-w-[460px]" />
             <div>
@@ -36,8 +36,8 @@ function About() {
           </div>
         </section>
       ))}
-      <section className="film-pad border-t border-white/10 py-20 text-center">
-        <p className="mx-auto max-w-xl font-serif text-3xl italic">Photography and studio bookings are handled at YV Studios Africa.</p>
+      <section className="film-pad border-t border-black/10 py-20 text-center">
+        <p className="mx-auto max-w-xl mx-mono text-3xl">Photography and studio bookings are handled at YV Studios Africa.</p>
         <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
           <a href={STUDIO_URL} target="_blank" rel="noopener noreferrer" className="film-btn film-btn--solid">YV Studios Africa ↗</a>
           <Link to="/collaborate" className="film-btn film-btn--line">Collaborate</Link>

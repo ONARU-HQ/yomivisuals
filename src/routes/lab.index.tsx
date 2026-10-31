@@ -19,12 +19,12 @@ function Lab() {
         </PageHead></div>
       </div>
       <section className="film-pad mx-auto max-w-[1500px] pb-24" aria-label="Experiments">
-        <ul className="grid gap-px bg-white/10 md:grid-cols-2">
+        <ul className="grid gap-px bg-black/10 md:grid-cols-2">
           {EXPERIMENTS.map((e) => (
             <li key={e.slug} className="bg-[var(--film-ink)]">
               <Link to="/lab/$slug" params={{ slug: e.slug }} className="group block p-8 transition-colors hover:bg-[var(--film-ink-2)] md:p-12">
                 <p className="text-index">EXPERIMENT {e.n} · {e.status.toUpperCase()}</p>
-                <h2 className="font-serif text-[clamp(2rem,4vw,3.4rem)] italic group-hover:text-[var(--film-gold)]">{e.title}</h2>
+                <h2 className="mx-mono text-[clamp(2rem,4vw,3.4rem)] group-hover:opacity-60">{e.title}</h2>
                 <p className="mt-3 max-w-md text-[15px] text-[var(--film-muted)]">{e.concept}</p>
                 <p className="mt-6 text-[11.5px] uppercase tracking-[0.18em] text-[var(--film-paper)]/60">{e.tech}</p>
               </Link>

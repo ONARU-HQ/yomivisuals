@@ -43,12 +43,12 @@ export function SiteNav() {
       <a href="#main" className="skip-link">Skip to content</a>
       <header
         className={`fixed inset-x-0 top-0 z-50 transition-colors duration-[var(--m-standard)] ${
-          solid || open ? "bg-[#090909]/85 backdrop-blur-md" : "bg-transparent"
+          solid || open || pathname !== "/" ? "bg-[#f4f4f4]/90 backdrop-blur-md" : "bg-transparent"
         }`}
       >
         <div className="film-pad mx-auto flex h-16 max-w-[1600px] items-center justify-between">
-          <Link to="/" className="font-serif text-[22px] italic tracking-tight text-[var(--film-paper)]" aria-label="Yomi Visuals, home">
-            Yomi Visuals
+          <Link to="/" className="mx-mono text-[22px] font-bold leading-none tracking-tighter text-black" aria-label="Yomi Visuals, home">
+            YV
           </Link>
 
           <nav aria-label="Primary" className="hidden items-center gap-9 md:flex">
@@ -56,8 +56,8 @@ export function SiteNav() {
               <Link
                 key={n.to}
                 to={n.to}
-                className="text-[11.5px] uppercase tracking-[0.2em] text-[var(--film-paper)]/80 transition-colors hover:text-[var(--film-gold)]"
-                activeProps={{ className: "!text-[var(--film-gold)]", "aria-current": "page" }}
+                className="mx-mono text-[15px] tracking-tight text-black transition-opacity hover:opacity-60"
+                activeProps={{ className: "underline underline-offset-[6px]", "aria-current": "page" }}
               >
                 {n.label}
               </Link>
@@ -66,7 +66,7 @@ export function SiteNav() {
               href={STUDIO_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="border border-[var(--film-paper)]/35 px-4 py-2 text-[11px] uppercase tracking-[0.2em] text-[var(--film-paper)] transition-colors hover:border-[var(--film-gold)] hover:text-[var(--film-gold)]"
+              className="mx-mono rounded-[6px] bg-white px-4 py-2 text-[13px] font-bold text-black transition-colors hover:bg-black hover:text-white"
             >
               YV Studios ↗<span className="sr-only"> (opens in a new tab)</span>
             </a>
@@ -90,14 +90,14 @@ export function SiteNav() {
       </header>
 
       {open ? (
-        <div id="mobile-menu" role="dialog" aria-modal="true" aria-label="Menu" className="fixed inset-0 z-40 bg-[#090909] pt-20 md:hidden">
+        <div id="mobile-menu" role="dialog" aria-modal="true" aria-label="Menu" className="fixed inset-0 z-40 bg-[#f4f4f4] pt-20 md:hidden">
           <nav aria-label="Mobile" className="film-pad flex h-full flex-col gap-1 pb-10">
             {NAV.map((n, i) => (
               <Link
                 key={n.to}
                 to={n.to}
                 ref={i === 0 ? firstLink : undefined}
-                className="film-title border-b border-white/10 py-5 text-[clamp(2rem,9vw,3rem)] text-[var(--film-paper)]"
+                className="film-title border-b border-black/10 py-5 text-[clamp(2rem,9vw,3rem)] text-[var(--film-paper)]"
               >
                 {n.label}
               </Link>
@@ -105,7 +105,7 @@ export function SiteNav() {
             <a href={STUDIO_URL} target="_blank" rel="noopener noreferrer" className="film-btn film-btn--solid mt-8">
               Explore YV Studios ↗
             </a>
-            <Link to="/portal" className="mt-auto pt-8 text-[12px] uppercase tracking-[0.2em] text-[var(--film-muted)]">
+            <Link to="/portal" className="mt-auto pt-8 mx-mono text-[12px] text-black/60">
               Client portal
             </Link>
           </nav>

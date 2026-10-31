@@ -1,12 +1,11 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { PICKS, getAsset } from "@/lib/film/portfolio";
 import { Photo } from "./Photo";
-import { useFilmScroll } from "@/hooks/use-film-scroll";
 
 /** Sampled from the photograph itself (studio-work-045), not invented. */
 const PALETTE = ["#350304", "#5a0405", "#840e09", "#5a302a", "#2d2525", "#0e0202"];
 
-const LAYERS = [
+export const LAYERS = [
   {
     key: "composition",
     label: "Composition",
@@ -33,28 +32,9 @@ type Key = (typeof LAYERS)[number]["key"];
 
 /** Act II — Scene 02: Beyond the Photograph. Isolated feature (also Lab experiment 001). */
 export function LayerLab({ standalone = false }: { standalone?: boolean }) {
-  const track = useRef<HTMLElement>(null);
   const [active, setActive] = useState<Key>("composition");
   const a = getAsset(PICKS.layers);
   const current = LAYERS.find((l) => l.key === active)!;
-
-  useFilmScroll((gsap) => {
-    if (standalone) return;
-    const tl = gsap.timeline({
-      defaults: { ease: "none" },
-      scrollTrigger: { trigger: track.current, start: "top top", end: "bottom bottom", scrub: 0.6, invalidateOnRefresh: true },
-    });
-    // Separate into spatial layers → camera pushes through → recombine.
-    tl.to(".ly-light", { x: -46, y: -30, duration: 0.3 }, 0)
-      .to(".ly-colour", { x: 30, y: 18, duration: 0.3 }, 0)
-      .to(".ly-atmos", { x: 58, y: 44, duration: 0.3 }, 0)
-      .to(".ly-grid", { x: -22, y: 30, duration: 0.3 }, 0)
-      .to(".ly-edge", { opacity: 1, duration: 0.2 }, 0.05)
-      .to(".ly-stack", { scale: 1.1, duration: 0.4 }, 0.3)
-      .to([".ly-light", ".ly-colour", ".ly-atmos", ".ly-grid"], { x: 0, y: 0, duration: 0.25 }, 0.72)
-      .to(".ly-edge", { opacity: 0, duration: 0.2 }, 0.78)
-      .to(".ly-stack", { scale: 1, duration: 0.25 }, 0.76);
-  });
 
   const body = (
     <div className="layerlab mx-auto grid w-full max-w-[1500px] items-center gap-8 md:grid-cols-[minmax(0,1fr)_minmax(320px,440px)] md:gap-14">
@@ -64,7 +44,7 @@ export function LayerLab({ standalone = false }: { standalone?: boolean }) {
           {/* Composition: rule of thirds + focal point */}
           <div className={`ly ly-grid ${active === "composition" ? "is-on" : ""}`} aria-hidden>
             <svg viewBox="0 0 3 4" preserveAspectRatio="none" className="h-full w-full">
-              <g stroke="#C6A56A" strokeWidth="0.012" fill="none" vectorEffect="non-scaling-stroke">
+              <g stroke="#fff" strokeWidth="0.012" fill="none" vectorEffect="non-scaling-stroke">
                 <line x1="1" y1="0" x2="1" y2="4" /><line x1="2" y1="0" x2="2" y2="4" />
                 <line x1="0" y1="1.33" x2="3" y2="1.33" /><line x1="0" y1="2.66" x2="3" y2="2.66" />
               </g>
@@ -83,8 +63,8 @@ export function LayerLab({ standalone = false }: { standalone?: boolean }) {
       </div>
 
       <div>
-        <p className="film-eyebrow film-eyebrow--gold">Act II · The vision</p>
-        <h2 className="film-title mt-4 text-[clamp(2rem,4.6vw,4.2rem)]">The image is only the beginning.</h2>
+        <p className="film-eyebrow">[ Lab 001 ]</p>
+        <h2 className="film-title mt-4 text-[clamp(2rem,4.6vw,4.2rem)]">Beyond the photograph.</h2>
         <div role="tablist" aria-label="Photograph layers" className="mt-8 grid grid-cols-2 gap-2">
           {LAYERS.map((l) => (
             <button
@@ -101,7 +81,7 @@ export function LayerLab({ standalone = false }: { standalone?: boolean }) {
                 if (e.key === "ArrowLeft" || e.key === "ArrowUp") { e.preventDefault(); setActive(LAYERS[(i + 3) % 4]!.key); (document.getElementById(`tab-${LAYERS[(i + 3) % 4]!.key}`))?.focus(); }
               }}
               className={`min-h-[48px] border px-4 text-[11.5px] uppercase tracking-[0.2em] transition-colors ${
-                active === l.key ? "border-[var(--film-gold)] bg-[var(--film-gold)] text-[var(--film-ink)]" : "border-white/20 text-[var(--film-paper)] hover:border-[var(--film-gold)]"
+                active === l.key ? "border-[var(--film-gold)] bg-[var(--film-gold)] text-[var(--film-ink)]" : "border-black/25 text-[var(--film-paper)] hover:border-[var(--film-gold)]"
               }`}
             >
               {l.label}
@@ -113,7 +93,7 @@ export function LayerLab({ standalone = false }: { standalone?: boolean }) {
           {active === "colour" ? (
             <ul className="mt-5 flex gap-2" aria-label="Colours sampled from the photograph">
               {PALETTE.map((c) => (
-                <li key={c} className="h-9 w-9 border border-white/20" style={{ background: c }} title={c}><span className="sr-only">{c}</span></li>
+                <li key={c} className="h-9 w-9 border border-black/25" style={{ background: c }} title={c}><span className="sr-only">{c}</span></li>
               ))}
             </ul>
           ) : null}
@@ -122,10 +102,5 @@ export function LayerLab({ standalone = false }: { standalone?: boolean }) {
     </div>
   );
 
-  if (standalone) return <div className="film-pad py-10">{body}</div>;
-  return (
-    <section ref={track} className="film-track film-track--layers bg-[var(--film-ink)] text-[var(--film-paper)]" aria-label="Beyond the photograph">
-      <div className="film-stage flex items-center film-pad py-20 md:py-0">{body}</div>
-    </section>
-  );
+  return <div className="film-pad py-10">{body}</div>;
 }

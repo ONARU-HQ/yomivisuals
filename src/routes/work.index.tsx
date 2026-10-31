@@ -25,11 +25,11 @@ function Archive() {
       <PageHead eyebrow="The archive" title="Work">
         Every frame sits in its original Pixieset set. Filter by set, open a frame to see the whole image, or step into a set for the full sequence.
       </PageHead>
-      <div className="film-pad sticky top-16 z-20 border-y border-white/10 bg-[#090909]/90 py-3 backdrop-blur">
+      <div className="film-pad sticky top-16 z-20 border-y border-black/10 bg-[#f4f4f4]/90 py-3 backdrop-blur">
         <div role="group" aria-label="Filter by set" className="mx-auto flex max-w-[1500px] gap-2 overflow-x-auto">
           {[{ slug: "all", name: "All", count: ASSETS.length }, ...SETS].map((s) => (
             <button key={s.slug} aria-pressed={set === s.slug} onClick={() => { setSet(s.slug); setShown(PAGE); }}
-              className={`min-h-[44px] shrink-0 border px-4 text-[11.5px] uppercase tracking-[0.16em] transition-colors ${set === s.slug ? "border-[var(--film-gold)] bg-[var(--film-gold)] text-[var(--film-ink)]" : "border-white/20 hover:border-[var(--film-gold)]"}`}>
+              className={`min-h-[44px] shrink-0 border px-4 text-[11.5px] uppercase tracking-[0.16em] transition-colors ${set === s.slug ? "border-[var(--film-gold)] bg-[var(--film-gold)] text-[var(--film-ink)]" : "border-black/20 hover:border-[var(--film-gold)]"}`}>
               {s.name} <span className="opacity-60">{s.count}</span>
             </button>
           ))}
@@ -37,7 +37,7 @@ function Archive() {
       </div>
 
       <div className="film-pad mx-auto max-w-[1600px] py-10">
-        <p className="mb-6 text-[12px] text-[var(--film-muted)]" aria-live="polite">Showing {visible.length} of {list.length} frames{set !== "all" ? <> · <Link to="/work/$slug" params={{ slug: set }} className="underline hover:text-[var(--film-gold)]">Open the full set</Link></> : null}</p>
+        <p className="mb-6 text-[12px] text-[var(--film-muted)]" aria-live="polite">Showing {visible.length} of {list.length} frames{set !== "all" ? <> · <Link to="/work/$slug" params={{ slug: set }} className="underline hover:opacity-60">Open the full set</Link></> : null}</p>
         <ul className="columns-2 gap-3 md:columns-3 md:gap-4 xl:columns-4">
           {visible.map((a, i) => (
             <li key={a.id} className="mb-3 break-inside-avoid md:mb-4">
