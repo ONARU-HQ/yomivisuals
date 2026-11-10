@@ -24,3 +24,22 @@ const navLinks=[...document.querySelectorAll('.header nav a')];
 const navObserver=new IntersectionObserver(entries=>{for(const e of entries){if(e.isIntersecting){navLinks.forEach(a=>{if(a.hash==='#'+e.target.id)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current')})}}},{rootMargin:'-20% 0px -65% 0px',threshold:0});
 for(const id of ['about','work','contact']){const el=document.getElementById(id);if(el)navObserver.observe(el)}
 if(location.hash){document.getElementById(decodeURIComponent(location.hash.substring(1)))?.classList.add('visible')}
+
+
+// Prepare a real business enquiry in WhatsApp. No form data is stored or transmitted by this site.
+const inquiryForm=document.getElementById('inquiry-form');
+if(inquiryForm){
+  inquiryForm.addEventListener('submit',event=>{
+    event.preventDefault();
+    if(!inquiryForm.reportValidity())return;
+    const name=document.getElementById('inquiry-name').value.trim();
+    const email=document.getElementById('inquiry-email').value.trim();
+    const service=document.getElementById('inquiry-service').value.trim();
+    const message=document.getElementById('inquiry-message').value.trim();
+    if(!name||!email||!message){inquiryForm.reportValidity();return}
+    const copy=['Hello Yomi Visuals, I would like to enquire about a project.','','Name: '+name,'Email: '+email,'Service: '+service,'Project details: '+message].join('\n');
+    const url='https://wa.me/2347040972746?text='+encodeURIComponent(copy);
+    // Synchronous user-initiated navigation avoids browser popup blockers.
+    window.location.assign(url);
+  });
+}
