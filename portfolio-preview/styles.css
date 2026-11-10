@@ -79,3 +79,36 @@ dialog[open] #large{animation:portfolio-image-in .42s cubic-bezier(.16,1,.3,1) b
 @media(max-width:900px){.services-head{display:block}.stories-grid{grid-template-columns:1fr 1fr}.service-list{gap:0 26px}}
 @media(max-width:760px){.services,.stories{padding:90px 22px}.service-list,.stories-grid{grid-template-columns:1fr}.stories-grid img{height:420px}.footer-links{order:2;flex-basis:100%}.header nav{max-width:100%;gap:15px}}
 @media(prefers-reduced-motion:reduce){.stories-grid img{transition:none}}
+
+/* 2026-11 portrait-safe art direction: never crop the original photograph. */
+.hero-image{isolation:isolate;background:radial-gradient(circle at 55% 40%,#37322d,#111 74%)}
+.hero-image>img{position:relative;z-index:1;object-fit:contain;object-position:center center;filter:saturate(.88) brightness(.86);animation:hero-soft-entry 1.2s ease-out both}
+.hero-gradient{z-index:2;background:linear-gradient(0deg,#0a0a0ae8 0%,#0a0a0a48 40%,transparent 75%)}
+.hero-copy{z-index:3}
+@keyframes hero-soft-entry{from{opacity:.35;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.photo figure{background:linear-gradient(145deg,#282723,#141414);display:flex;align-items:center;justify-content:center}
+.photo:nth-child(4n+2) figure,.photo:nth-child(4n+3) figure{background:linear-gradient(45deg,#272321,#161616)}
+.photo img{display:block;width:100%;height:100%;object-fit:contain;object-position:center center;filter:saturate(.88);transform:none!important;transition:filter .5s ease,opacity .6s ease}
+.photo:hover img,.photo:focus-visible img{filter:saturate(1.04) contrast(1.02)}
+.photo{transition:transform .5s cubic-bezier(.16,1,.3,1),box-shadow .5s ease}
+.photo:hover,.photo:focus-visible{transform:translateY(-5px)}
+.photo figure{transition:box-shadow .4s ease}
+.photo:hover figure{box-shadow:0 14px 40px #0007}
+.stories-grid img{object-fit:contain;object-position:center center;transform:none!important;background:linear-gradient(125deg,#2b2925,#141414)}
+.stories-grid article:hover img{filter:saturate(1.05)}
+dialog #large{object-fit:contain;object-position:center center;max-width:100%;max-height:calc(100dvh - 130px)}
+/* Keep all image motion crop-safe; respect accessibility preferences. */
+@media(prefers-reduced-motion:reduce){.hero-image>img{animation:none}.photo,.photo figure,.photo img,.stories-grid img{transition:none!important;transform:none!important}}
+/* Instagram reconciliation: verified post links, never ephemeral CDN images. */
+.instagram-proof{padding:90px clamp(20px,5vw,90px) 110px;border-top:1px solid #46403a}
+.instagram-proof h2{font-size:clamp(42px,6vw,86px);line-height:1;letter-spacing:-.07em;margin:25px 0}
+.instagram-proof>p{color:#c1bbb3;max-width:660px;line-height:1.65;font-size:17px}
+.instagram-posts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin:42px 0}
+.instagram-posts a{display:block;border:1px solid #514b43;border-radius:8px;padding:28px;min-height:175px;background:#191817;transition:background .3s,transform .3s}
+.instagram-posts a:hover{background:#252321;transform:translateY(-4px)}
+.instagram-posts strong{display:block;font-size:clamp(19px,2vw,27px);line-height:1.2;font-weight:500;margin:15px 0}
+.instagram-posts span{font:10px 'Space Mono',monospace;color:#bcb4a8}
+.instagram-posts small{font:11px 'Space Mono',monospace;color:#e6d9ca}
+.instagram-follow{display:inline-flex;border-bottom:1px solid #d6cbbd;padding:10px 0;font:12px 'Space Mono',monospace}
+@media(max-width:760px){.instagram-proof{padding:75px 22px}.instagram-posts{grid-template-columns:1fr;margin:28px 0}.instagram-posts a{min-height:145px}}
+@media(prefers-reduced-motion:reduce){.instagram-posts a{transition:none}.instagram-posts a:hover{transform:none}}
