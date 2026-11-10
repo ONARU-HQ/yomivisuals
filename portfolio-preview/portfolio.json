@@ -1,0 +1,140 @@
+[
+  {
+    "file": "yv_portraits_01.webp",
+    "category": "portrait",
+    "title": "Portrait Studies 01",
+    "fallback": "portrait-1.jpg"
+  },
+  {
+    "file": "yv_portraits_12.webp",
+    "category": "portrait",
+    "title": "Portrait Studies 02",
+    "fallback": "portrait-1.jpg"
+  },
+  {
+    "file": "yv_portraits_18.webp",
+    "category": "portrait",
+    "title": "Portrait Studies 03",
+    "fallback": "portrait-1.jpg"
+  },
+  {
+    "file": "yv_portraits_20.webp",
+    "category": "portrait",
+    "title": "Portrait Studies 04",
+    "fallback": "portrait-1.jpg"
+  },
+  {
+    "file": "yv_portraits_24.webp",
+    "category": "portrait",
+    "title": "Portrait Studies 05",
+    "fallback": "portrait-1.jpg"
+  },
+  {
+    "file": "yv_portraits_33.webp",
+    "category": "portrait",
+    "title": "Portrait Studies 06",
+    "fallback": "portrait-1.jpg"
+  },
+  {
+    "file": "brands_03.webp",
+    "category": "brand",
+    "title": "Campaign Photography 01",
+    "fallback": "brand-1.jpg"
+  },
+  {
+    "file": "brands_07.webp",
+    "category": "brand",
+    "title": "Campaign Photography 02",
+    "fallback": "brand-1.jpg"
+  },
+  {
+    "file": "brands_14.webp",
+    "category": "brand",
+    "title": "Campaign Photography 03",
+    "fallback": "brand-1.jpg"
+  },
+  {
+    "file": "brands_24.webp",
+    "category": "brand",
+    "title": "Campaign Photography 04",
+    "fallback": "brand-1.jpg"
+  },
+  {
+    "file": "brands_30.webp",
+    "category": "brand",
+    "title": "Campaign Photography 05",
+    "fallback": "brand-1.jpg"
+  },
+  {
+    "file": "brands_35.webp",
+    "category": "brand",
+    "title": "Campaign Photography 06",
+    "fallback": "brand-1.jpg"
+  },
+  {
+    "file": "weddings_06.webp",
+    "category": "wedding",
+    "title": "Wedding & Celebration 01",
+    "fallback": "hero-wedding.jpg"
+  },
+  {
+    "file": "weddings_09.webp",
+    "category": "wedding",
+    "title": "Wedding & Celebration 02",
+    "fallback": "hero-wedding.jpg"
+  },
+  {
+    "file": "weddings_11.webp",
+    "category": "wedding",
+    "title": "Wedding & Celebration 03",
+    "fallback": "hero-wedding.jpg"
+  },
+  {
+    "file": "weddings_26.webp",
+    "category": "wedding",
+    "title": "Wedding & Celebration 04",
+    "fallback": "hero-wedding.jpg"
+  },
+  {
+    "file": "aso-ebi_look_00.webp",
+    "category": "wedding",
+    "title": "Wedding & Celebration 05",
+    "fallback": "hero-wedding.jpg"
+  },
+  {
+    "file": "aso-ebi_look_01.webp",
+    "category": "wedding",
+    "title": "Wedding & Celebration 06",
+    "fallback": "hero-wedding.jpg"
+  },
+  {
+    "file": "aso-ebi_look_03.webp",
+    "category": "wedding",
+    "title": "Wedding & Celebration 07",
+    "fallback": "hero-wedding.jpg"
+  },
+  {
+    "file": "lifestyle_00.webp",
+    "category": "lifestyle",
+    "title": "Lifestyle Photography 01",
+    "fallback": "lifestyle-1.jpg"
+  },
+  {
+    "file": "lifestyle_02.webp",
+    "category": "lifestyle",
+    "title": "Lifestyle Photography 02",
+    "fallback": "lifestyle-1.jpg"
+  },
+  {
+    "file": "studio_work_02.webp",
+    "category": "studio",
+    "title": "Studio Experience 01",
+    "fallback": "about-portrait.jpg"
+  },
+  {
+    "file": "studio_work_05.webp",
+    "category": "studio",
+    "title": "Studio Experience 02",
+    "fallback": "about-portrait.jpg"
+  }
+]
