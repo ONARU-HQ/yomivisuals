@@ -2,139 +2,133 @@
   {
     "file": "yv_portraits_01.webp",
     "category": "portrait",
-    "title": "Portrait Studies",
+    "title": "The Quiet Moment",
     "fallback": "portrait-1.jpg"
   },
   {
     "file": "yv_portraits_12.webp",
     "category": "portrait",
-    "title": "Portrait Studies",
+    "title": "Blue Reverie",
     "fallback": "portrait-1.jpg"
   },
   {
     "file": "yv_portraits_18.webp",
     "category": "portrait",
-    "title": "Portrait Studies",
+    "title": "Pink Halo",
     "fallback": "portrait-1.jpg"
   },
   {
     "file": "yv_portraits_20.webp",
     "category": "portrait",
-    "title": "Portrait Studies",
+    "title": "Evening Elegance",
     "fallback": "portrait-1.jpg"
   },
   {
     "file": "yv_portraits_24.webp",
     "category": "portrait",
-    "title": "Portrait Studies",
-    "fallback": "portrait-1.jpg"
-  },
-  {
-    "file": "yv_portraits_33.webp",
-    "category": "portrait",
-    "title": "Portrait Studies",
+    "title": "A Thoughtful Portrait",
     "fallback": "portrait-1.jpg"
   },
   {
     "file": "brands_03.webp",
     "category": "brand",
-    "title": "Campaign Photography",
+    "title": "The Leather Edit",
     "fallback": "brand-1.jpg"
   },
   {
     "file": "brands_07.webp",
     "category": "brand",
-    "title": "Campaign Photography",
+    "title": "Two-Tone Accessories",
     "fallback": "brand-1.jpg"
   },
   {
     "file": "brands_14.webp",
     "category": "brand",
-    "title": "Campaign Photography",
+    "title": "Fashion Trio",
     "fallback": "brand-1.jpg"
   },
   {
     "file": "brands_24.webp",
     "category": "brand",
-    "title": "Campaign Photography",
+    "title": "Travel in Style",
     "fallback": "brand-1.jpg"
   },
   {
     "file": "brands_30.webp",
     "category": "brand",
-    "title": "Campaign Photography",
+    "title": "Sport and Color",
     "fallback": "brand-1.jpg"
   },
   {
     "file": "brands_35.webp",
     "category": "brand",
-    "title": "Campaign Photography",
+    "title": "The RAVA Collection",
     "fallback": "brand-1.jpg"
   },
   {
     "file": "weddings_06.webp",
     "category": "wedding",
-    "title": "Wedding & Celebration",
+    "title": "Celebration in Burgundy",
     "fallback": "hero-wedding.jpg"
   },
   {
     "file": "weddings_09.webp",
     "category": "wedding",
-    "title": "Wedding & Celebration",
+    "title": "The Bridal Portrait",
     "fallback": "hero-wedding.jpg"
   },
   {
     "file": "weddings_11.webp",
     "category": "wedding",
-    "title": "Wedding & Celebration",
+    "title": "Together",
     "fallback": "hero-wedding.jpg"
   },
   {
     "file": "weddings_26.webp",
     "category": "wedding",
-    "title": "Wedding & Celebration",
+    "title": "An Intimate Moment",
     "fallback": "hero-wedding.jpg"
   },
   {
     "file": "aso-ebi_look_00.webp",
     "category": "wedding",
-    "title": "Wedding & Celebration",
+    "title": "Aso-Ebi in Blue",
     "fallback": "hero-wedding.jpg"
   },
   {
     "file": "aso-ebi_look_01.webp",
     "category": "wedding",
-    "title": "Wedding & Celebration",
+    "title": "Emerald Evening",
     "fallback": "hero-wedding.jpg"
   },
   {
     "file": "aso-ebi_look_03.webp",
     "category": "wedding",
-    "title": "Wedding & Celebration",
+    "title": "Green and Gold",
     "fallback": "hero-wedding.jpg"
   },
   {
     "file": "lifestyle_00.webp",
     "category": "lifestyle",
-    "title": "Lifestyle Photography",
+    "title": "Light and Shadow",
     "fallback": "lifestyle-1.jpg"
   },
   {
     "file": "lifestyle_02.webp",
     "category": "lifestyle",
-    "title": "Lifestyle Photography",
+    "title": "After Dark",
     "fallback": "lifestyle-1.jpg"
   },
   {
     "file": "studio_work_02.webp",
     "category": "studio",
-    "title": "Studio Experience",
+    "title": "Black on Taupe",
     "fallback": "about-portrait.jpg"
   },
   {
     "file": "studio_work_05.webp",
     "category": "studio",
-    "title": "Studio Experience",
+    "title": "The White Edit",
     "fallback": "about-portrait.jpg"
   }
 ]
