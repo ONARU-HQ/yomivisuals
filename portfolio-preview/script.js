@@ -17,4 +17,4 @@ function openViewer(i){active=i;setViewer();viewer.showModal();document.body.sty
 document.querySelectorAll('[data-filter]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-filter]').forEach(x=>{x.classList.remove('selected');x.setAttribute('aria-pressed','false')});b.classList.add('selected');b.setAttribute('aria-pressed','true');render(b.dataset.filter)}));
 const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;let observer;
 function observe(){if(reduced){document.querySelectorAll('.reveal').forEach(el=>el.classList.add('visible'));return;}observer?.disconnect();observer=new IntersectionObserver((entries)=>{for(const e of entries)if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}},{threshold:.09,rootMargin:'0px 0px -35px 0px'});document.querySelectorAll('.reveal:not(.visible)').forEach(el=>observer.observe(el))}
-render();
+loadPhotos();
