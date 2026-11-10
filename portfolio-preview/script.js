@@ -22,8 +22,16 @@ const sectionLinks=[...document.querySelectorAll('a[href^="#"]')];
 for(const link of sectionLinks){link.addEventListener('click',()=>{const id=link.getAttribute('href')?.slice(1);if(id){const section=document.getElementById(id);if(section){section.classList.add('visible')}}});}
 const navLinks=[...document.querySelectorAll('.header nav a')];
 const navObserver=new IntersectionObserver(entries=>{for(const e of entries){if(e.isIntersecting){navLinks.forEach(a=>{if(a.hash==='#'+e.target.id)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current')})}}},{rootMargin:'-20% 0px -65% 0px',threshold:0});
-for(const id of ['about','work','contact']){const el=document.getElementById(id);if(el)navObserver.observe(el)}
+for(const id of ['about','work','services','contact']){const el=document.getElementById(id);if(el)navObserver.observe(el)}
 if(location.hash){document.getElementById(decodeURIComponent(location.hash.substring(1)))?.classList.add('visible')}
+// Story links select the matching gallery filter before scrolling to the work section.
+for(const a of document.querySelectorAll('[data-gallery-filter]')){
+  a.addEventListener('click',()=>{
+    const target=document.querySelector('[data-filter="'+a.dataset.galleryFilter+'"]');
+    if(target)target.click();
+  });
+}
+
 
 
 // Prepare a real business enquiry in WhatsApp. No form data is stored or transmitted by this site.
