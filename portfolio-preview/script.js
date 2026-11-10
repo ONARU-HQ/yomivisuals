@@ -51,3 +51,22 @@ if(inquiryForm){
     window.location.assign(url);
   });
 }
+
+// Instagram embeds load only after visitors explicitly ask to view an original post.
+// This avoids silent third-party tracking requests from embed iframes on page load.
+document.querySelectorAll('[data-instagram-preview]').forEach(button=>{
+  button.addEventListener('click',()=>{
+    const code=button.getAttribute('data-instagram-preview');
+    if(!/^[A-Za-z0-9_-]{8,30}$/.test(code))return;
+    const target=button.closest('[data-instagram-slot]');
+    if(!target || target.querySelector('iframe'))return;
+    const frame=document.createElement('iframe');
+    frame.src='https://www.instagram.com/p/'+encodeURIComponent(code)+'/embed/';
+    frame.title='Original Instagram post preview';
+    frame.loading='lazy';
+    frame.referrerPolicy='strict-origin-when-cross-origin';
+    frame.allowFullscreen=true;
+    frame.setAttribute('aria-label','Instagram post preview');
+    target.replaceChildren(frame);
+  });
+});
