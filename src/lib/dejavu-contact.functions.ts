@@ -15,19 +15,43 @@ export const notifyDejavuContactLead = createServerFn({ method: "POST" })
     const { data: lead, error } = await supabaseAdmin.from("leads")
       .select("id,source,created_at").eq("id", data.leadId).eq("source", "contact").maybeSingle();
     if (error || !lead) return { synced: false, reason: "lead_not_found" };
-    try {
-      const result = await fetch(
-        "https://ccaxvjrgjpaixvyrgizn.supabase.co/functions/v1/dejavu-external-sales-intake-v1",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json", Authorization: `Bearer ${secret}` },
-          body: JSON.stringify({ source_app: "yomi_contact", event_id: lead.id,
-            intent: "consultation", created_at: lead.created_at }),
-          signal: AbortSignal.timeout(2500),
-        },
-      );
-      return { synced: result.ok };
-    } catch {
-      return { synced: false, reason: "bridge_unavailable" };
+    // Same lead UUID on every attempt. TRYSA deduplicates all accepted events.
+    const payload = JSON.stringify({
+      source_app: "yomi_contact",
+      event_id: lead.id,
+      intent: "consultation",
+      created_at: lead.created_at,
+    });
+    for (let attempt = 1; attempt <= 2; attempt++) {
+      try {
+        const result = await fetch(
+          "https://ccaxvjrgjpaixvyrgizn.supabase.co/functions/v1/dejavu-external-sales-intake-v1",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json", Authorization: `Bearer ${secret}` },
+            body: payload,
+            signal: AbortSignal.timeout(3500),
+          },
+        );
+        if (result.ok) {
+          const receipt: unknown = await result.json().catch(() => null);
+          const confirmed = receipt !== null && typeof receipt === "object" &&
+            "ok" in receipt && receipt.ok === true &&
+            "task_id" in receipt && typeof receipt.task_id === "string";
+          if (confirmed) return { synced: true };
+          console.warn("[DEJAVU] Contact intake returned invalid acknowledgement");
+          return { synced: false, reason: "unconfirmed_receipt" };
+        }
+        // Fail closed on authorization and validation errors; retry only temporary failures.
+        if (![408, 429, 500, 502, 503, 504].includes(result.status)) {
+          console.warn("[DEJAVU] Contact intake rejected", result.status);
+          return { synced: false, reason: "rejected" };
+        }
+        if (attempt === 2) console.warn("[DEJAVU] Contact intake retry exhausted", result.status);
+      } catch {
+        if (attempt === 2) console.warn("[DEJAVU] Contact intake unavailable after retry");
+      }
+      if (attempt === 1) await new Promise<void>((resolve) => setTimeout(resolve, 250));
     }
+    return { synced: false, reason: "retry_exhausted" };
   });
