@@ -9,7 +9,7 @@ import { z } from "zod";
 export const notifyDejavuContactLead = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => z.object({ leadId: z.string().uuid() }).parse(input))
   .handler(async ({ data }) => {
-    const secret = process.env["DEJAVU_EXTERNAL_INGEST_SECRET"];
+    const secret = process.env["DEJAVU_YOMI_VISUALS_INGEST_SECRET"];
     if (!secret || secret.length < 32) return { synced: false, reason: "not_configured" };
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: lead, error } = await supabaseAdmin.from("leads")
