@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
+import { notifyDejavuContactLead } from "@/lib/dejavu-contact.functions";
 import { supabase } from "@/integrations/supabase/client";
 import { settingsQuery, servicesQuery } from "@/lib/cms";
 import { ENQUIRY_TYPES } from "@/lib/ecosystem";
@@ -32,13 +34,16 @@ function ContactPage() {
   const { data: services } = useSuspenseQuery(servicesQuery);
   const company = settings.company ?? {};
   const [sending, setSending] = useState(false);
+  const notifyInternalSales = useServerFn(notifyDejavuContactLead);
   const [done, setDone] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
+    const leadId = crypto.randomUUID();
     const payload = {
+      id: leadId,
       name: String(fd.get("name") ?? "").trim(),
       email: String(fd.get("email") ?? "").trim(),
       phone: String(fd.get("phone") ?? "").trim() || null,
@@ -56,6 +61,11 @@ function ContactPage() {
     setSending(true);
     setError(null);
     const { error: dbError } = await supabase.from("leads").insert(payload);
+    if (!dbError) {
+      // The public form's existing lead submission remains the source of truth.
+      // A failed internal handoff never changes the customer's result.
+      try { await notifyInternalSales({ data: { leadId } }); } catch { /* internal retry needed */ }
+    }
     setSending(false);
     if (dbError) setError("We couldn\u2019t send your message. Your information is still here \u2014 please try again.");
     else setDone(true);
